@@ -85,95 +85,91 @@ calc_rblood2plasma <- function(
   physiology.data <- physiology.data
 
   # We need to describe the chemical to be simulated one way or another:
-  if (is.null(chem.cas) & 
-      is.null(chem.name) & 
-      is.null(dtxsid) &
-      is.null(parameters) &
-      (is.null(Krbc2pu) | is.null(hematocrit) | is.null(Funbound.plasma))) 
+  if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid) & is.null(parameters) & (is.null(Krbc2pu) | is.null(hematocrit) | is.null(Funbound.plasma))) 
     stop('Parameters, chem.name, chem.cas, or dtxsid must be specified.')
 
 # Look up the chemical name/CAS, depending on what was provide:
-  if (any(!is.null(chem.cas),!is.null(chem.name),!is.null(dtxsid)))
-  {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+  if (any(!is.null(chem.cas),!is.null(chem.name),!is.null(dtxsid))) {
+    
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid)
+    
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
   }
 
-  if (is.null(parameters) & 
-    (is.null(Krbc2pu) | is.null(hematocrit) | is.null(Funbound.plasma))) 
-  {
-    parameters <- parameterize_schmitt(
-                    chem.cas=chem.cas,
-                    chem.name=chem.name,
-                    dtxsid=dtxsid,
-                    default.to.human=default.to.human,
-                    species=species,
-                    class.exclude=class.exclude,
-                    suppress.messages=suppress.messages)
-  } else if (is.null(parameters))
-  {                                                                                 
-    parameters <- list(
-                    hematocrit=hematocrit,
-                    Krbc2pu=Krbc2pu,
-                    Funbound.plasma=Funbound.plasma)
-  } else {
+  if (is.null(parameters) & (is.null(Krbc2pu) | is.null(hematocrit) | is.null(Funbound.plasma))) {
+    
+    parameters <- parameterize_schmitt(chem.cas=chem.cas,
+                                       chem.name=chem.name,
+                                       dtxsid=dtxsid,
+                                       default.to.human=default.to.human,
+                                       species=species,
+                                       class.exclude=class.exclude,
+                                       suppress.messages=suppress.messages)
+  } 
+  else if (is.null(parameters)){
+    
+    parameters <- list(hematocrit=hematocrit,
+                       Krbc2pu=Krbc2pu,
+                       Funbound.plasma=Funbound.plasma)
+  } 
+  else {
+    
     # Work with local copy of parameters in function(scoping):
-    if (is.data.table(parameters)) parameters <- copy(parameters) 
+    if (is.data.table(parameters)) 
+      parameters <- copy(parameters) 
   }
   
-  if (!(species %in% colnames(physiology.data)))
-  {
-    if (toupper(species) %in% toupper(colnames(physiology.data)))
-    {
-      phys.species <- colnames(physiology.data)[
-        toupper(colnames(physiology.data))==toupper(species)]
-    } else stop(paste("Physiological PK data for",species,"not found."))
-  } else phys.species <- species
+  if (!(species %in% colnames(physiology.data))){
+    
+    if (toupper(species) %in% toupper(colnames(physiology.data))){
+      
+      phys.species <- colnames(physiology.data)[toupper(colnames(physiology.data))==toupper(species)]
+    } 
+    else 
+      stop(paste("Physiological PK data for",species,"not found."))
+  } 
+  else 
+    phys.species <- species
 
-  if (is.null(hematocrit)) 
-  {
-    if (is.null(parameters$hematocrit))
-    {
-      hematocrit <- 
-        physiology.data[physiology.data$Parameter=="Hematocrit",phys.species]
-    } else {
+  if (is.null(hematocrit)) {
+    if (is.null(parameters$hematocrit)){
+      hematocrit <- physiology.data[physiology.data$Parameter=="Hematocrit",phys.species]
+    } 
+    else {
       hematocrit <- parameters$hematocrit
     }
   }
   
 # Predict the PCs for all tissues in the tissue.data table:
 
-  if (is.null(parameters$Krbc2pu)&is.null(Krbc2pu))
-  {
+  if (is.null(parameters$Krbc2pu)&is.null(Krbc2pu)){
+    
     PCs <- predict_partitioning_schmitt(parameters=parameters,
-           species=species,
-           adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-           tissues='red blood cells',
-           suppress.messages=TRUE)  
+                                        species=species,
+                                        adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                        tissues='red blood cells',
+                                        suppress.messages=TRUE)  
     parameters$Krbc2pu <- PCs$Krbc2pu
-  } else if (!is.null(Krbc2pu))
-  {
+  } 
+  else if (!is.null(Krbc2pu)){
     parameters$Krbc2pu <- Krbc2pu
   } 
   
   
   
-  if (adjusted.Funbound.plasma) 
-  {
-    Rblood2plasma <- 1 - 
-      hematocrit + 
-      hematocrit * parameters$Krbc2pu * parameters$Funbound.plasma
-  } else { 
-    Rblood2plasma <- 1 - 
-      hematocrit + 
-      hematocrit * parameters$Krbc2pu * parameters$unadjusted.Funbound.plasma
+  if (adjusted.Funbound.plasma) {
+    Rblood2plasma <- 1 - hematocrit + hematocrit * parameters$Krbc2pu * parameters$Funbound.plasma
+  } 
+  else { 
+    Rblood2plasma <- 1 - hematocrit + hematocrit * parameters$Krbc2pu * parameters$unadjusted.Funbound.plasma
   }
-  if (!suppress.messages) warning("Rblood2plasma has been recalculated.")
+  
+  if (!suppress.messages)
+    warning("Rblood2plasma has been recalculated.")
     
   return(set_httk_precision(as.numeric(Rblood2plasma)))
 }
