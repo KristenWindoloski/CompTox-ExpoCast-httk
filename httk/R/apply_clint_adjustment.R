@@ -42,17 +42,18 @@
 #'
 #' @export apply_clint_adjustment
 apply_clint_adjustment <- function(Clint, 
-                         Fu_hep=NULL,
-                         Pow = NULL, 
-                         pKa_Donor=NULL, 
-                         pKa_Accept=NULL,
-                         suppress.messages=FALSE)
+                                   Fu_hep=NULL,
+                                   Pow = NULL, 
+                                   pKa_Donor=NULL, 
+                                   pKa_Accept=NULL,
+                                   suppress.messages=FALSE,
+                                   chemdata=chem.physical_and_invitro.data)
 {
-  if (is.null(Fu_hep))
-  {
+  if (is.null(Fu_hep)){
     Fu_hep <- calc_hep_fu(parameters=list(Pow = Pow,
                                           pKa_Donor = pKa_Donor,
-                                          pKa_Accept = pKa_Accept))
+                                          pKa_Accept = pKa_Accept,
+                                          chemdata=chemdata))
   }
   Clint <- Clint / Fu_hep
   

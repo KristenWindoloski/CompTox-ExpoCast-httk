@@ -49,7 +49,8 @@ get_lit_css <- function(
                         species="Human",
                         clearance.assay.conc=NULL,
                         output.units="mg/L",
-                        suppress.messages=FALSE)
+                        suppress.messages=FALSE,
+                        chemdata=chem.physical_and_invitro.data)
 {
   Wetmore.data <- Wetmore.data
   if (species == "Human") available.quantiles <- c(0.05,0.5, 0.95)
@@ -59,7 +60,7 @@ get_lit_css <- function(
       
   if (!(tolower(output.units) %in% c("mg/l","um"))) stop(
       "Literature only includes mg/L and uM values for Css")
-  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name)
+  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
     

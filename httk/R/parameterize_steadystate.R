@@ -180,6 +180,7 @@ parameterize_steadystate <- function(
                               suppress.messages=FALSE,
                               minimum.Funbound.plasma=0.0001,
                               Caco2.options=NULL,
+                              chemdata=chem.physical_and_invitro.data,
                               ...)
 {
 #R CMD CHECK throws notes about "no visible binding for global variable", for
@@ -358,14 +359,14 @@ parameterize_steadystate <- function(
   Params[["liver.density"]] <- 1.05 # g/mL
   
 # Blood to plasma ratio:
-  Rb2p <- available_rblood2plasma(
-            chem.name=chem.name,
-            chem.cas=chem.cas,
-            dtxsid=dtxsid,
-            species=species,
-            class.exclude=class.exclude,
-            adjusted.Funbound.plasma=fup.corrected,
-            suppress.messages=TRUE)
+  Rb2p <- available_rblood2plasma(chem.name=chem.name,
+                                  chem.cas=chem.cas,
+                                  dtxsid=dtxsid,
+                                  species=species,
+                                  class.exclude=class.exclude,
+                                  adjusted.Funbound.plasma=fup.corrected,
+                                  suppress.messages=TRUE,
+                                  chemdata=chemdata)
   Params[["Rblood2plasma"]] <- Rb2p
   
 # Oral bioavailability parameters:

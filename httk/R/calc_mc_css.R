@@ -524,7 +524,8 @@ calc_mc_css <- function(chem.cas = NULL,
                               httkpop.generate.arg.list=httkpop.generate.arg.list,
                               convert.httkpop.arg.list=convert.httkpop.arg.list,
                               parameterize.args.list =parameterize.args.list,
-                              Caco2.options=Caco2.options))))
+                              Caco2.options=Caco2.options,
+                              chemdata=chemdata))))
   else parameter.dt <- parameters
 #
 # HERE LIES THE ACTUAL MONTE CARLO STEP:
@@ -549,7 +550,8 @@ calc_mc_css <- function(chem.cas = NULL,
                                 output.units=output.units,
                                 daily.dose=daily.dose,
                                 clint.pvalue.threshold=
-                                  parameterize.args.list$clint.pvalue.threshold),
+                                  parameterize.args.list$clint.pvalue.threshold,
+                                chemdata=chemdata),
                                 calc.analytic.css.arg.list)))]
   } else {
     parameter.dt[,Css:= do.call(calc_css,
@@ -567,7 +569,8 @@ calc_mc_css <- function(chem.cas = NULL,
                                 output.units=output.units,
                                 daily.dose=daily.dose,
                                 clint.pvalue.threshold=
-                                  parameterize.args.list$clint.pvalue.threshold),
+                                  parameterize.args.list$clint.pvalue.threshold,
+                                chemdata=chemdata),
                                 calc.analytic.css.arg.list))),
                                 by=1:nrow(parameter.dt)] # Do this one row at a time
   }

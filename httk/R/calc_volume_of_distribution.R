@@ -93,6 +93,7 @@ calc_vdist<- function(chem.cas=NULL,
                       adjusted.Funbound.plasma = TRUE,
                       species="Human",
                       default.to.human = FALSE,
+                      chemdata=chem.physical_and_invitro.data,
                       ...
                       )
 {
@@ -109,10 +110,10 @@ calc_vdist<- function(chem.cas=NULL,
   if (is.null(parameters))
   {
     # Look up the chemical name/CAS, depending on what was provide:
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -125,7 +126,8 @@ calc_vdist<- function(chem.cas=NULL,
                                          suppress.messages=suppress.messages,
                                          adjusted.Funbound.plasma = adjusted.Funbound.plasma,
                                          species=species,
-                                         default.to.human=default.to.human
+                                         default.to.human=default.to.human,
+                                         chemdata=chemdata
                                          ),
    # Send only the arguments in ... wanted by the function:
                                     list(...)[names(formals(parameterize_schmitt))]
@@ -159,13 +161,13 @@ calc_vdist<- function(chem.cas=NULL,
       stop("Specify chem.name or chem.cas with correct species if not including Funbound.plasma with predict_partitioning_schmitt coefficients.")
     else if(is.null(chem.cas))
     {
-      out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name)
+      out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
       chem.cas <- out$chem.cas
     }
-    fup <- try(get_invitroPK_param("Funbound.plasma",species,chem.cas=chem.cas),silent=TRUE)
+    fup <- try(get_invitroPK_param("Funbound.plasma",species,chem.cas=chem.cas,chemdata=chemdata),silent=TRUE)
     if (is(fup,"try-error") & default.to.human) 
     {
-      fup <- try(get_invitroPK_param("Funbound.plasma","Human",chem.cas=chem.cas),silent=TRUE)
+      fup <- try(get_invitroPK_param("Funbound.plasma","Human",chem.cas=chem.cas,chemdata=chemdata),silent=TRUE)
       warning(paste(species,"coerced to Human for protein binding data."))
     }
     if (is(fup,"try-error")) stop("Missing protein binding data for given species. Set default.to.human to true to substitute human value.")
@@ -179,11 +181,13 @@ calc_vdist<- function(chem.cas=NULL,
         Parameter=='Plasma Effective Neutral Lipid Volume Fraction')[,
           which(tolower(colnames(physiology.data)) == tolower(species))]
       pKa_Donor <- suppressWarnings(get_physchem_param("pKa_Donor",
-                                                       chem.cas=chem.cas))
+                                                       chem.cas=chem.cas,
+                                                       chemdata=chemdata))
       pKa_Accept <- suppressWarnings(get_physchem_param("pKa_Accept",
-                                                        chem.cas=chem.cas))
-      Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas)
-      ion <- calc_ionization(pH=7.4,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
+                                                        chem.cas=chem.cas,
+                                                        chemdata=chemdata))
+      Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas,chemdata=chemdata)
+      ion <- calc_ionization(pH=7.4,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept,chemdata=chemdata)
       dow <- Pow * (ion$fraction_neutral + 0.001 * ion$fraction_charged + 
                       ion$fraction_zwitter)
       fup <- 1 / ((dow) * Flipid + 1 / fup)
@@ -229,7 +233,8 @@ calc_vdist<- function(chem.cas=NULL,
       PCs,
       tissuelist=NULL,
       species=species,
-      model="1compartment")
+      model="1compartment",
+      chemdata=chemdata)
  
    vol.dist <- plasma.vol +
       RBC.vol*lumped_params$Krbc2pu*parameters$Funbound.plasma+

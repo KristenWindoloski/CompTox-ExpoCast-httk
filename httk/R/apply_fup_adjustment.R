@@ -44,13 +44,15 @@ apply_fup_adjustment <- function(fup,
                          pKa_Donor=NULL, 
                          pKa_Accept=NULL,
                          suppress.messages=FALSE,
-                         minimum.Funbound.plasma=0.0001)
+                         minimum.Funbound.plasma=0.0001,
+                         chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(fup.correction))
   {
     fup.correction <- calc_fup_correction(parameters=list(Pow = Pow,
-                                          pKa_Donor = pKa_Donor,
-                                          pKa_Accept = pKa_Accept))
+                                                          pKa_Donor = pKa_Donor,
+                                                          pKa_Accept = pKa_Accept,
+                                                          chemdata=chemdata))
   }
   fup.corrected <- max(fup * fup.correction,
                    minimum.Funbound.plasma,

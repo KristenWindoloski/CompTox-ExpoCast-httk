@@ -50,7 +50,8 @@ export_pbtk_sbml <- function(chem.cas=NULL,
                              initial.amounts=list(Agutlumen=0),
                              filename="default.xml",
                              folder=tempdir(), 
-                             digits = 4)
+                             digits = 4,
+                             chemdata=chem.physical_and_invitro.data)
 {
   Agutlumen <- Aart <- Aven <- Alung <- Agut <- Aliver <- Akidney <- Arest <- Atubules <- Ametabolized <- NULL
   for (this.compartment in c("Agutlumen","Aart","Aven","Alung","Agut","Aliver","Akidney","Arest","Atubules","Ametabolized"))
@@ -62,9 +63,9 @@ export_pbtk_sbml <- function(chem.cas=NULL,
     else eval(parse(text=paste(this.compartment,"<- 0")))
   }
   
-  inlist <- parameterize_pbtk(chem.cas=chem.cas,chem.name=chem.name,species=species)
+  inlist <- parameterize_pbtk(chem.cas=chem.cas,chem.name=chem.name,species=species,chemdata=chemdata)
   inlist[["Qcardiac"]] <- inlist[["Qcardiacc"]] * 24 * inlist[["BW"]]^0.75
-  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name)
+  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
   

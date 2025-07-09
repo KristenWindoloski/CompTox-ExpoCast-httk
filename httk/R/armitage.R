@@ -368,7 +368,8 @@ armitage_eval <- function(chem.cas=NULL,
                           this.conc_ser_lip = 1.9, # g/L mass concentration of lipids in serum
                           this.Vdom = 0, # L the volume of dissolved organic matter (DOM)
                           this.pH = 7.0, # pH of cell culture
-                          restrict.ion.partitioning = FALSE # Should we restrict the partitioning concentration to neutral only?
+                          restrict.ion.partitioning = FALSE, # Should we restrict the partitioning concentration to neutral only?
+                          chemdata=chem.physical_and_invitro.data
                           )
 {
   # this.Tsys <- 37
@@ -420,7 +421,8 @@ armitage_eval <- function(chem.cas=NULL,
 
     out <- get_chem_id(chem.cas=chem.cas,
                      chem.name=chem.name,
-                     dtxsid=dtxsid)
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name
     dtxsid <- out$dtxsid

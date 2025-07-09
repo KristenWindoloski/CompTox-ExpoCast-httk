@@ -222,7 +222,8 @@ create_mc_samples <- function(chem.cas=NULL,
                         convert.httkpop.arg.list=NULL,
                         propagate.invitrouv.arg.list=NULL,
                         parameterize.args.list =NULL,
-                        Caco2.options=NULL)
+                        Caco2.options=NULL,
+                        chemdata=chem.physical_and_invitro.data)
 {
 
   ## Setting up binding for Global Variables ##
@@ -291,7 +292,8 @@ create_mc_samples <- function(chem.cas=NULL,
                                         parameters=parameters,
                                         adjusted.Funbound.plasma=FALSE, # We want the unadjusted in vitro measured value
                                         adjusted.Clint=FALSE, # We want the unadjusted in vitro measured value
-                                        suppress.messages=suppress.messages),
+                                        suppress.messages=suppress.messages,
+                                        chemdata=chemdata),
                                         parameterize.args.list))
   if (!is.null(Caco2.options)) parameterize.args.list[["Caco2.options"]] <- Caco2.options
   
@@ -356,7 +358,8 @@ create_mc_samples <- function(chem.cas=NULL,
                      censored.params=censored.params,
                      cv.params=vary.params,
                      samples=samples,
-                     suppress.messages=suppress.messages)
+                     suppress.messages=suppress.messages,
+                     chemdata=chemdata)
                       
 #
 #
@@ -372,7 +375,8 @@ create_mc_samples <- function(chem.cas=NULL,
                        model=model,
                        samples=samples,
                        httkpop.dt=httkpop.dt),
-                       httkpop.generate.arg.list)))
+                       httkpop.generate.arg.list,
+                       chemdata=chemdata)))
 
 # Overwrite parameters specified by httk-pop:
     parameters.dt[,names(physiology.dt):=physiology.dt]
@@ -384,7 +388,8 @@ create_mc_samples <- function(chem.cas=NULL,
       parameters.dt <- do.call(converthttkpopfun, args=purrr::compact(c(list(
                        parameters.dt=parameters.dt,
                        physiology.dt=physiology.dt),
-                       convert.httkpop.arg.list)))
+                       convert.httkpop.arg.list,
+                       chemdata=chemdata)))
    } else {
     if(httkpop==TRUE) 
       warning('httkpop model only available for human and thus not used.\n\
@@ -427,7 +432,8 @@ Set species=\"Human\" to run httkpop model.')
                              parameters.dt=parameters.dt,
                              samples=samples,
                              adjusted.Clint = adjusted.Clint,
-                             adjusted.Funbound.plasma = adjusted.Funbound.plasma),
+                             adjusted.Funbound.plasma = adjusted.Funbound.plasma,
+                             chemdata=chemdata),
                              Caco2.options[names(Caco2.options)[
                                !names(Caco2.options) %in%
 # invitro_mc doesn't make use of these arguments because we've already called
@@ -455,10 +461,12 @@ Set species=\"Human\" to run httkpop model.')
         parameters.dt[, Funbound.plasma := unadjusted.Funbound.plasma]
         parameters.dt[, Funbound.plasma.adjustment :=
           calc_fup_correction(
-            parameters = parameters.dt)]
+            parameters = parameters.dt,
+            chemdata=chemdata)]
         parameters.dt[, Funbound.plasma := 
           apply_fup_adjustment(Funbound.plasma,
-                      Funbound.plasma.adjustment)]
+                      Funbound.plasma.adjustment,
+                      chemdata=chemdata)]
       } else stop("Missing phys-chem parameters in invitro_mc for calc_fup_correction.") 
     } else {
       parameters.dt[, Funbound.plasma.adjustment:=1]
@@ -470,7 +478,8 @@ Set species=\"Human\" to run httkpop model.')
       parameters.dt[, Clint := apply_clint_adjustment(
                                  Clint,
                                  Fu_hep=Fhep.assay.correction,
-                                 suppress.messages=TRUE)]
+                                 suppress.messages=TRUE,
+                                 chemdata=chemdata)]
     }
   }
  
@@ -500,7 +509,8 @@ Set species=\"Human\" to run httkpop model.')
   {
     Rb2p.invivo <- get_rblood2plasma(chem.cas=chem.cas,
                                      chem.name=chem.name,
-                                     dtxsid=dtxsid)
+                                     dtxsid=dtxsid,
+                                     chemdata=chemdata)
   } else Rb2p.invivo <- NA
 
 # We need all of these parameters to recalculate values with the 
@@ -524,7 +534,8 @@ Set species=\"Human\" to run httkpop model.')
                parameters=parameters.dt,
                args.schmitt,
                tissues=model.list[[model]]$alltissues,
-               suppress.messages=TRUE)))
+               suppress.messages=TRUE,
+               chemdata=chemdata)))
 # Store the red blood cell to unbound plasma partition coefficient if we need
 # it later:
       if (calcrb2p | firstpass) parameters.dt[, Krbc2pu:=PCs[['Krbc2pu']]]
@@ -546,7 +557,8 @@ Set species=\"Human\" to run httkpop model.')
     } else adj.parameters.mean <- parameters
     parameters.dt[,Krbc2pu:=calc_krbc2pu(
       Rb2p = adj.parameters.mean$Rblood2plasma,
-      Funbound.plasma = adj.parameters.mean$Funbound.plasma)]
+      Funbound.plasma = adj.parameters.mean$Funbound.plasma,
+      chemdata=chemdata)]
   }
 
 # If the model uses partion coefficients we need to lump each individual
@@ -558,7 +570,8 @@ Set species=\"Human\" to run httkpop model.')
                       parameters=parameters.dt,
                       tissuelist=model.list[[model]]$tissuelist,
                       species=species,
-                      model=model
+                      model=model,
+                      chemdata=chemdata
                       ) 
                       
      parameters.dt[, names(lumptissues):= lumptissues]
@@ -573,7 +586,8 @@ Set species=\"Human\" to run httkpop model.')
 # From Pearce et al. (2017):
       parameters.dt[, Krbc2pu:=calc_krbc2pu(Rb2p.invivo,
                                             Funbound.plasma,
-                                            hematocrit)]
+                                            hematocrit,
+                                            chemdata=chemdata)]
     } 
 # Calculate Rblood2plasma based on hematocrit, Krbc2plasma, and Funbound.plasma. 
 # This is the ratio of chemical in blood vs. in plasma.
@@ -583,20 +597,21 @@ Set species=\"Human\" to run httkpop model.')
                                       Funbound.plasma=Funbound.plasma,
 # We can set this to TRUE because the value in Funbound.plasma is either adjusted
 # or not adjusted already:
-                                      adjusted.Funbound.plasma=TRUE)]
+                                      adjusted.Funbound.plasma=TRUE,
+                                      chemdata=chemdata)]
                              
                                       
     if (any(is.na(parameters.dt$Rblood2plasma)))
     {                                       
       parameters.dt[is.na(Rblood2plasma),
-                          Rblood2plasma := available_rblood2plasma(
-                            chem.cas=chem.cas,
-                            chem.name=chem.name,
-                            dtxsid=dtxsid,
-                            species=species,
+                          Rblood2plasma := available_rblood2plasma(chem.cas=chem.cas,
+                                                                   chem.name=chem.name,
+                                                                   dtxsid=dtxsid,
+                                                                   species=species,
 # We can set this to TRUE because the value in Funbound.plasma is either adjusted
 # or not adjusted already:                           adjusted.Funbound.plasma=TRUE,
-                            suppress.messages=suppress.messages)]
+                                                                   suppress.messages=suppress.messages,
+                                                                   chemdata=chemdata)]
     }
   }
 
@@ -615,7 +630,8 @@ Set species=\"Human\" to run httkpop model.')
 # (Rowland, 1973):      
   cl <- calc_hep_clearance(parameters=parameters.dt,
           hepatic.model='unscaled',
-          suppress.messages=TRUE)#L/h/kg body weight
+          suppress.messages=TRUE,
+          chemdata=chemdata)#L/h/kg body weight
 
 # we use purrr::compact to drop NULL values from arguments list:
   parameters.dt[,hepatic.bioavailability := do.call(calc_hep_bioavailability,
@@ -625,7 +641,8 @@ Set species=\"Human\" to run httkpop model.')
         Funbound.plasma=parameters.dt$Funbound.plasma,
         Clmetabolismc=cl, # L/h/kg
         Rblood2plasma=parameters.dt$Rblood2plasma,
-        BW=parameters.dt$BW),
+        BW=parameters.dt$BW,
+        chemdata=chemdata),
       restrictive.clearance=parameterize.args.list[["restrictive.clearance"]])))]
   }
   
@@ -643,7 +660,8 @@ Set species=\"Human\" to run httkpop model.')
   #
   if (!keepit100) 
   {
-    bioavail <- calc_fbio.oral(parameters = parameters.dt) 
+    bioavail <- calc_fbio.oral(parameters = parameters.dt,
+                               chemdata=chemdata) 
     if (Caco2.Fabs) parameters.dt[,Fabs:=
                                    bioavail$fabs.oral]
     if (Caco2.Fgut) parameters.dt[,Fgut:=
@@ -661,7 +679,8 @@ Set species=\"Human\" to run httkpop model.')
   propagateuvfun <- model.list[[model]]$propagateuv.func
   if (!is.null(propagateuvfun))
     parameters.dt <- do.call(propagateuvfun, args=purrr::compact(c(list(
-                       parameters.dt=parameters.dt),
+                       parameters.dt=parameters.dt,
+                       chemdata),
                        propagate.invitrouv.arg.list)))
   
 # set precision:

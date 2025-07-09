@@ -62,6 +62,7 @@ get_fbio <- function(
     overwrite.invivo = FALSE,
     keepit100 = FALSE,
     suppress.messages=FALSE,
+    chemdata=chem.physical_and_invitro.data,
     ...)
 {
   # We need to describe the chemical to be simulated one way or another:
@@ -71,10 +72,10 @@ get_fbio <- function(
     stop('chem.name, chem.cas, or dtxsid must be specified.')
   
   # Look up the chemical name/CAS, depending on what was provide:
-  chem.ids <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  chem.ids <- get_chem_id(chem.cas=chem.cas,
+                          chem.name=chem.name,
+                          dtxsid=dtxsid,
+                          chemdata=chemdata)
   chem.cas <- chem.ids$chem.cas
   chem.name <- chem.ids$chem.name                                
   dtxsid <- chem.ids$dtxsid
@@ -90,7 +91,8 @@ get_fbio <- function(
           chem.name=chem.name,
           dtxsid=dtxsid,
           species=species,
-          suppress.messages=suppress.messages
+          suppress.messages=suppress.messages,
+          chemdata=chemdata
           ),
         list(...)))
       ) 
@@ -106,10 +108,11 @@ get_fbio <- function(
   
   # Retrieve the chemical-specific Caco-2 value:
   Caco2.Pab <- get_caco2(chem.cas=chem.cas,
-                          chem.name=chem.name,
-                          dtxsid=dtxsid,
-                          Caco2.Pab.default = Caco2.Pab.default,
-                          suppress.messages = suppress.messages)
+                         chem.name=chem.name,
+                         dtxsid=dtxsid,
+                         Caco2.Pab.default = Caco2.Pab.default,
+                         suppress.messages = suppress.messages,
+                         chemdata=chemdata)
   out <- c(out, Caco2.Pab)
   parameters <- c(parameters, Caco2.Pab)
   
@@ -123,14 +126,15 @@ get_fbio <- function(
           chem.name=chem.name,
           dtxsid=dtxsid,
           species=species,
-          suppress.messages=suppress.messages
+          suppress.messages=suppress.messages,
+          chemdata=chemdata
           ),
           list(...)))
         )
 
     # Attempt to use the in vivo measured hepatic bioavailability (first-pass
     # hepatic metbaolism):
-    Fhep <- try(get_invitroPK_param("Fhep",species,chem.cas=chem.cas),
+    Fhep <- try(get_invitroPK_param("Fhep",species,chem.cas=chem.cas,chemdata=chemdata),
               silent=TRUE)
     # If we don't have an in vivo value or are overwriting it:
     if (is(Fhep,"try-error") | overwrite.invivo == TRUE)
@@ -148,7 +152,8 @@ get_fbio <- function(
                                         chem.name = chem.name,
                                         dtxsid = dtxsid,
                                         species = species, 
-                                        suppress.messages = suppress.messages),
+                                        suppress.messages = suppress.messages,
+                                        chemdata=chemdata),
                                         list(...)))
                         )
       }
@@ -156,7 +161,7 @@ get_fbio <- function(
 
     # Get the in vivo measured systemic oral bioavailability if
     # available, optionally overwriting based on Caco2.Pab
-    Fbio <- try(get_invitroPK_param("Foral",species,chem.cas=chem.cas),
+    Fbio <- try(get_invitroPK_param("Foral",species,chem.cas=chem.cas,chemdata=chemdata),
                 silent=TRUE)
     # Set to NA so we will calculate later using Fabs and Fgut:
     Fabsgut <- NA
@@ -173,7 +178,7 @@ get_fbio <- function(
       
     # Get the fraction absorbed from the gut, preferring in vivo measured data if
     # available, otherwise attempt to use Caco2.Pab
-    Fabs <- try(get_invitroPK_param("Fabs",species,chem.cas=chem.cas),
+    Fabs <- try(get_invitroPK_param("Fabs",species,chem.cas=chem.cas,chemdata=chemdata),
                 silent=TRUE)
     # If we don't have an in vivo value or are overwriting it:
     if (is(Fabs,"try-error") | overwrite.invivo == TRUE)
@@ -183,7 +188,7 @@ get_fbio <- function(
       
     # We have a hard time with Fgut, if we don't have it measured we first
     # try to set it with Fabsgut/Fabs:
-    Fgut <- try(get_invitroPK_param("Fgut",species,chem.cas=chem.cas),
+    Fgut <- try(get_invitroPK_param("Fgut",species,chem.cas=chem.cas,chemdata=chemdata),
                 silent=TRUE)
     # If we don't have an in vivo value of Fgut but we do have an in vivo 
     # estimate of Fabsgut, can use Fabs to calculate this:
@@ -212,7 +217,8 @@ get_fbio <- function(
     # from Wambaugh et al. (2018):
     kgutabs <- try(get_invitroPK_param("kgutabs",
                                        species,
-                                       chem.cas=chem.cas),
+                                       chem.cas=chem.cas,
+                                       chemdata=chemdata),
                    silent=TRUE)
     # If we have an in vivo value and overwrite invivo = FALSE: 
     if (is(kgutabs,"try-error") | overwrite.invivo == TRUE)

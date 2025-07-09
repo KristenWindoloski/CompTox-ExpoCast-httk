@@ -46,6 +46,7 @@ calc_total_clearance <- function(chem.cas=NULL,
                                 model="3compartmentss",
                                 suppress.messages=FALSE,
                                 species="Human",
+                                chemdata=chem.physical_and_invitro.data,
                                 ...
                                 )
 
@@ -61,7 +62,8 @@ calc_total_clearance <- function(chem.cas=NULL,
                               model=model,
                               species=species,
                               output.units="mg/L",
-                              suppress.messages=suppress.messages),
+                              suppress.messages=suppress.messages,
+                              chemdata=chemdata),
                           list(...)
                           )
                           )
@@ -74,7 +76,8 @@ calc_total_clearance <- function(chem.cas=NULL,
                                species=species,
                                suppress.messages=suppress.messages,
                                class.exclude=FALSE,
-                               physchem.exclude=FALSE
+                               physchem.exclude=FALSE,
+                               chemdata=chemdata
                                ),
                            list(...)
                            )

@@ -235,6 +235,7 @@ parameterize_pbtk <- function(
                        liver.density= 1.05, # g/mL International Commission on Radiological Protection (1975)
                        kgutabs = NA, # 1/h, Wambaugh et al. (2018)
                        Caco2.options = NULL,
+                       chemdata=chem.physical_and_invitro.data,
                        ...
                        )
 {
@@ -406,10 +407,11 @@ parameterize_pbtk <- function(
 # Blood to plasma ratio:
   outlist <- c(outlist,
     Rblood2plasma=available_rblood2plasma(chem.cas=chem.cas,
-      species=species,
-      class.exclude=class.exclude,
-      adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-      suppress.messages=suppress.messages))
+                                          species=species,
+                                          class.exclude=class.exclude,
+                                          adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata))
 
 # Liver metabolism properties:
   outlist <- c(

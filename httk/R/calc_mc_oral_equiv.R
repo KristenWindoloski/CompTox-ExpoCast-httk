@@ -259,6 +259,7 @@ calc_mc_oral_equiv <- function(conc,
                                model='3compartmentss',
                                Caco2.options = list(),
                                calc.analytic.css.arg.list = list(),
+                               chemdata=chem.physical_and_invitro.data,
                                ...)
 {
   # check if the input units are in concentration units - output error if TRUE
@@ -285,7 +286,7 @@ calc_mc_oral_equiv <- function(conc,
     
   if (!is.null(IVIVE)) 
   {
-    out <- honda.ivive(method=IVIVE,tissue=tissue)
+    out <- honda.ivive(method=IVIVE,tissue=tissue,chemdata=chemdata)
     bioactive.free.invivo <- out[["bioactive.free.invivo"]]
     restrictive.clearance <- out[["restrictive.clearance"]]
     tissue <- out[["tissue"]]
@@ -382,6 +383,7 @@ calc_mc_oral_equiv <- function(conc,
                           Caco2.options = Caco2.options,
                           return.samples=return.samples,
                           suppress.messages=suppress.messages,
+                          chemdata=chemdata,
                           ...)))))
                          
   if (is(Css,"try-error"))
@@ -401,10 +403,10 @@ calc_mc_oral_equiv <- function(conc,
   if (tolower(tmp.output.units) == 'umol')
   {
     if (is.null(chem.cas)){
-      chem.cas <- get_chem_id(chem.name=chem.name)[['chem.cas']]
+      chem.cas <- get_chem_id(chem.name=chem.name,chemdata=chemdata)[['chem.cas']]
     } 
 
-    MW <- get_physchem_param("MW",chem.cas=chem.cas)
+    MW <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata)
     # output units are in 'umol/kg/day' for 'dose'
     dose <- dose * convert_units(
       input.units = 'mg',

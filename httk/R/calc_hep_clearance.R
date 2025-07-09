@@ -83,6 +83,7 @@ calc_hep_clearance <- function(chem.name=NULL,
                                restrictive.clearance=TRUE,
                                species="Human",
                                adjusted.Funbound.plasma=TRUE,
+                               chemdata=chem.physical_and_invitro.data,
                                ...)
 {
   model <- hepatic.model
@@ -104,10 +105,10 @@ calc_hep_clearance <- function(chem.name=NULL,
 # Look up the chemical name/CAS, depending on what was provide:
   if (any(!is.null(chem.cas),!is.null(chem.name),!is.null(dtxsid)))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -128,12 +129,12 @@ calc_hep_clearance <- function(chem.name=NULL,
   if (is.null(parameters))
   {
     parameters <- do.call(parameterize_steadystate,
-                          args=purrr::compact(c(list(
-                    chem.cas=chem.cas,
-                    chem.name=chem.name,
-                    dtxsid=dtxsid,
-                    species=species,
-                    suppress.messages=suppress.messages),
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     dtxsid=dtxsid,
+                                                     species=species,
+                                                     suppress.messages=suppress.messages,
+                                                     chemdata=chemdata),
                     ...)))
     Qtotal.liverc <- get_param(
                        "Qtotal.liverc",
@@ -164,13 +165,13 @@ calc_hep_clearance <- function(chem.name=NULL,
     if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid)) stop(
 'chem.cas, chem.name, or dtxsid must be specified when not including all necessary 3compartmentss parameters.')
     parameters <- do.call(parameterize_steadystate,
-                          args=purrr::compact(c(list(
-                    chem.cas=chem.cas,
-                    chem.name=chem.name,
-                    dtxsid=dtxsid,
-                    species=species,
-                    suppress.messages=suppress.messages),
-                    ...)))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     dtxsid=dtxsid,
+                                                     species=species,
+                                                     suppress.messages=suppress.messages,
+                                                     chemdata=chemdata),
+                                                ...)))
     parameters <- c(parameters, parameters[
                       name.list[!(name.list %in% names(parameters))]])
   }
@@ -261,10 +262,11 @@ calc_hep_clearance <- function(chem.name=NULL,
       } else if (!(is.null(chem.cas) & is.null(chem.name)))
       {
         Rblood2plasma <- available_rblood2plasma(chem.name=chem.name,
-          chem.cas=chem.cas,
-          species=species,
-          adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-          suppress.messages=suppress.messages)
+                                                 chem.cas=chem.cas,
+                                                 species=species,
+                                                 adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                                 suppress.messages=suppress.messages,
+                                                 chemdata=chemdata)
       } else(stop("Enter chem.cas or chem.name with corresponding species or enter Rblood2plasma as a parameter for the well-stirred model correction."))
       CLh <- Qtotal.liverc*fup*Clint/(Qtotal.liverc+fup*Clint / Rblood2plasma)
     } else CLh <- Qtotal.liverc*fup*Clint/(Qtotal.liverc+fup*Clint)   
@@ -359,6 +361,7 @@ calc_hepatic_clearance <- function(chem.name=NULL,
                                well.stirred.correction=TRUE,
                                restrictive.clearance=TRUE,
                                adjusted.Funbound.plasma=TRUE,
+                               chemdata=chem.physical_and_invitro.data,
                                ...)
 {
   warning("Function \"calc_hepatic_clearance\" has been renamed to \"calc_hep_clearance\".")
@@ -375,5 +378,6 @@ calc_hepatic_clearance <- function(chem.name=NULL,
                                restrictive.clearance = restrictive.clearance,
                                adjusted.Funbound.plasma = 
                                  adjusted.Funbound.plasma,
+                               chemdata=chemdata,
                                ...))
 }

@@ -106,6 +106,7 @@ calc_fbio.oral <- function(parameters = NULL,
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
+  chemdata=chem.physical_and_invitro.data,
   ...
   )
 {
@@ -130,7 +131,8 @@ calc_fbio.oral <- function(parameters = NULL,
                                       dtxsid=dtxsid,
                                       species=species,
                                       suppress.messages =
-                                      suppress.messages
+                                      suppress.messages,
+                                      chemdata=chemdata
                                       ),
                                  list(...)
                                  )
@@ -155,7 +157,8 @@ calc_fbio.oral <- function(parameters = NULL,
     parameters <-  c(parameters, get_caco2(chem.cas=chem.cas,
                             chem.name=chem.name,
                             dtxsid=dtxsid,
-                            suppress.messages = suppress.messages))
+                            suppress.messages = suppress.messages,
+                            chemdata=chemdata))
   }
   
   # Handle fabs first:    
@@ -166,7 +169,8 @@ calc_fbio.oral <- function(parameters = NULL,
                               chem.name=chem.name,
                               dtxsid=dtxsid,
                               species=species,
-                              suppress.messages=suppress.messages)
+                              suppress.messages=suppress.messages,
+                              chemdata=chemdata)
                           ))) 
 
   # Now handle Fgut:
@@ -177,7 +181,8 @@ calc_fbio.oral <- function(parameters = NULL,
                               chem.name=chem.name,
                               dtxsid=dtxsid,
                               species=species,
-                              suppress.messages=suppress.messages)
+                              suppress.messages=suppress.messages,
+                              chemdata=chemdata)
                           )))                            
   # Absorption rate:
   kgutabs <- do.call(calc_kgutabs,
@@ -187,7 +192,8 @@ calc_fbio.oral <- function(parameters = NULL,
                            chem.name=chem.name,
                            dtxsid=dtxsid,
                            species=species,
-                           suppress.messages=suppress.messages)
+                           suppress.messages=suppress.messages,
+                           chemdata=chemdata)
                         )))
                                              
   # Do we already have Fhep?
@@ -203,7 +209,8 @@ calc_fbio.oral <- function(parameters = NULL,
                     args = purrr::compact(c(
                       list(parameters = parameters,
                            hepatic.model='unscaled',
-                           suppress.messages=TRUE),
+                           suppress.messages=TRUE,
+                           chemdata=chemdata),
                       list(...)["restrictive.clearance"]
                       )))#L/h/kg body weight
 
@@ -214,7 +221,8 @@ calc_fbio.oral <- function(parameters = NULL,
             Funbound.plasma=parameters$Funbound.plasma,
             Clmetabolismc=cl, # L/h/kg
             Rblood2plasma=parameters$Rblood2plasma,
-            BW=parameters$BW)
+            BW=parameters$BW,
+            chemdata=chemdata)
             )))]
       fhep.oral <- parameters[,"hepatic.bioavailability",with=TRUE]
     }
@@ -232,7 +240,8 @@ calc_fbio.oral <- function(parameters = NULL,
                                   chem.name = chem.name,
                                   dtxsid = dtxsid,
                                   species=species,
-                                  suppress.messages = suppress.messages),
+                                  suppress.messages = suppress.messages,
+                                  chemdata=chemdata),
                              list(...)[c("species",
                                                  "restrictive.clearance")]
                              )))
@@ -263,7 +272,8 @@ calc_fabs.oral <- function(parameters = NULL,
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
-  Caco2.Pab.default = 1.6
+  Caco2.Pab.default = 1.6,
+  chemdata=chem.physical_and_invitro.data
   )
 {
   # Required parameters
@@ -282,10 +292,10 @@ calc_fabs.oral <- function(parameters = NULL,
         stop('chem.name, chem.cas, or dtxsid must be specified.')
     
     # Look up the chemical name/CAS, depending on what was provide:
-        out <- get_chem_id(
-                chem.cas=chem.cas,
-                chem.name=chem.name,
-                dtxsid=dtxsid)
+        out <- get_chem_id(chem.cas=chem.cas,
+                           chem.name=chem.name,
+                           dtxsid=dtxsid,
+                           chemdata=chemdata)
         chem.cas <- out$chem.cas
         chem.name <- out$chem.name                                
         dtxsid <- out$dtxsid
@@ -295,13 +305,15 @@ calc_fabs.oral <- function(parameters = NULL,
                               chem.name=chem.name,
                               dtxsid=dtxsid,
                               Caco2.Pab.default = Caco2.Pab.default,
-                              suppress.messages = suppress.messages))
+                              suppress.messages = suppress.messages,
+                              chemdata=chemdata))
   }
   
   # Determine Fabs.oral based on Caco2 data (cm/s)
   peff <- calc_peff(Caco2.Pab = parameters$Caco2.Pab,
                     species = species,
-                    suppress.messages = suppress.messages)
+                    suppress.messages = suppress.messages,
+                    chemdata=chemdata)
   
   # Load the physiological parameters for this species
   this.phys.data <- physiology.data[, tolower(colnames(physiology.data)) 
@@ -352,7 +364,8 @@ calc_peff <- function(parameters = NULL,
   species = "Human",
   suppress.messages = FALSE,
   Caco2.Pab = NULL,
-  parameterize.args.list = list()
+  parameterize.args.list = list(),
+  chemdata=chem.physical_and_invitro.data
   )
 {
   if (is.null(Caco2.Pab))
@@ -378,10 +391,10 @@ calc_peff <- function(parameters = NULL,
           stop('chem.name, chem.cas, or dtxsid must be specified.')
       
       # Look up the chemical name/CAS, depending on what was provide:
-          out <- get_chem_id(
-                  chem.cas=chem.cas,
-                  chem.name=chem.name,
-                  dtxsid=dtxsid)
+          out <- get_chem_id(chem.cas=chem.cas,
+                             chem.name=chem.name,
+                             dtxsid=dtxsid,
+                             chemdata=chemdata)
           chem.cas <- out$chem.cas
           chem.name <- out$chem.name                                
           dtxsid <- out$dtxsid
@@ -398,7 +411,8 @@ calc_peff <- function(parameters = NULL,
                                   chem.name=chem.name,
                                   dtxsid=dtxsid,
                                   species=species,
-                                  suppress.messages=suppress.messages),
+                                  suppress.messages=suppress.messages,
+                                  chemdata=chemdata),
                                   parameterize.args.list)))
     }
     Caco2.Pab <- parameters[["Caco2.Pab"]]
@@ -423,7 +437,8 @@ calc_kgutabs<- function(parameters = NULL,
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
-  parameterize.args.list = list()
+  parameterize.args.list = list(),
+  chemdata=chem.physical_and_invitro.data
   )
 {
   if (!is.null(parameters))
@@ -447,10 +462,10 @@ calc_kgutabs<- function(parameters = NULL,
         stop('chem.name, chem.cas, or dtxsid must be specified.')
     
     # Look up the chemical name/CAS, depending on what was provide:
-        out <- get_chem_id(
-                chem.cas=chem.cas,
-                chem.name=chem.name,
-                dtxsid=dtxsid)
+        out <- get_chem_id(chem.cas=chem.cas,
+                           chem.name=chem.name,
+                           dtxsid=dtxsid,
+                           chemdata=chemdata)
         chem.cas <- out$chem.cas
         chem.name <- out$chem.name                                
         dtxsid <- out$dtxsid
@@ -467,14 +482,16 @@ calc_kgutabs<- function(parameters = NULL,
                                 chem.name=chem.name,
                                 dtxsid=dtxsid,
                                 species=species,
-                                suppress.messages=suppress.messages),
+                                suppress.messages=suppress.messages,
+                                chemdata=chemdata),
                                 parameterize.args.list)))
   }
   
   # 10^-4 cm/s
   Peff <- calc_peff(Caco2.Pab=parameters[["Caco2.Pab"]],
                     species = species,
-                    suppress.messages = suppress.messages)
+                    suppress.messages = suppress.messages,
+                    chemdata=chemdata)
                     
   # Load the physiological parameters for this species
   this.phys.data <- physiology.data[, tolower(colnames(physiology.data)) 
@@ -511,7 +528,8 @@ calc_fgut.oral <- function(parameters = NULL,
   species = "Human",
   suppress.messages = FALSE,
   Caco2.Pab.default = 1.6,
-  parameterize.args.list = list()
+  parameterize.args.list = list(),
+  chemdata=chem.physical_and_invitro.data
   )
 {
   if (!is.null(parameters))
@@ -535,10 +553,10 @@ calc_fgut.oral <- function(parameters = NULL,
         stop('chem.name, chem.cas, or dtxsid must be specified.')
     
     # Look up the chemical name/CAS, depending on what was provide:
-        out <- get_chem_id(
-                chem.cas=chem.cas,
-                chem.name=chem.name,
-                dtxsid=dtxsid)
+        out <- get_chem_id(chem.cas=chem.cas,
+                           chem.name=chem.name,
+                           dtxsid=dtxsid,
+                           chemdata=chemdata)
         chem.cas <- out$chem.cas
         chem.name <- out$chem.name                                
         dtxsid <- out$dtxsid
@@ -555,7 +573,8 @@ calc_fgut.oral <- function(parameters = NULL,
                                 chem.name=chem.name,
                                 dtxsid=dtxsid,
                                 species=species,
-                                suppress.messages=suppress.messages),
+                                suppress.messages=suppress.messages,
+                                chemdata=chemdata),
                                 parameterize.args.list)))
   }
   
@@ -565,18 +584,21 @@ calc_fgut.oral <- function(parameters = NULL,
                                    chem.name=chem.name,
                                    dtxsid=dtxsid,
                                    Caco2.Pab.default = Caco2.Pab.default,
-                                   suppress.messages = suppress.messages))
+                                   suppress.messages = suppress.messages,
+                                   chemdata=chemdata))
 
     # Scale up from in vitro Clint to a whole liver clearance:
     clu_hep <- calc_hep_clearance(parameters=parameters,
                              hepatic.model='unscaled',
-                             suppress.messages=TRUE) #L/h/kg body weight
+                             suppress.messages=TRUE,
+                             chemdata=chemdata) #L/h/kg body weight
     clu_hep <- clu_hep*parameters$BW # L/h 
     clu_gut <- clu_hep/100 # approximate ratio of cyp abundances
     
     peff <- calc_peff(Caco2.Pab=parameters[["Caco2.Pab"]],
                       species = species,
-                      suppress.messages = suppress.messages)
+                      suppress.messages = suppress.messages,
+                      chemdata=chemdata)
     
     if(tolower(species) == "rat")
     {

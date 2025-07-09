@@ -176,6 +176,7 @@ parameterize_1comp <- function(
                         class.exclude=TRUE,
                         physchem.exclude = TRUE,
                         Caco2.options = list(),
+                        chemdata=chem.physical_and_invitro.data
                         ...
                         )
 {
@@ -291,8 +292,11 @@ parameterize_1comp <- function(
   params[['kgutabs']] <- 2.18
   
   params[['Rblood2plasma']] <- 
-    available_rblood2plasma(chem.cas=chem.cas,chem.name=chem.name,
-        species=species,adjusted.Funbound.plasma=adjusted.Funbound.plasma)
+    available_rblood2plasma(chem.cas=chem.cas,
+                            chem.name=chem.name,
+                            species=species,
+                            adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                            chemdata=chemdata)
   
   params[['million.cells.per.gliver']] <- 110
   params[["liver.density"]] <- 1.05 # g/mL

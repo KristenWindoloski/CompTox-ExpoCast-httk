@@ -236,6 +236,7 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
                               class.exclude=TRUE,
                               physchem.exclude = TRUE,
                               restrictive.clearance = FALSE,
+                              chemdata=chem.physical_and_invitro.data,
                               ...)
 {
   physiology.data <- physiology.data
@@ -444,10 +445,11 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
 # Blood to plasma ratio:
   outlist <- c(outlist,
     Rblood2plasma=available_rblood2plasma(chem.cas=chem.cas,
-      species=species,
-      class.exclude=class.exclude,
-      adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-      suppress.messages=TRUE))
+                                          species=species,
+                                          class.exclude=class.exclude,
+                                          adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                          suppress.messages=TRUE,
+                                          chemdata=chemdata))
 
 # Henry's law (water:air partitioning) coefficient:
   outlist[["logHenry"]] <- get_physchem_param(param = 'logHenry', 

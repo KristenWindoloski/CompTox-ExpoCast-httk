@@ -43,7 +43,8 @@ calc_ma <- function(
                  chem.name=NULL,
                  dtxsid = NULL,
                  parameters=NULL,
-                 suppress.messages=FALSE
+                 suppress.messages=FALSE,
+                 chemdata=chem.physical_and_invitro.data
                  ) 
 {
 # We need to describe the chemical to be simulated one way or another:
@@ -58,7 +59,8 @@ calc_ma <- function(
     Pow <- 10^get_physchem_param("logP",
                                  chem.cas=chem.cas,
                                  dtxsid=dtxsid,
-                                 chem.name=chem.name)
+                                 chem.name=chem.name,
+                                 chemdata=chemdata)
   } else {
     if (!("Pow" %in% names(parameters)))
     {

@@ -25,7 +25,8 @@
 #' @export estimate_gfr
 estimate_gfr <- function(gfrtmp.dt,
                          gfr_resid_var = TRUE,
-                         ckd_epi_race_coeff = FALSE){
+                         ckd_epi_race_coeff = FALSE,
+                         chemdata=chemdata){
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data. table column name is used without quotes. To appease R CMD
@@ -46,7 +47,8 @@ estimate_gfr <- function(gfrtmp.dt,
                                   gender=gender, 
                                   reth=reth, #note that this is actually no longer used
                                   age_years=age_years,
-                                  ckd_epi_race_coeff = ckd_epi_race_coeff)]
+                                  ckd_epi_race_coeff = ckd_epi_race_coeff,
+                                  chemdata=chemdata)]
     if(isTRUE(gfr_resid_var)){
     #Add residual variability
     #see data-raw/ckd_epi_resid_var.R for calculations
@@ -64,7 +66,8 @@ estimate_gfr <- function(gfrtmp.dt,
   if(any(gfrtmp.dt[, age_years<18])){
     #get model-predicted GFR
   gfrtmp.dt[age_years<18, 
-           gfr_est:=estimate_gfr_ped(BSA=BSA_adj/(100^2))] #convert BSA to m^2
+           gfr_est:=estimate_gfr_ped(BSA=BSA_adj/(100^2),
+                                     chemdata=chemdata)] #convert BSA to m^2
   #gfr_est in units of mL/min/1.73m^2 BSA
     
     if(isTRUE(gfr_resid_var)){

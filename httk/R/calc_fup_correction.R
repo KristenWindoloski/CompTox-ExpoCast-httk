@@ -108,7 +108,8 @@ calc_fup_correction <- function(
                  species="Human",
                  default.to.human=FALSE,
                  force.human.fup=FALSE,
-                 suppress.messages=FALSE
+                 suppress.messages=FALSE,
+                 chemdata=chem.physical_and_invitro.data
                  ) 
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
@@ -131,41 +132,41 @@ calc_fup_correction <- function(
     # Look up the chemical name/CAS, depending on what was provided:
     if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
     {
-      out <- get_chem_id(
-              chem.cas=chem.cas,
-              chem.name=chem.name,
-              dtxsid=dtxsid)
+      out <- get_chem_id(chem.cas=chem.cas,
+                         chem.name=chem.name,
+                         dtxsid=dtxsid,
+                         chemdata=chemdata)
       chem.cas <- out$chem.cas
       chem.name <- out$chem.name                                
       dtxsid <- out$dtxsid
     }
     # acid dissociation constants
-    pKa_Donor <- suppressWarnings(get_physchem_param(
-      "pKa_Donor",
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas)) 
+    pKa_Donor <- suppressWarnings(get_physchem_param("pKa_Donor",
+                                                     dtxsid=dtxsid,
+                                                     chem.name=chem.name,
+                                                     chem.cas=chem.cas,
+                                                     chemdata=chemdata)) 
     # basic association cosntants
-    pKa_Accept <- suppressWarnings(get_physchem_param(
-      "pKa_Accept",
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas)) 
+    pKa_Accept <- suppressWarnings(get_physchem_param("pKa_Accept",
+                                                      dtxsid=dtxsid,
+                                                      chem.name=chem.name,
+                                                      chem.cas=chem.cas,
+                                                      chemdata=chemdata)) 
     # Octanol:water partition coefficient
-    Pow <- 10^get_physchem_param(
-      "logP",
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas)
+    Pow <- 10^get_physchem_param("logP",
+                                 dtxsid=dtxsid,
+                                 chem.name=chem.name,
+                                 chem.cas=chem.cas,
+                                 chemdata=chemdata)
     # Fraction unbound in plasma measured in vitro:
-    if (is.null(fup)) fup <- get_fup(
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas,
-      species=species,
-      default.to.human=default.to.human,
-      force.human.fup=force.human.fup,
-      suppress.messages=suppress.messages)$Funbound.plasma.point 
+    if (is.null(fup)) fup <- get_fup(dtxsid=dtxsid,
+                                     chem.name=chem.name,
+                                     chem.cas=chem.cas,
+                                     species=species,
+                                     default.to.human=default.to.human,
+                                     force.human.fup=force.human.fup,
+                                     suppress.messages=suppress.messages,
+                                     chemdata=chemdata)$Funbound.plasma.point 
   } else {
     if ("Funbound.plasma" %in% names(parameters))
     {
@@ -208,9 +209,10 @@ calc_fup_correction <- function(
   if (is.null(dow74))
   {  
     dow <- calc_dow(Pow=Pow,
-                  pH=plasma.pH,
-                  pKa_Donor=pKa_Donor,
-                  pKa_Accept=pKa_Accept
+                    pH=plasma.pH,
+                    pKa_Donor=pKa_Donor,
+                    pKa_Accept=pKa_Accept,
+                    chemdata=chemdata
                   ) 
   } else dow <- dow74
   

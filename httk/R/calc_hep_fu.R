@@ -64,7 +64,8 @@ calc_hep_fu <- function(
                  dtxsid = NULL,
                  parameters=NULL,
                  Vr=0.005,
-                 pH=7.4) 
+                 pH=7.4,
+                 chemdata=chem.physical_and_invitro.data) 
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -78,32 +79,32 @@ calc_hep_fu <- function(
     # Look up the chemical name/CAS, depending on what was provided:
     if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
     {
-      out <- get_chem_id(
-              chem.cas=chem.cas,
-              chem.name=chem.name,
-              dtxsid=dtxsid)
+      out <- get_chem_id(chem.cas=chem.cas,
+                         chem.name=chem.name,
+                         dtxsid=dtxsid,
+                         chemdata=chemdata)
       chem.cas <- out$chem.cas
       chem.name <- out$chem.name                                
       dtxsid <- out$dtxsid
     }
     # acid dissociation constants
-    pKa_Donor <- suppressWarnings(get_physchem_param(
-      "pKa_Donor",
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas)) 
+    pKa_Donor <- suppressWarnings(get_physchem_param("pKa_Donor",
+                                                     dtxsid=dtxsid,
+                                                     chem.name=chem.name,
+                                                     chem.cas=chem.cas,
+                                                     chemdata=chemdata)) 
     # basic association cosntants
-    pKa_Accept <- suppressWarnings(get_physchem_param(
-      "pKa_Accept",
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas)) 
+    pKa_Accept <- suppressWarnings(get_physchem_param("pKa_Accept",
+                                                      dtxsid=dtxsid,
+                                                      chem.name=chem.name,
+                                                      chem.cas=chem.cas,
+                                                      chemdata=chemdata)) 
     # Octanol:water partition coefficient
-    Pow <- 10^get_physchem_param(
-      "logP",
-      dtxsid=dtxsid,
-      chem.name=chem.name,
-      chem.cas=chem.cas) 
+    Pow <- 10^get_physchem_param("logP",
+                                 dtxsid=dtxsid,
+                                 chem.name=chem.name,
+                                 chem.cas=chem.cas,
+                                 chemdata=chemdata) 
   } else {
     if (!all(c("Pow","pKa_Donor","pKa_Accept") 
       %in% names(parameters))) 
@@ -119,11 +120,11 @@ calc_hep_fu <- function(
   # Select the appropriate partition coefficient (we treat bases differently):
   if (!is_base(pH=pH, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept))
   {
-    logPD <- log10(calc_dow(
-               Pow, 
-               pH=pH,
-               pKa_Donor=pKa_Donor,
-               pKa_Accept=pKa_Accept)) 
+    logPD <- log10(calc_dow(Pow, 
+                            pH=pH,
+                            pKa_Donor=pKa_Donor,
+                            pKa_Accept=pKa_Accept,
+                            chemdata=chemdata)) 
   } else logPD <- log10(Pow)
   
   fu_hep <- 1/(1+ 125*Vr*10^(0.072*logPD^2+0.067*logPD-1.126))

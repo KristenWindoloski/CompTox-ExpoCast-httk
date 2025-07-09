@@ -198,7 +198,8 @@ calc_mc_tk<- function(chem.cas=NULL,
                           method='direct resampling'),
                         convert.httkpop.arg.list=NULL,
                         parameterize.args.list =NULL,
-                        return.all.sims=FALSE)
+                        return.all.sims=FALSE,
+                      chemdata=chem.physical_and_invitro.data)
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -247,7 +248,8 @@ calc_mc_tk<- function(chem.cas=NULL,
                             invitro.mc.arg.list=invitro.mc.arg.list,
                             httkpop.generate.arg.list=httkpop.generate.arg.list,
                             convert.httkpop.arg.list=convert.httkpop.arg.list,
-                            parameterize.args.list =parameterize.args.list))))
+                            parameterize.args.list =parameterize.args.list,
+                            chemdata=chemdata))))
 
 #
 # HERE LIES THE ACTUAL MONTE CARLO STEP:
@@ -257,7 +259,8 @@ calc_mc_tk<- function(chem.cas=NULL,
    model.out[[i]] <- do.call(model.list[[model]]$solve.func,
                              args=purrr::compact(c(list(
      parameters=as.list(parameter.dt[i,]),
-     suppress.messages=TRUE),
+     suppress.messages=TRUE,
+     chemdata=chemdata),
      solvemodel.arg.list)))
 
   means <- set_httk_precision(Reduce("+",model.out)/length(model.out))

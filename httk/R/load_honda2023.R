@@ -59,7 +59,8 @@ load_honda2023 <- function(
     overwrite=FALSE,
     exclude_oad=TRUE,
     chem_include = NULL,
-    target.env=.GlobalEnv)
+    target.env=.GlobalEnv,
+    chemdata=chem.physical_and_invitro.data)
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD
@@ -91,7 +92,7 @@ load_honda2023 <- function(
   cat("Please wait...\n")
   assign("chem.physical_and_invitro.data", 
          add_chemtable(tmp_honda2023,
-                       current.table=chem.physical_and_invitro.data,
+                       current.table=chemdata,
                        data.list=list(
                          DTXSID='DTXSID',
                          CAS="CAS",

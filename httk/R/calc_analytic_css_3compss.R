@@ -103,6 +103,7 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
                                    restrictive.clearance=TRUE,
                                    bioactive.free.invivo = FALSE,
                                    Caco2.options = list(),
+                                   chemdata=chem.physical_and_invitro.data,
                                    ...)
 {
   if (!is.null(hourly.dose))
@@ -129,10 +130,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
   chem_id_list  = list(chem.cas, chem.name, dtxsid)
   if (any(unlist(lapply(chem_id_list, is.null))) &
       !all(unlist(lapply(chem_id_list, is.null)))){
-  out <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  out <- get_chem_id(chem.cas=chem.cas,
+                     chem.name=chem.name,
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid  
@@ -142,10 +143,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
   if (is.null(parameters))
   {
   # Look up the chemical name/CAS, depending on what was provide:
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -156,14 +157,13 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
     }
     
     parameters <- do.call(what=parameterize_function, 
-                          args=purrr::compact(c(
-                            list(chem.cas=chem.cas,
-                                 chem.name=chem.name,
-                                 suppress.messages=suppress.messages,
-                                 Caco2.options = Caco2.options,
-                                 restrictive.clearance = restrictive.clearance
-                                 ),
-                            ...)))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     suppress.messages=suppress.messages,
+                                                     Caco2.options = Caco2.options,
+                                                     restrictive.clearance = restrictive.clearance,
+                                                     chemdata=chemdata),
+                                                ...)))
 
   } else {
     if (!all(param.names %in% names(parameters)))
@@ -183,7 +183,8 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
   {
     parameters$Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
                                                    parameters=parameters,
-                                                   hematocrit=parameters$hematocrit)
+                                                   hematocrit=parameters$hematocrit,
+                                                   chemdata=chemdata)
   }
 
   BW <- parameters$BW
@@ -207,9 +208,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
 
   # Scale up from in vitro Clint to a whole liver clearance:
   Clhep <- calc_hep_clearance(parameters=parameters,
-          hepatic.model="well-stirred",
-          restrictive.clearance = restrictive.clearance,
-          suppress.messages=TRUE) # L / h / kg BW
+                              hepatic.model="well-stirred",
+                              restrictive.clearance = restrictive.clearance,
+                              suppress.messages=TRUE,
+                              chemdata=chemdata) # L / h / kg BW
 
   # Oral bioavailability:
   Fabsgut <- parameters$Fabsgut
@@ -243,7 +245,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
       #get_physchem_param for the 3 compss model, add_schmitt.param_to_3compss
       #(function definition nested at bottom):
         parameters <- add_schmitt.param_to_3compss(parameters = parameters,
-           chem.cas = chem.cas, chem.name = chem.name, dtxsid = dtxsid)
+                                                   chem.cas = chem.cas, 
+                                                   chem.name = chem.name, 
+                                                   dtxsid = dtxsid,
+                                                   chemdata=chemdata)
     }
 
     #The parameters used in predict_partitioning_schmitt may be a compound
@@ -289,8 +294,11 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
 
 # Add some parameters to the output from parameterize_steady_state so that
 # predict_partitioning_schmitt can run without reparameterizing
-add_schmitt.param_to_3compss <- function(parameters = NULL, chem.cas = NULL,
-                                         chem.name = NULL, dtxsid = NULL){
+add_schmitt.param_to_3compss <- function(parameters = NULL, 
+                                         chem.cas = NULL,
+                                         chem.name = NULL, 
+                                         dtxsid = NULL,
+                                         chemdata=chem.physical_and_invitro.data){
   
   if ((is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid)))
     stop("Either chem.cas, chem.name, or dtxsid must be specified to give 
@@ -298,8 +306,11 @@ add_schmitt.param_to_3compss <- function(parameters = NULL, chem.cas = NULL,
   if (is.null(parameters))
     stop("Must have input parameters to add Schmitt input to.")
   # Need to convert to 3compartmentss parameters:
-  temp.params <- get_physchem_param(chem.cas = chem.cas, chem.name = chem.name,
-      dtxsid = dtxsid, param = c("logP", "logMA", "pKa_Accept","pKa_Donor"))
+  temp.params <- get_physchem_param(chem.cas = chem.cas, 
+                                    chem.name = chem.name,
+                                    dtxsid = dtxsid, 
+                                    chemdata=chemdata,
+                                    param = c("logP", "logMA", "pKa_Accept","pKa_Donor"))
   if(!"Pow" %in% names(parameters)){
     parameters[["Pow"]] <- 10^temp.params[["logP"]]
   }

@@ -88,6 +88,7 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
                                    route="oral",
                                    restrictive.clearance=TRUE,
                                    bioactive.free.invivo = FALSE,
+                                   chemdata=chem.physical_and_invitro.data,
                                    ...)
 {
   if (!is.null(hourly.dose))
@@ -124,10 +125,10 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
   chem_id_list  = list(chem.cas, chem.name, dtxsid)
   if (any(unlist(lapply(chem_id_list, is.null))) &
       !all(unlist(lapply(chem_id_list, is.null)))){
-  out <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  out <- get_chem_id(chem.cas=chem.cas,
+                     chem.name=chem.name,
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid  
@@ -142,14 +143,13 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
     }
     
     parameters <- do.call(what=parameterize_function, 
-                          args=purrr::compact(c(
-                            list(chem.cas=chem.cas,
-                                 chem.name=chem.name,
-                                 suppress.messages=suppress.messages,
-                                 Caco2.options = Caco2.options,
-                                 restrictive.clearance = restrictive.clearance
-                                 ),
-                            ...)))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     suppress.messages=suppress.messages,
+                                                     Caco2.options = Caco2.options,
+                                                     restrictive.clearance = restrictive.clearance,
+                                                     chemdata=chemdata),
+                                                ...)))
 
   } else {
     if (!all(param.names %in% names(parameters)))
@@ -169,7 +169,8 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
   {
     parameters$Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
                                                    parameters=parameters,
-                                                   hematocrit=parameters$hematocrit)
+                                                   hematocrit=parameters$hematocrit,
+                                                   chemdata=chemdata)
   }
 
   Fup <- parameters$Funbound.plasma
@@ -188,9 +189,10 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
 
   # Scale up from in vitro Clint to a whole liver clearance:
   Clhep <- calc_hep_clearance(parameters=parameters,
-                           hepatic.model='well-stirred',
-                           restrictive.clearance = restrictive.clearance,
-                           suppress.messages=TRUE) #L/h/kg body weight
+                              hepatic.model='well-stirred',
+                              restrictive.clearance = restrictive.clearance,
+                              suppress.messages=TRUE,
+                              chemdata=chemdata) #L/h/kg body weight
 
   # Inhalation parameters
   Qalv <- parameters$Qalvc/BW^0.25 #L/h/kg BW
@@ -251,7 +253,10 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
       #get_physchem_param for the 3 compss model, add_schmitt.param_to_3compss
       #(function definition nested at bottom):
         parameters <- add_schmitt.param_to_3compss(parameters = parameters,
-           chem.cas = chem.cas, chem.name = chem.name, dtxsid = dtxsid)
+                                                   chem.cas = chem.cas, 
+                                                   chem.name = chem.name, 
+                                                   dtxsid = dtxsid,
+                                                   chemdata=chemdata)
     }
 
     #The parameters used in predict_partitioning_schmitt may be a compound

@@ -50,7 +50,8 @@ get_fup <- function(chem.cas=NULL,
                     default.to.human=FALSE,
                     force.human.fup=FALSE,
                     suppress.messages=FALSE,
-                    minimum.Funbound.plasma=0.0001)
+                    minimum.Funbound.plasma=0.0001,
+                    chemdata=chem.physical_and_invitro.data)
 {
  # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -61,10 +62,10 @@ get_fup <- function(chem.cas=NULL,
   # Look up the chemical name/CAS, depending on what was provided:
   if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -77,7 +78,8 @@ get_fup <- function(chem.cas=NULL,
       species,
       chem.cas=chem.cas,
       chem.name=chem.name,
-      dtxsid=dtxsid),
+      dtxsid=dtxsid,
+      chemdata=chemdata),
     silent=TRUE)
   if ((is(fup.db,"try-error") & default.to.human) || force.human.fup) 
   {
@@ -87,7 +89,8 @@ get_fup <- function(chem.cas=NULL,
         "Human",
         chem.cas=chem.cas,
         chem.name=chem.name,
-        dtxsid=dtxsid),
+        dtxsid=dtxsid,
+        chemdata=chemdata),
       silent=TRUE)
     if (!suppress.messages) 
       warning(paste(species,"coerced to Human for protein binding data."))
@@ -121,7 +124,8 @@ get_fup <- function(chem.cas=NULL,
                   "Human",
                   chem.cas=chem.cas,
                   chem.name=chem.name,
-                  dtxsid=dtxsid),
+                  dtxsid=dtxsid,
+                  chemdata=chemdata),
                 silent=TRUE)
   # Check if fup is a point value or a distribution, if a distribution, use the median:
     if (nchar(fup.db) - nchar(gsub(",","",fup.db))==2) 

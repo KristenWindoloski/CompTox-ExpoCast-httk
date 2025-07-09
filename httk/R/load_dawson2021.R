@@ -128,7 +128,8 @@ load_dawson2021 <- function(
     overwrite=FALSE,
     exclude_oad=TRUE,
     chem_include = NULL,
-    target.env=.GlobalEnv)
+    target.env=.GlobalEnv,
+    chemdata=chem.physical_and_invitro.data)
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD
@@ -166,7 +167,7 @@ load_dawson2021 <- function(
   cat("Please wait...\n")
   assign("chem.physical_and_invitro.data", 
          add_chemtable(tmp_dawson2021,
-                       current.table=chem.physical_and_invitro.data,
+                       current.table=chemdata,
                        data.list=list(
                          CAS='CASRN',
                          Funbound.plasma = 'QSAR_Fup',

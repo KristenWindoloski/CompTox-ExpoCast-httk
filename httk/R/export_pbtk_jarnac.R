@@ -69,9 +69,9 @@ export_pbtk_jarnac <- function(chem.cas=NULL,
     stop("Compound not found.\n")
   }
 
-  inlist <- parameterize_pbtk(chem.cas=chem.cas,chem.name=chem.name,species=species)
+  inlist <- parameterize_pbtk(chem.cas=chem.cas,chem.name=chem.name,species=species,chemdata=chemdata)
 
-   out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name)
+   out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
 

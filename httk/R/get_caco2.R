@@ -33,7 +33,8 @@ get_caco2 <- function(
     chem.name=NULL,
     dtxsid = NULL,
     Caco2.Pab.default = 1.6,
-    suppress.messages=FALSE)
+    suppress.messages=FALSE,
+    chemdata=chem.physical_and_invitro.data)
 {
   # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -42,10 +43,10 @@ get_caco2 <- function(
     stop('chem.name, chem.cas, or dtxsid must be specified.')
   
   # Look up the chemical name/CAS, depending on what was provide:
-  chem.ids <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  chem.ids <- get_chem_id(chem.cas=chem.cas,
+                          chem.name=chem.name,
+                          dtxsid=dtxsid,
+                          chemdata=chemdata)
   chem.cas <- chem.ids$chem.cas
   chem.name <- chem.ids$chem.name                                
   dtxsid <- chem.ids$dtxsid
@@ -56,13 +57,13 @@ get_caco2 <- function(
   out[["Caco2.Pab.dist"]] <- NA
 
     # Caco-2 Pab:
-    Caco2.Pab.db <- try(get_invitroPK_param(
-      "Caco2.Pab", 
-      species = "Human", 
-      chem.cas=chem.cas,
-      chem.name=chem.name,
-      dtxsid=dtxsid), 
-      silent = TRUE)
+    Caco2.Pab.db <- try(get_invitroPK_param("Caco2.Pab", 
+                                            species = "Human", 
+                                            chem.cas=chem.cas,
+                                            chem.name=chem.name,
+                                            dtxsid=dtxsid,
+                                            chemdata=chemdata), 
+                        silent = TRUE)
     if (is(Caco2.Pab.db,"try-error"))
     {  
       Caco2.Pab.db <- as.character(Caco2.Pab.default)

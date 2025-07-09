@@ -72,6 +72,7 @@ calc_elimination_rate <- function(chem.cas=NULL,
                                   species="Human",
                                   model="3compartmentss",
                                   suppress.messages=TRUE,
+                                  chemdata=chem.physical_and_invitro.data,
                                   ...
                                   )
 {
@@ -85,8 +86,8 @@ calc_elimination_rate <- function(chem.cas=NULL,
                                 dtxsid=dtxsid,
                                 species=species,
                                 parameters=parameters,
-                                suppress.messages=suppress.messages
-                                ),
+                                suppress.messages=suppress.messages,
+                                chemdata=chemdata),
                            list(...)
                            )
                     ) 
@@ -99,7 +100,8 @@ calc_elimination_rate <- function(chem.cas=NULL,
                                     species=species,
                                     parameters=parameters,
                                     model=model,
-                                    suppress.messages=suppress.messages
+                                    suppress.messages=suppress.messages,
+                                    chemdata=chemdata
                                     ),
                                list(...)
                                ) 

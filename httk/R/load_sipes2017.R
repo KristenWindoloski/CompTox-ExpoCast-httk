@@ -124,7 +124,8 @@
 load_sipes2017 <- function(
     overwrite=FALSE,
     chem_include = NULL,
-    target.env=.GlobalEnv)
+    target.env=.GlobalEnv,
+    chemdata=chem.physical_and_invitro.data)
 {
   tmp_sipes2017 <- httk::sipes2017
   # check whether there is any information on specific chemicals to include
@@ -140,7 +141,7 @@ load_sipes2017 <- function(
   cat("Please wait...\n")
   assign("chem.physical_and_invitro.data", 
          add_chemtable(tmp_sipes2017,
-                       current.table=chem.physical_and_invitro.data,
+                       current.table=chemdata,
                        data.list=list(
                          CAS='CAS', 
                          Funbound.plasma = 'Human.Funbound.plasma', 

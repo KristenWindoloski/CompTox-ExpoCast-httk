@@ -58,7 +58,8 @@ get_clint <- function(chem.cas=NULL,
                     default.to.human=FALSE,
                     force.human.clint=FALSE,
                     suppress.messages=FALSE,
-                    clint.pvalue.threshold=0.05)
+                    clint.pvalue.threshold=0.05,
+                    chemdata=chem.physical_and_invitro.data)
 {
  # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -69,10 +70,10 @@ get_clint <- function(chem.cas=NULL,
   # Look up the chemical name/CAS, depending on what was provided:
   if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -80,17 +81,17 @@ get_clint <- function(chem.cas=NULL,
 
   # Assume that Clint exists for the combination of species specified
   # Clint has units of uL/min/10^6 cells
-  Clint.db <- try(get_invitroPK_param(
-                    "Clint",
-                    species,
-                    chem.cas=chem.cas),
+  Clint.db <- try(get_invitroPK_param("Clint",
+                                      species,
+                                      chem.cas=chem.cas,
+                                      chemdata=chemdata),
                 silent=TRUE)
   # Check that the trend in the CLint assay was significant:
-  Clint.pValue <- try(get_invitroPK_param(
-                        "Clint.pValue",
-                        species,
-                        chem.cas=chem.cas),
-                    silent=TRUE)
+  Clint.pValue <- try(get_invitroPK_param("Clint.pValue",
+                                          species,
+                                          chem.cas=chem.cas,
+                                          chemdata=chemdata),
+                      silent=TRUE)
   if (is(Clint.pValue, "try-error")) Clint.pValue <- NA
   
   # Need to check cases of missing data on Clint 
@@ -103,15 +104,15 @@ get_clint <- function(chem.cas=NULL,
   }
   
   if ((is(Clint.db,"try-error") & default.to.human) || force.human.clint){
-    Clint.db <- try(get_invitroPK_param(
-                      "Clint",
-                      "Human",
-                      chem.cas=chem.cas),
+    Clint.db <- try(get_invitroPK_param("Clint",
+                                        "Human",
+                                        chem.cas=chem.cas,
+                                        chemdata=chemdata),
                   silent=TRUE)
-    Clint.pValue <- try(get_invitroPK_param(
-                          "Clint.pValue",
-                          "Human",
-                          chem.cas=chem.cas),
+    Clint.pValue <- try(get_invitroPK_param("Clint.pValue",
+                                            "Human",
+                                            chem.cas=chem.cas,
+                                            chemdata=chemdata),
                       silent=TRUE)
 
     if (!suppress.messages) warning(paste(species,"coerced to Human for metabolic clearance data."))

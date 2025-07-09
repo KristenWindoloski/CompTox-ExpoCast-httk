@@ -183,13 +183,13 @@ calc_css <- function(chem.name=NULL,
   if (is.null(parameters))
   {
     parameters <- do.call(parameterize_function,
-                          args=purrr::compact(c(list(
-      chem.cas=chem.cas,
-      chem.name=chem.name,
-      dtxsid=dtxsid,
-      species=species,
-      suppress.messages=suppress.messages),
-      parameterize.args.list)))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     dtxsid=dtxsid,
+                                                     species=species,
+                                                     suppress.messages=suppress.messages,
+                                                     chemdata=chemdata),
+                                                parameterize.args.list)))
   }
 
   if (is.null(dosing))
@@ -216,6 +216,7 @@ calc_css <- function(chem.name=NULL,
     model=model,
     output.units = output.units,
     suppress.messages=TRUE,
+    chemdata=chemdata,
     parameterize.args.list = parameterize.args.list
   )
   # Check to see if there is analytic Css funtion:
@@ -245,23 +246,23 @@ calc_css <- function(chem.name=NULL,
 # set an inintial of time steps per hour (smaller is faster):
   tsteps <- 4
 # Initial call to solver, maybe we'll get lucky and achieve rapid steady-state
+  # we use purrr::compact to drop NULL values from arguments list:
   out <- try(do.call(solve_model,
-# we use purrr::compact to drop NULL values from arguments list:
-      args=purrr::compact(c(list(    
-      parameters=parameters,
-    model=model, 
-    dosing=dosing,
-    route=route,
-    input.units=dose.units,
-    suppress.messages=TRUE,
-    days=days,
-    output.units = output.units,
-    monitor.vars=monitor.vars,
-    parameterize.args.list = parameterize.args.list,
-    atol = atol,
-    rtol = rtol,
-    tsteps = tsteps),
-    ...))))
+                     args=purrr::compact(c(list(parameters=parameters,
+                                                model=model, 
+                                                dosing=dosing,
+                                                route=route,
+                                                input.units=dose.units,
+                                                suppress.messages=TRUE,
+                                                days=days,
+                                                output.units = output.units,
+                                                monitor.vars=monitor.vars,
+                                                parameterize.args.list = parameterize.args.list,
+                                                atol = atol,
+                                                rtol = rtol,
+                                                tsteps = tsteps,
+                                                chemdata=chemdata),
+                                           ...))))
     # Check for an error:
     RETRY <- inherits(out, "try-error")
     # Can only check if it ran long enough if not an error:
@@ -276,22 +277,21 @@ calc_css <- function(chem.name=NULL,
       rtol <- atol
       tsteps <- round(tsteps*1.5)
       out <- try(do.call(solve_model,
-  # we use purrr::compact to drop NULL values from arguments list:
-        args=purrr::compact(c(list(    
-        parameters=parameters,
-      model=model, 
-      dosing=dosing,
-      route=route,
-      input.units=dose.units,
-      suppress.messages=TRUE,
-      days=days,
-      output.units = output.units,
-      monitor.vars=monitor.vars,
-      parameterize.args.list = parameterize.args.list,
-      atol = atol,
-      rtol = rtol,
-      tsteps = tsteps),
-      ...))))
+                         args=purrr::compact(c(list(parameters=parameters,
+                                                    model=model, 
+                                                    dosing=dosing,
+                                                    route=route,
+                                                    input.units=dose.units,
+                                                    suppress.messages=TRUE,
+                                                    days=days,
+                                                    output.units = output.units,
+                                                    monitor.vars=monitor.vars,
+                                                    parameterize.args.list = parameterize.args.list,
+                                                    atol = atol,
+                                                    rtol = rtol,
+                                                    tsteps = tsteps,
+                                                    chemdata=chemdata),
+                                               ...))))
     # Check for an error:
     RETRY <- inherits(out, "try-error")
     # Can only check if it ran long enough if not an error:
@@ -356,23 +356,22 @@ calc_css <- function(chem.name=NULL,
     total.days <- total.days + additional.days
 
     out <- do.call(solve_model,
-# we use purrr::compact to drop NULL values from arguments list:
-      args=purrr::compact(c(list(    
-      parameters=parameters,
-      model=model,
-      initial.values = Final_State[state.vars],  
-      dosing=dosing,
-      route=route,
-      input.units=dose.units,
-      days = additional.days,
-      output.units = output.units,
-      monitor.vars=monitor.vars,
-      parameterize.args.list = parameterize.args.list,   
-      suppress.messages=TRUE,
-      atol = atol,
-      rtol = rtol,
-      tsteps=tsteps,
-      ...))))
+                   args=purrr::compact(c(list(parameters=parameters,
+                                              model=model,
+                                              initial.values = Final_State[state.vars],  
+                                              dosing=dosing,
+                                              route=route,
+                                              input.units=dose.units,
+                                              days = additional.days,
+                                              output.units = output.units,
+                                              monitor.vars=monitor.vars,
+                                              parameterize.args.list = parameterize.args.list, 
+                                              suppress.messages=TRUE,
+                                              atol = atol,
+                                              rtol = rtol,
+                                              tsteps=tsteps,
+                                              chemdata=chemdata,
+                                              ...))))
 
     Final_State <- out[dim(out)[1],monitor.vars]
     NMinusOne_Conc <- try(out[match((additional.days - 1), 

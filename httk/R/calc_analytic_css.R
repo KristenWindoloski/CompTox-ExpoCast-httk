@@ -219,6 +219,7 @@ calc_analytic_css <- function(chem.name=NULL,
                               bioactive.free.invivo = FALSE,
                               IVIVE=NULL,
                               parameterize.args.list =list(),
+                              chemdata=chem.physical_and_invitro.data,
                               ...
                               )
 {  
@@ -302,7 +303,9 @@ calc_analytic_css <- function(chem.name=NULL,
   # IVIVE parameters:
   if (!is.null(IVIVE)) 
   {
-    out <- honda.ivive(method=IVIVE, tissue=tissue)
+    out <- honda.ivive(method=IVIVE, 
+                       tissue=tissue,
+                       chemdata=chemdata)
     restrictive.clearance <- out[["restrictive.clearance"]]
     tissue <- out[["tissue"]]
     bioactive.free.invivo <- out[["bioactive.free.invivo"]]
@@ -330,10 +333,10 @@ calc_analytic_css <- function(chem.name=NULL,
   if (is.null(parameters))
   {
 # Look up the chemical name/CAS/dtxsid, depending on what was provided:
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid  
@@ -341,15 +344,16 @@ calc_analytic_css <- function(chem.name=NULL,
   # pass chemical information plus formal argument parameterize.args.list to the
   # parameterization function specified by the appropriate modelinfo file:
     parameters <- do.call(what=parameterize_function, 
-      args=purrr::compact(c(list(
-        chem.cas=chem.cas,
-        chem.name=chem.name,
-        dtxsid=dtxsid,
-        species=species,
-        suppress.messages=suppress.messages),
-      list(...),
-      parameterize.args.list)))
-  } else {
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     dtxsid=dtxsid,
+                                                     species=species,
+                                                     suppress.messages=suppress.messages,
+                                                     chemdata=chemdata),
+                                                list(...),
+                                                parameterize.args.list)))
+  } 
+  else {
     model_param_names <- model.list[[model]]$param.names 
     if (!all(model_param_names %in% names(parameters)))
     {
@@ -401,21 +405,22 @@ calc_analytic_css <- function(chem.name=NULL,
   if (model %in% names(model.list))            
   {
       Css <- do.call(analytic.css.func,
-        args=purrr::compact(c(list(
-          chem.cas = chem.cas,
-          chem.name = chem.name,
-          dtxsid=dtxsid,
-          parameters=parameters,
-          dosing=dosing,
-          dose.units=dose.units,
-          route=route,
-          concentration=concentration,
-          suppress.messages=suppress.messages,
-          tissue=tissue,
-          bioactive.free.invivo = bioactive.free.invivo),
-          list(...),
-          parameterize.args.list)))
-  } else {
+                     args=purrr::compact(c(list(chem.cas = chem.cas,
+                                                chem.name = chem.name,
+                                                dtxsid=dtxsid,
+                                                parameters=parameters,
+                                                dosing=dosing,
+                                                dose.units=dose.units,
+                                                route=route,
+                                                concentration=concentration,
+                                                suppress.messages=suppress.messages,
+                                                tissue=tissue,
+                                                bioactive.free.invivo = bioactive.free.invivo,
+                                                chemdata=chemdata),
+                                           list(...),
+                                           parameterize.args.list)))
+  } 
+  else {
     stop(paste("Model",model,"not available. Please select from:",
                paste(names(model.list),collapse=", ")))
   }

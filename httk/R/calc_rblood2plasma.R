@@ -80,7 +80,8 @@ calc_rblood2plasma <- function(
                         species="Human",
                         adjusted.Funbound.plasma=TRUE,
                         class.exclude=TRUE,
-                        suppress.messages=TRUE)
+                        suppress.messages=TRUE,
+                        chemdata=chem.physical_and_invitro.data)
 {
   physiology.data <- physiology.data
 
@@ -93,7 +94,8 @@ calc_rblood2plasma <- function(
     
     out <- get_chem_id(chem.cas=chem.cas,
                        chem.name=chem.name,
-                       dtxsid=dtxsid)
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
@@ -108,7 +110,8 @@ calc_rblood2plasma <- function(
                                        default.to.human=default.to.human,
                                        species=species,
                                        class.exclude=class.exclude,
-                                       suppress.messages=suppress.messages)
+                                       suppress.messages=suppress.messages,
+                                       chemdata=chemdata)
   } 
   else if (is.null(parameters)){
     
@@ -152,7 +155,8 @@ calc_rblood2plasma <- function(
                                         species=species,
                                         adjusted.Funbound.plasma=adjusted.Funbound.plasma,
                                         tissues='red blood cells',
-                                        suppress.messages=TRUE)  
+                                        suppress.messages=TRUE,
+                                        chemdata=chemdata)  
     parameters$Krbc2pu <- PCs$Krbc2pu
   } 
   else if (!is.null(Krbc2pu)){

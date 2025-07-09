@@ -204,7 +204,8 @@ httkpop_generate <- function(method,
                                      'Non-Hispanic Black',
                                      'Other'),
                              gfr_resid_var = TRUE,
-                             ckd_epi_race_coeff = FALSE){
+                             ckd_epi_race_coeff = FALSE,
+                             chemdata=chem.physical_and_invitro.data){
 
 # Error checking:
   if (is.null(method)) stop(
@@ -396,7 +397,8 @@ resampling\" (\"dr\" or \"d\").")
                                       reths=reths,
                                       gfr_resid_var = gfr_resid_var,
                                       ckd_epi_race_coeff = ckd_epi_race_coeff,
-                                      nhanes_mec_svy = nhanes_mec_svy)
+                                      nhanes_mec_svy = nhanes_mec_svy,
+                                      chemdata=chemdata)
   } else if (method == 'direct resampling'){
     indiv_dt <- httkpop_direct_resample(nsamp=nsamp,
                                         gendernum=gendernum,
@@ -407,7 +409,8 @@ resampling\" (\"dr\" or \"d\").")
                                         reths=reths,
                                         gfr_resid_var = gfr_resid_var,
                                         ckd_epi_race_coeff = ckd_epi_race_coeff,
-                                        nhanes_mec_svy = nhanes_mec_svy)
+                                        nhanes_mec_svy = nhanes_mec_svy,
+                                        chemdata=chemdata)
   }
   
   # set precision:

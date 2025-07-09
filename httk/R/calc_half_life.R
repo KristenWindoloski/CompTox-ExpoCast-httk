@@ -100,8 +100,8 @@ calc_half_life <- function(chem.cas = NULL,
                             species="Human",
                             model = "3compartmentss", 
                             suppress.messages = TRUE,
-                            ...
-                            )
+                            chemdata=chem.physical_and_invitro.data,
+                            ...)
 {
   elim_rate <- do.call(calc_elimination_rate, 
                        args=c(list(chem.cas = chem.cas,
@@ -110,7 +110,8 @@ calc_half_life <- function(chem.cas = NULL,
                                  parameters = parameters,
                                  model = model,
                                  species = species,
-                                 suppress.messages = suppress.messages),
+                                 suppress.messages = suppress.messages,
+                                 chemdata=chemdata),
                                  list(...))
                        )
   

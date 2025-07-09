@@ -99,7 +99,8 @@ calc_kair <- function(
                  default.to.human = FALSE,
                  suppress.messages = FALSE,
                  pH = 7.4,
-                 alpha = 0.001) 
+                 alpha = 0.001,
+                 chemdata=chem.physical_and_invitro.data) 
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -113,10 +114,10 @@ calc_kair <- function(
     # Look up the chemical name/CAS, depending on what was provided:
     if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
     {
-      out <- get_chem_id(
-              chem.cas=chem.cas,
-              chem.name=chem.name,
-              dtxsid=dtxsid)
+      out <- get_chem_id(chem.cas=chem.cas,
+                         chem.name=chem.name,
+                         dtxsid=dtxsid,
+                         chemdata=chemdata)
       chem.cas <- out$chem.cas
       chem.name <- out$chem.name                                
       dtxsid <- out$dtxsid
@@ -129,7 +130,8 @@ calc_kair <- function(
     logHenry = get_physchem_param(param = 'logHenry', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) #for log base 10 compiled Henry's law values
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) #for log base 10 compiled Henry's law values
   } else {
     logHenry <- parameters$logHenry 
   }
@@ -139,7 +141,8 @@ calc_kair <- function(
     pKa_Donor = get_physchem_param(param = 'pKa_Donor', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) 
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) 
   } else {
     pKa_Donor <- parameters$pKa_Donor 
   }
@@ -149,7 +152,8 @@ calc_kair <- function(
     pKa_Accept = get_physchem_param(param = 'pKa_Accept', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) 
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) 
   } else {
     pKa_Accept <- parameters$pKa_Accept 
   }
@@ -189,18 +193,20 @@ calc_kair <- function(
     Pow <- 10^get_physchem_param(param = 'logP', 
                                 chem.cas=chem.cas,
                                 chem.name=chem.name,
-                                dtxsid=dtxsid)  # Octanol:water partition coeffiecient
+                                dtxsid=dtxsid,
+                                chemdata=chemdata)  # Octanol:water partition coeffiecient
 
     # Get the central tendency (point estimate) and potentially the distribution
     # quantiles for the fraction unbound in plasma (fup):
-    fup.list <- get_fup(
-        dtxsid=dtxsid,
-        chem.name=chem.name,
-        chem.cas=chem.cas,
-        species=species,
-        default.to.human=default.to.human,
-        force.human.fup=force.human.clint.fup,
-        suppress.messages=suppress.messages) 
+    fup.list <- get_fup(dtxsid=dtxsid,
+                        chem.name=chem.name,
+                        chem.cas=chem.cas,
+                        species=species,
+                        default.to.human=default.to.human,
+                        force.human.fup=force.human.clint.fup,
+                        suppress.messages=suppress.messages,
+                        chemdata=chemdata) 
+    
     fup.point <- fup.list$Funbound.plasma.point
     fup.dist <- fup.list$Funbound.plasma.dist 
   
@@ -214,7 +220,8 @@ calc_kair <- function(
     }
     
     # Distribution coefficient:
-    dow<- calc_dow(Pow = Pow, pH=7.4, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept)
+    dow<- calc_dow(Pow = Pow, pH=7.4, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept,
+                   chemdata=chemdata)
   
     # Get the Pearce et al. (2017) lipid binding correction:       
     fup.adjustment <- calc_fup_correction(fup.point,
@@ -224,17 +231,17 @@ calc_kair <- function(
                                           species=species,
                                           default.to.human=default.to.human,
                                           force.human.fup=force.human.clint.fup,
-                                          suppress.messages=suppress.messages)
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata)
   
     # Apply the correction if requested:
     if (adjusted.Funbound.plasma)
     { 
-      fup.corrected <- apply_fup_adjustment(
-                         fup.point,
-                         fup.correction=fup.adjustment,
-                         suppress.messages=suppress.messages,
-                         minimum.Funbound.plasma=minimum.Funbound.plasma
-                         )
+      fup.corrected <- apply_fup_adjustment(fup.point,
+                                            fup.correction=fup.adjustment,
+                                            suppress.messages=suppress.messages,
+                                            minimum.Funbound.plasma=minimum.Funbound.plasma,
+                                            chemdata=chemdata)
     } else {
       fup.corrected <- fup.point
       fup.adjustment <- NA
@@ -243,13 +250,13 @@ calc_kair <- function(
     Funbound.plasma <- fup.corrected
 
 # Blood to plasma ratio:
-    Rblood2plasma <- available_rblood2plasma(
-            chem.name=chem.name,
-            chem.cas=chem.cas,
-            dtxsid=dtxsid,
-            species=species,
-            adjusted.Funbound.plasma=fup.corrected,
-            suppress.messages=TRUE)
+    Rblood2plasma <- available_rblood2plasma(chem.name=chem.name,
+                                             chem.cas=chem.cas,
+                                             dtxsid=dtxsid,
+                                             species=species,
+                                             adjusted.Funbound.plasma=fup.corrected,
+                                             suppress.messages=TRUE,
+                                             chemdata=chemdata)
   }  
 
   hl <- 10^logHenry #Henry's constant in atm*m^3 / mol 
@@ -257,7 +264,8 @@ calc_kair <- function(
 # For the most part only neutral compound partitions into the air:
   ionization <- calc_ionization(pH=pH,
                                 pKa_Donor=pKa_Donor,
-                                pKa_Accept=pKa_Accept)
+                                pKa_Accept=pKa_Accept,
+                                chemdata=chemdata)
   fraction_neutral  <- ionization[["fraction_neutral"]]
   fraction_charged <- ionization[["fraction_charged"]]
   

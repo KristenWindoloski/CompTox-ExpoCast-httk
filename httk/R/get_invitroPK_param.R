@@ -64,84 +64,70 @@ get_invitroPK_param <- function(
                     species,
                     chem.name=NULL,
                     chem.cas=NULL,
-                    dtxsid=NULL)
+                    dtxsid=NULL,
+                    chemdata=chem.physical_and_invitro.data)
 {
 
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
-
-# We need to describe the chemical to be simulated one way or another:
-  if (is.null(chem.cas) & 
-      is.null(chem.name) & 
-      is.null(dtxsid) ) 
+  # We need to describe the chemical to be simulated one way or another:
+  if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid) ) 
     stop('Chem.name, chem.cas, or dtxsid must be specified.')
 
-# Look up the chemical name/CAS, depending on what was provide:
+  # Look up the chemical name/CAS, depending on what was provide:
   if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
   }
 
-  if (length(dtxsid)!=0) chem.physical_and_invitro.data.index <- 
-    which(chem.physical_and_invitro.data$DTXSID == dtxsid)
-  else if (length(chem.cas)!=0) chem.physical_and_invitro.data.index <- 
-    which(chem.physical_and_invitro.data$CAS == chem.cas)
-  else chem.physical_and_invitro.data.index <- 
-    which(chem.physical_and_invitro.data$Compound == chem.name)
+  if (length(dtxsid)!=0) chemdata.index <- which(chemdata$DTXSID == dtxsid)
+  else if (length(chem.cas)!=0) 
+    chemdata.index <- which(chemdata$CAS == chem.cas)
+  else 
+    chemdata.index <- which(chemdata$Compound == chem.name)
 
   this.col.name <- tolower(paste(species,param,sep="."))
-#  if (!(this.col.name %in% tolower(colnames(chem.physical_and_invitro.data))))
-#  {
-#    warning(paste("No in vitro ",param," data for ",chem.name," in ",species,".",sep=""))
-#    for (alternate.species in c("Human","Rat","Mouse","Dog","Monkey","Rabbit"))
-#    {
-#      this.col.name <- tolower(paste(alternate.species,param,sep="."))
-#      if (this.col.name %in% tolower(colnames(chem.physical_and_invitro.data)))
-#      {
-#        warning(paste("Substituting ",alternate.species," in vitro ",
-#          param," data for ",chem.name," ",species,".",sep=""))
-#        break()
-#      }
-#    }
- # }
-  if (this.col.name %in% tolower(colnames(chem.physical_and_invitro.data)))
-  {
-    this.col.index <- which(tolower(colnames(chem.physical_and_invitro.data))==this.col.name)
-    param.val <- chem.physical_and_invitro.data[chem.physical_and_invitro.data.index,this.col.index]
 
-    if (is.na(param.val))
-    {
-# We allow NA's for certain parameters
+  if (this.col.name %in% tolower(colnames(chemdata))){
+    
+    this.col.index <- which(tolower(colnames(chemdata))==this.col.name)
+    param.val <- chemdata[chemdata.index,this.col.index]
+
+    if (is.na(param.val)){
+
+      # We allow NA's for certain parameters
       NA.invitro.params <- "Clint.pValue"
-      if (param %in% NA.invitro.params)
-      {
+      
+      if (param %in% NA.invitro.params){
         return(param.val)
-      } else stop(param,
-                  " does not currently exist for ",
-                  species,
-                  " in the `chem.physical_and_invitro.data`.")
-# Check to see if the parameter is a Clint value with four values separated by
-# commas (median, l95, u95, pvalue):
-    } else if(param=="Clint" & 
-              (nchar(param.val) - nchar(gsub(",","",param.val)))==3) {
+      } 
+      else 
+        stop(param," does not currently exist for ",species," in the chemdata parameter.")
+      
+      # Check to see if the parameter is a Clint value with four values separated by
+      # commas (median, l95, u95, pvalue):
+    } 
+    else if(param=="Clint" & (nchar(param.val) - nchar(gsub(",","",param.val)))==3) {
+      
       return(param.val)
-# Check to see if the parameter is a Caco2.Pab or Funbound.plasma with three
-# values separated by commas (median, l95, u95):
-    } else if (param %in% c("Caco2.Pab","Funbound.plasma") & 
-               (nchar(param.val) - nchar(gsub(",","",param.val)))==2) {
+
+      # Check to see if the parameter is a Caco2.Pab or Funbound.plasma with three
+      # values separated by commas (median, l95, u95):
+    } 
+    else if (param %in% c("Caco2.Pab","Funbound.plasma") & (nchar(param.val) - nchar(gsub(",","",param.val)))==2) {
+      
       return(param.val)
-# Otherwise attempt to coerce the value to a numeric:
-    } else if (!is.na(as.numeric(param.val))){
+
+      # Otherwise attempt to coerce the value to a numeric:
+    } 
+    else if (!is.na(as.numeric(param.val))){
       return(as.numeric(param.val))
     }
   }
   
-  stop(paste("Incomplete in vitro PK data for ",chem.name,
-    " in ",species," -- missing ",param,".",sep=""))
+  stop(paste("Incomplete in vitro PK data for ",chem.name," in ",species," -- missing ",param,".",sep=""))
 }
 

@@ -81,6 +81,7 @@ calc_analytic_css_1comp <- function(chem.name=NULL,
                                    restrictive.clearance=TRUE,
                                    bioactive.free.invivo = FALSE,
                                    Caco2.options = list(),
+                                   chemdata=chem.physical_and_invitro.data,
                                    ...)
 {
   if (!is.null(hourly.dose))
@@ -105,23 +106,22 @@ calc_analytic_css_1comp <- function(chem.name=NULL,
 # Look up the chemical name/CAS, depending on what was provide:
   if (is.null(parameters))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid  
 
     parameters <- do.call(what=parameterize_function, 
-                          args=purrr::compact(c(
-                            list(chem.cas=chem.cas,
-                                 chem.name=chem.name,
-                                 suppress.messages=suppress.messages,
-                                 Caco2.options = Caco2.options,
-                                 restrictive.clearance = restrictive.clearance
-                                 ),
-                            ...)))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     suppress.messages=suppress.messages,
+                                                     Caco2.options = Caco2.options,
+                                                     restrictive.clearance = restrictive.clearance,
+                                                     chemdata=chemdata),
+                                                ...)))
       
     if (recalc.blood2plasma) 
     {
@@ -167,13 +167,9 @@ calc_analytic_css_1comp <- function(chem.name=NULL,
     #as a "data.table" object. Screen for processing appropriately.
     if (any(class(parameters) == "data.table"))
     {
-      pcs <- predict_partitioning_schmitt(parameters =
-            parameters[, param.names.schmitt[param.names.schmitt %in% 
-                                             names(parameters)], with = F])
+      pcs <- predict_partitioning_schmitt(parameters = parameters[, param.names.schmitt[param.names.schmitt %in% names(parameters)], with = F])
     } else if (is(parameters,"list")) {
-      pcs <- predict_partitioning_schmitt(parameters =
-         parameters[param.names.schmitt[param.names.schmitt %in% 
-                                    names(parameters)]])
+      pcs <- predict_partitioning_schmitt(parameters = parameters[param.names.schmitt[param.names.schmitt %in% names(parameters)]])
     }else stop('httk is only configured to process parameters as objects of 
                class list or class compound data.table/data.frame.')
       

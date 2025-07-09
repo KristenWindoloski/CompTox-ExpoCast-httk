@@ -57,7 +57,8 @@ calc_hep_bioavailability <- function(
                          default.to.human=FALSE,
                          flow.34=TRUE,
                          suppress.messages=FALSE,
-                         species="Human")
+                         species="Human",
+                         chemdata=chem.physical_and_invitro.data)
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -90,20 +91,21 @@ calc_hep_bioavailability <- function(
 # function in parameterize_steadystate occurs after all parameters needed by
 # this function are defined (or we get stuck in a recursive loop).
     parameters <- do.call(parameterize_steadystate,
-                          args=purrr::compact(c(list(
-                            chem.cas=chem.cas,
-                            chem.name=chem.name,
-                            dtxsid=dtxsid,
-                            species=species,
-                            default.to.human=default.to.human,
-                            suppress.messages=suppress.messages))))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     dtxsid=dtxsid,
+                                                     species=species,
+                                                     default.to.human=default.to.human,
+                                                     suppress.messages=suppress.messages,
+                                                     chemdata=chemdata))))
   }
   
   if (!"Clmetabolismc" %in% names(parameters))
     parameters[["Clmetabolismc"]] <- calc_hep_clearance(parameters=parameters,
                                                         restrictive.clearance=restrictive.clearance,
                                                         hepatic.model='unscaled',
-                                                        suppress.messages=TRUE) #L/h/kg body weight
+                                                        suppress.messages=TRUE,
+                                                        chemdata=chemdata) #L/h/kg body weight
   
   if (!all(c("Qtotal.liverc","Funbound.plasma","Clmetabolismc","Rblood2plasma") 
     %in% names(parameters))) 

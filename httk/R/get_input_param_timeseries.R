@@ -97,7 +97,8 @@ get_input_param_timeseries <- function(model,
                                        days = 10, # days
                                        ref.params = NULL,
                                        bandwidth = 12,
-                                       get.median.param.vals = FALSE) 
+                                       get.median.param.vals = FALSE,
+                                       chemdata=chem.physical_and_invitro.data) 
   {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD
@@ -114,10 +115,10 @@ get_input_param_timeseries <- function(model,
     stop('chem.name, chem.cas, or dtxsid must be specified.')
   
   # Look up the chemical name/CAS, depending on what was provide:
-  out <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  out <- get_chem_id(chem.cas=chem.cas,
+                     chem.name=chem.name,
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid

@@ -314,6 +314,7 @@ solve_gas_pbtk <- function(chem.name = NULL,
                            VT = 0.75,
                            VD = 0.15,
                            Caco2.options = list(),
+                           chemdata=chem.physical_and_invitro.data,
                            ...)
 {
   
@@ -370,7 +371,7 @@ solve_gas_pbtk <- function(chem.name = NULL,
  
     #get associated logHenry value and compare against glycerol's value, obtained
     #from EPA dashboard
-    logHenry = chem.physical_and_invitro.data[chem.cas,'logHenry']
+    logHenry = chemdata[chem.cas,'logHenry']
     if (is.na(logHenry)) stop (
 "Henry's constant is not available for this compound")
     glycerol_logHenry = -7.80388

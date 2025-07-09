@@ -72,192 +72,180 @@ get_physchem_param <- function(
                         param, 
                         chem.name=NULL,
                         chem.cas=NULL,
-                        dtxsid=NULL)
+                        dtxsid=NULL,
+                        chemdata=chem.physical_and_invitro.data)
 {
-
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
   
   chem.cas0 <- chem.cas
   chem.name0 <- chem.name
   dtxsid0 <- dtxsid
   
 # We need to describe the chemical to be simulated one way or another:
-  if (is.null(chem.cas) & 
-      is.null(chem.name) & 
-      is.null(dtxsid) ) 
+  if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid) ) 
     stop('chem.name, chem.cas, or dtxsid must be specified.')
     
   # Look up the chemical name/CAS, depending on what was provided:
-  if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid)))
-  {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+  if (any(is.null(chem.cas),is.null(chem.name),is.null(dtxsid))){
+    
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
   }
   
-  if (!is.null(chem.cas0) & any(is.na(chem.name)))
-  {
-    stop(paste(
-      "CAS not matched in chem.physical_and_invitro.data for input CAS:", 
-      paste(chem.cas0[is.na(chem.name)], collapse = ",")))
+  if (!is.null(chem.cas0) & any(is.na(chem.name))){
+    stop(paste("CAS not matched in chemdata for input CAS:", 
+               paste(chem.cas0[is.na(chem.name)], collapse = ",")))
   }
-  if (!is.null(chem.name0) & any(is.na(chem.cas)))
-  {
-    stop(paste(
-      "Compound name not matched in chem.physical_and_invitro.data for input Compounds:", 
-      paste(chem.name0[is.na(chem.cas)], collapse = ",")))
+  if (!is.null(chem.name0) & any(is.na(chem.cas))){
+    stop(paste("Compound name not matched in chemdata for input Compounds:", 
+               paste(chem.name0[is.na(chem.cas)], collapse = ",")))
   }
-  if (!is.null(dtxsid0) & any(is.na(chem.cas)))
-  {
-    stop(paste(
-      "DTXSID not matched in chem.physical_and_invitro.data for input DTXSID:", 
-      paste(dtxsid0[is.na(chem.cas)], collapse = ",")))
+  if (!is.null(dtxsid0) & any(is.na(chem.cas))){
+    stop(paste("DTXSID not matched in chemdata for input DTXSID:", 
+               paste(dtxsid0[is.na(chem.cas)], collapse = ",")))
   }
   
-  if(!all(tolower(param) %in% 
-     tolower(c("MW",
-               "pKa_Donor",
-               "pKa_Accept",
-               'logMA',
-               "logP",
-               "logHenry",
-               "logWSol",
-               "MP",
-               "logPwa"))))
-  {
-    stop(paste("Parameter",
-      param,
-      "not among \"MW\", \"logP\", \"logPwa\", \"logMA\", \"logHenry\", \"logWSol\", \"MP\", \"pKa_Donor\", and \"pKa_Accept\".\n"))
+  if(!all(tolower(param) %in% tolower(c("MW",
+                                        "pKa_Donor",
+                                        "pKa_Accept",
+                                        'logMA',
+                                        "logP",
+                                        "logHenry",
+                                        "logWSol",
+                                        "MP",
+                                        "logPwa")))){
+    
+    stop(paste("Parameter",param,
+               "not among \"MW\", \"logP\", \"logPwa\", \"logMA\", \"logHenry\", \"logWSol\", \"MP\", \"pKa_Donor\", and \"pKa_Accept\".\n"))
   }
   
   # Match to identifier containing all chemicals -- CHANGED BY AMEADE 2/9/2023
   num.chems <- max(length(chem.cas0),length(chem.name0),length(dtxsid0),na.rm=TRUE)
-  if (length(dtxsid) == num.chems) this.index <- 
-    match(dtxsid, chem.physical_and_invitro.data[,"DTXSID"])
-  else if (length(chem.cas) == num.chems) this.index <- 
-    match(chem.cas, chem.physical_and_invitro.data[,"CAS"])
-  else if (length(chem.name) == num.chems) this.index <- 
-    match(chem.name, chem.physical_and_invitro.data[,"Compound"])
-  else stop("The chemical identifiers, dtxsid, chem.cas, or chem.name, were not all present in chem.physical_and_invitro.data.")
+  
+  if (length(dtxsid) == num.chems) 
+    this.index <- match(dtxsid, chemdata[,"DTXSID"])
+  else if (length(chem.cas) == num.chems) 
+    this.index <- match(chem.cas, chemdata[,"CAS"])
+  else if (length(chem.name) == num.chems) 
+    this.index <- match(chem.name, chemdata[,"Compound"])
+  else 
+    stop("The chemical identifiers, dtxsid, chem.cas, or chem.name, were not all present in chemdata.")
 
   # Make code case insensitive:
-  PARAM <- colnames(chem.physical_and_invitro.data)[tolower(colnames(chem.physical_and_invitro.data))%in%tolower(param)]
+  PARAM <- colnames(chemdata)[tolower(colnames(chemdata))%in%tolower(param)]
   param <- tolower(param)
   
   # We allow "pKa_Donor","pKa_Accept", and "logMA" to have the value "NA"
   # For the pKa's the value of "NA" means that the chemical doesn't ionize
   # For logMA we have a built-in predictor that can be used if logMA is NA
   if (!any(is.na(suppressWarnings(
-    chem.physical_and_invitro.data[this.index,
-                                  PARAM[!param %in% tolower(c(
-                                                      "pKa_Accept",
-                                                      "pKa_Donor",
-                                                      "logMA"))]]))) | 
-     any(param %in% tolower(c("pKa_Donor","pKa_Accept","logMA"))))
-  {
+    chemdata[this.index,PARAM[!param %in% tolower(c("pKa_Accept",
+                                                    "pKa_Donor",
+                                                    "logMA"))]]))) | 
+     any(param %in% tolower(c("pKa_Donor","pKa_Accept","logMA")))){
+    
     col.numbers <- NULL
-    for (this.param in param) col.numbers <- c(col.numbers,
-         which(tolower(colnames(chem.physical_and_invitro.data)) == this.param))
-    values <- chem.physical_and_invitro.data[this.index, col.numbers]
-# We want to make sure the values returned are numeric, unless they are pKa's
-# pKa's can be a comma separated list:
-    if (any(!param %in% tolower(c("pKa_Accept", "pKa_Donor"))))
-    {
+    
+    for (this.param in param) 
+      col.numbers <- c(col.numbers,which(tolower(colnames(chemdata)) == this.param))
+    
+    values <- chemdata[this.index, col.numbers]
+
+    # We want to make sure the values returned are numeric, unless they are pKa's
+    # pKa's can be a comma separated list:
+    if (any(!param %in% tolower(c("pKa_Accept", "pKa_Donor")))){
+      
       values.out <- lapply(as.list(values[!param %in% 
                                    tolower(c("pKa_Accept", "pKa_Donor"))]), 
                                    as.numeric)
-    } else {
+    } 
+    else {
       values.out <- list()
     }
-# Sometimes pKa's are stored as a semi-colon separated list, we replace the
-# semi-colons with commas:
-    if(any(param %in% tolower(c("pKa_Donor", "pKa_Accept"))))
-    {
+
+    # Sometimes pKa's are stored as a semi-colon separated list, we replace the
+
+    # semi-colons with commas:
+    if(any(param %in% tolower(c("pKa_Donor", "pKa_Accept")))){
       if(length(param) > 1)
       {
-# Sadly have to handle this differently if multiple chemical identifiers are 
-# given or multiple parameters are requested:
-        if(length(chem.cas) > 1)
-        {
-          if(tolower("pKa_Donor") %in% param)
-          {
+
+        # Sadly have to handle this differently if multiple chemical identifiers are 
+        # given or multiple parameters are requested:
+        if(length(chem.cas) > 1){
+          
+          if(tolower("pKa_Donor") %in% param){
             values.out[["pKa_Donor"]] <- gsub(";",",",values[,"pKa_Donor"])
           }
-          if(tolower("pKa_Accept") %in% param)
-          {
+          
+          if(tolower("pKa_Accept") %in% param){
             values.out[["pKa_Accept"]] <- gsub(";",",",values[,"pKa_Accept"])
           }
-        } else {
-          if(tolower("pKa_Donor") %in% param)
-          {
-            values.out[["pKa_Donor"]] <- 
-              unlist(gsub(";",",",values[,"pKa_Donor"]))
+        } 
+        else {
+          
+          if(tolower("pKa_Donor") %in% param){
+            values.out[["pKa_Donor"]] <- unlist(gsub(";",",",values[,"pKa_Donor"]))
           }
-          if("pKa_Accept" %in% tolower(param))
-          {
-            values.out[["pKa_Accept"]] <- 
-              unlist(gsub(";",",",values[,"pKa_Accept"]))
+          
+          if("pKa_Accept" %in% tolower(param)){
+            values.out[["pKa_Accept"]] <- unlist(gsub(";",",",values[,"pKa_Accept"]))
           }
         }
-      } else {
-        if(tolower("pKa_Donor") %in% param)
-        {
+      } 
+      else {
+        
+        if(tolower("pKa_Donor") %in% param){
           values.out[["pKa_Donor"]] <- gsub(";",",",values)
         }
-        if(tolower("pKa_Accept") %in% param)
-        {
+        
+        if(tolower("pKa_Accept") %in% param){
           values.out[["pKa_Accept"]] <- gsub(";",",",values)
         }
       }
     }
     
-    if (length(this.index) == 1 & length(param) == 1)
-    {
+    if (length(this.index) == 1 & length(param) == 1){
       return(unlist(values.out))
-    } else if (length(this.index) >= 1 & length(param) > 1)
-    {
+    } 
+    else if (length(this.index) >= 1 & length(param) > 1){
       return(values.out)
-    } else if (length(this.index) > 1 & length(param == 1))
-    {
-      if (param %in% tolower(c("pKa_Accept", "pKa_Donor")))
-      {
+    } 
+    else if (length(this.index) > 1 & length(param == 1)){
+      if (param %in% tolower(c("pKa_Accept", "pKa_Donor"))){
         return(values.out[[PARAM]])
-      } else {
+      } 
+      else {
         return(unlist(values.out))
       }
     }
-  } else {
+  } 
+  else {
     if(length(this.index) == 1 & length(param) == 1){
-      stop(paste0("Incomplete phys-chem data for ",
-                   chem.name,
-                   " -- missing ",
-                   param,"."))
-    }else{
-      missing.param <- which(is.na(chem.physical_and_invitro.data[
-        this.index,PARAM[!param %in% tolower(c("pKa_Accept", "pKa_Donor", "logMA"))]]), arr.ind = T)
+      stop(paste0("Incomplete phys-chem data for ",chem.name," -- missing ",param,"."))
+    }
+    else{
       
-      if(length(this.index) >= 1 & length(param) > 1)
-      {
+      missing.param <- which(is.na(chemdata[this.index,PARAM[!param %in% tolower(c("pKa_Accept", "pKa_Donor", "logMA"))]]), arr.ind = T)
+      
+      if(length(this.index) >= 1 & length(param) > 1){
         stop(paste0("Missing phys-chem data for combinations of: \n",
-          paste(lapply(unique(missing.param[,1]), 
-          function(x) paste0(chem.cas[x], ": ", 
-            paste(PARAM[!param %in% 
-              tolower(c("pKa_Accept", 
-                "pKa_Donor", 
-                "logMA"))][
-                  missing.param[missing.param[,1] %in% x,2]],
-               collapse = ", "))),
-            collapse = "\n")))
+                    paste(lapply(unique(missing.param[,1]), 
+                                 function(x) paste0(chem.cas[x], ": ", 
+                                                    paste(PARAM[!param %in% 
+                                                                tolower(c("pKa_Accept", "pKa_Donor", "logMA"))][
+                                                                  missing.param[missing.param[,1] %in% x,2]],
+                                                          collapse = ", "))),
+                          collapse = "\n")))
        
-      } else if (length(this.index) > 1 & length(param == 1))
-      {
+      } 
+      else if (length(this.index) > 1 & length(param == 1)){
         stop(paste0("Incomplete phys-chem data for ", param, " for: \n",
-                   paste(chem.cas[missing.param], collapse = ",")
-                   ))
+                    paste(chem.cas[missing.param], collapse = ",")))
       }
     }
   }

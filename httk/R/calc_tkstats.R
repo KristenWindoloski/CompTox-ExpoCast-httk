@@ -107,6 +107,7 @@ calc_tkstats <-function(
                tissue='plasma',
                model='pbtk',
                suppress.messages = FALSE,
+               chemdata=chem.physical_and_invitro.data,
                ...)
 {
 ### ERROR CHECKING
@@ -135,7 +136,8 @@ calc_tkstats <-function(
     mean.conc <- NULL
     out <- NULL
     for (this.CAS in sort(get_cheminfo(species=species,
-                      model=model)))
+                      model=model,
+                      chemdata=chemdata)))
     {
       cat(paste(this.CAS,"\n"))
 
@@ -153,6 +155,7 @@ calc_tkstats <-function(
                 tissue=tissue,
                 model=model,
                 suppress.messages=TRUE,
+                chemdata=chemdata,
                 ...)
 
       if (length(stat)==1)
@@ -207,6 +210,7 @@ calc_tkstats <-function(
                       dosing=dosing,
                       suppress.messages=TRUE,
                       output.units=output.units,
+                      chemdata=chemdata,
                       ...)
     
 # Skip any transients in first 5 minutes (for intravenous):
@@ -256,15 +260,15 @@ calc_tkstats <-function(
         
       parameters[['Rblood2plasma']] <- 
         do.call(available_rblood2plasma,
-                args=purrr::compact(
-                  list(
-                    chem.name=chem.name,
-                    chem.cas=chem.cas,
-                    dtxsid=dtxsid,
-                    species=species,
-                    suppress.messages=TRUE,
-                    adjusted.Funbound.plasma = adjusted.Funbound.plasma
-                    )))
+                args=purrr::compact(list(chem.name=chem.name,
+                                         chem.cas=chem.cas,
+                                         dtxsid=dtxsid,
+                                         species=species,
+                                         suppress.messages=TRUE,
+                                         adjusted.Funbound.plasma = adjusted.Funbound.plasma,
+                                         chemdata=chemdata)
+                                    )
+                )
     }
   
     # Blood or plasma concentration:
@@ -390,6 +394,7 @@ calc_stats <-function(
                regression=TRUE,
                restrictive.clearance = TRUE,
                suppress.messages=FALSE,
+               chemdata=chem.physical_and_invitro.data,
                ...)
 {
   warning("Function \"calc_stats\" has been renamed to \"calc_tkstats\".")
@@ -416,5 +421,6 @@ calc_stats <-function(
                  restrictive.clearance = restrictive.clearance
                ),
                suppress.messages=suppress.messages,
+               chemdata=chemdata,
                ...))
 }

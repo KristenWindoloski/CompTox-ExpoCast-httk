@@ -110,6 +110,7 @@ calc_analytic_css_pbtk <- function(chem.name=NULL,
                                    restrictive.clearance=TRUE,
                                    bioactive.free.invivo = FALSE,
                                    Caco2.options = list(),
+                                   chemdata=chem.physical_and_invitro.data,
                                    ...)
 {
   if (!is.null(hourly.dose))
@@ -134,23 +135,22 @@ calc_analytic_css_pbtk <- function(chem.name=NULL,
 # Look up the chemical name/CAS, depending on what was provide:
   if (is.null(parameters))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid  
 
     parameters <- do.call(what=parameterize_function, 
-                          args=purrr::compact(c(
-                            list(chem.cas=chem.cas,
-                                 chem.name=chem.name,
-                                 suppress.messages=suppress.messages,
-                                 Caco2.options = Caco2.options,
-                                 restrictive.clearance = restrictive.clearance
-                                 ),
-                            ...)))
+                          args=purrr::compact(c(list(chem.cas=chem.cas,
+                                                     chem.name=chem.name,
+                                                     suppress.messages=suppress.messages,
+                                                     Caco2.options = Caco2.options,
+                                                     restrictive.clearance = restrictive.clearance,
+                                                     chemdata=chemdata),
+                                                ...)))
                                     
     if (recalc.blood2plasma) 
     {
