@@ -46,7 +46,8 @@ apply_clint_adjustment <- function(Clint,
                          Pow = NULL, 
                          pKa_Donor=NULL, 
                          pKa_Accept=NULL,
-                         suppress.messages=FALSE)
+                         suppress.messages=FALSE,
+                         chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(Fu_hep))
   {
