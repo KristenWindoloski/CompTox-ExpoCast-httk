@@ -235,6 +235,7 @@ parameterize_pbtk <- function(
                        liver.density= 1.05, # g/mL International Commission on Radiological Protection (1975)
                        kgutabs = NA, # 1/h, Wambaugh et al. (2018)
                        Caco2.options = NULL,
+                       chemdata=chem.physical_and_invitro.data,
                        ...
                        )
 {

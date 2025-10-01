@@ -34,7 +34,8 @@
 #' @export parameterize_armitage
 
 parameterize_armitage <- function(tcdata = NA,                  #Data.table with casrn
-                                  casrn.vector = NA_character_  #CAS number
+                                  casrn.vector = NA_character_ , #CAS number
+                                  chemdata=chem.physical_and_invitro.data
 )
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for

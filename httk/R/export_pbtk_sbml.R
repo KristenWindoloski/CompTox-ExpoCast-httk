@@ -44,6 +44,7 @@ export_pbtk_sbml <- function(initial.amounts=list(Agutlumen=0),
                              filename="default.xml",
                              folder=tempdir(), 
                              digits = 4,
+                             chemdata=chem.physical_and_invitro.data,
                              ...)
 {
   Agutlumen <- Aart <- Aven <- Alung <- Agut <- Aliver <- Akidney <- Arest <- Atubules <- Ametabolized <- NULL

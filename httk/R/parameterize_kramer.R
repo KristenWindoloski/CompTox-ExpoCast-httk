@@ -58,7 +58,8 @@ parameterize_kramer <- function(tcdata = NA,                   #Data.table with 
                                 this.v_working = NA_real_,     #Volume of medium/well (uL)
                                 this.cell_yield = NA_real_,    #Number of cells/well seeded
                                 this.sarea = NA_real_,         #Surface area of plastic exposed to medium (m^2)
-                                this.prot_conc = 0.21          #Cell protein concentration (mg protein/million cells)
+                                this.prot_conc = 0.21,          #Cell protein concentration (mg protein/million cells)
+                                chemdata=chem.physical_and_invitro.data
 )
 
 

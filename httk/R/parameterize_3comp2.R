@@ -159,6 +159,7 @@ parameterize_3comp2 <- function(
                        restrictive.clearance = TRUE,
                        minimum.Funbound.plasma = 0.0001,
                        Caco2.options = NULL,
+                       chemdata=chem.physical_and_invitro.data,
                         ...)
 {
   # Make sure we have all the parameters we need for "3compartment2":

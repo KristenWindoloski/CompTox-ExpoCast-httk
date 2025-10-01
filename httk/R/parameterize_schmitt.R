@@ -113,7 +113,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
                           suppress.messages=FALSE,
                           class.exclude=TRUE,
                           minimum.Funbound.plasma=0.0001,
-                          pfas.calibration=TRUE
+                          pfas.calibration=TRUE,
+                          chemdata=chem.physical_and_invitro.data
                           )
 {
 #R CMD CHECK throws notes about "no visible binding for global variable", for

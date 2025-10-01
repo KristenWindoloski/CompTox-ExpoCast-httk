@@ -62,6 +62,7 @@ get_fbio <- function(
     overwrite.invivo = FALSE,
     keepit100 = FALSE,
     suppress.messages=FALSE,
+    chemdata=chem.physical_and_invitro.data,
     ...)
 {
   # We need to describe the chemical to be simulated one way or another:

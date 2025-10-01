@@ -75,7 +75,8 @@ monte_carlo <- function(
                  cv.params=NULL,
                  censored.params=NULL,
                  samples=1000,
-                 suppress.messages=TRUE)
+                 suppress.messages=TRUE,
+                 chemdata=chem.physical_and_invitro.data)
 {
 
 # Create a data table with the same parameters in every row:  

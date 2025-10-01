@@ -223,7 +223,8 @@ create_mc_samples <- function(chem.cas=NULL,
                         convert.httkpop.arg.list=NULL,
                         propagate.invitrouv.arg.list=NULL,
                         parameterize.args.list =NULL,
-                        Caco2.options=NULL)
+                        Caco2.options=NULL,
+                        chemdata=chem.physical_and_invitro.data)
 {
 
   ## Setting up binding for Global Variables ##

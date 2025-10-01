@@ -222,6 +222,7 @@ calc_analytic_css <- function(chem.name=NULL,
                               bioactive.free.invivo = FALSE,
                               IVIVE=NULL,
                               parameterize.args.list =list(),
+                              chemdata=chem.physical_and_invitro.data,
                               ...
                               )
 {  

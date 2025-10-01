@@ -89,6 +89,7 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
                                    route="oral",
                                    restrictive.clearance=TRUE,
                                    bioactive.free.invivo = FALSE,
+                                   chemdata=chem.physical_and_invitro.data,
                                    ...)
 {
   if (!is.null(hourly.dose))

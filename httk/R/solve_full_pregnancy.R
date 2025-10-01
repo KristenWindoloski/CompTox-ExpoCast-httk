@@ -102,7 +102,8 @@ solve_full_pregnancy <- function(
     class.exclude = TRUE, 
     physchem.exclude = TRUE,
     track.vars = NULL, 
-    plt = FALSE)
+    plt = FALSE,
+    chemdata=chem.physical_and_invitro.data)
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

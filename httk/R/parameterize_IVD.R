@@ -43,7 +43,8 @@
 
 parameterize_IVD <- function(tcdata = NA, # optionally supply columns logHenry, gswat, MP, MW, gkow, pKa_Donor,pKa_Accept, pH, and gkaw_n
                              casrn.vector = NA_character_, #CAS number
-                              this.pH = 7
+                              this.pH = 7,
+                             chemdata=chem.physical_and_invitro.data
                              )
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for

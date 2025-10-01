@@ -35,7 +35,8 @@ calc_krbc2pu <- function(Rb2p,
                          hematocrit=NULL,
                          default.to.human=FALSE,
                          species="Human",
-                         suppress.messages=TRUE)
+                         suppress.messages=TRUE,
+                         chemdata=chem.physical_and_invitro.data)
 {
   physiology.data <- physiology.data
 

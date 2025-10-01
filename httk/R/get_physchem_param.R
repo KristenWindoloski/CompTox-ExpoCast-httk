@@ -72,7 +72,8 @@ get_physchem_param <- function(
                         param, 
                         chem.name=NULL,
                         chem.cas=NULL,
-                        dtxsid=NULL)
+                        dtxsid=NULL,
+                        chemdata=chem.physical_and_invitro.data)
 {
 # Define list of acceptable paramters:
   GOOD.PARAMS <- c("MW",

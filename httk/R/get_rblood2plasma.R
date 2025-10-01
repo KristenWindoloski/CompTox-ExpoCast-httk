@@ -39,7 +39,8 @@ get_rblood2plasma <- function(
                        chem.cas=NULL,
                        dtxsid=NULL,
                        species='Human',
-                       default.to.human=FALSE)
+                       default.to.human=FALSE,
+                       chemdata=chem.physical_and_invitro.data)
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

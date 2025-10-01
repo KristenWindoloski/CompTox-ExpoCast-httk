@@ -211,6 +211,7 @@ solve_3comp2 <- function(chem.name = NULL,
                     minimum.Funbound.plasma=0.0001,
                     Caco2.options = list(),
                     monitor.vars=NULL,
+                    chemdata=chem.physical_and_invitro.data,
                     ...)
 {
   if (route %in% "inhalation")

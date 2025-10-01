@@ -172,6 +172,7 @@ parameterize_3comp <- function(
                        restrictive.clearance = TRUE,
                        minimum.Funbound.plasma = 0.0001,
                        Caco2.options = NULL,
+                       chemdata=chem.physical_and_invitro.data,
                        ...)
 {
   parms <- parameterize_pbtk(

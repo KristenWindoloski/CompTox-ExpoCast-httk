@@ -153,7 +153,8 @@ parameterize_pfas1comp <- function(
                         suppress.messages=FALSE,
                         Caco2.options = list(),
                         class.exclude=TRUE,
-                        physchem.exclude=TRUE
+                        physchem.exclude=TRUE,
+                        chemdata=chem.physical_and_invitro.data
                         )
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for

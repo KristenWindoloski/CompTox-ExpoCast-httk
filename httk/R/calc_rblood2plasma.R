@@ -80,7 +80,8 @@ calc_rblood2plasma <- function(
                         species="Human",
                         adjusted.Funbound.plasma=TRUE,
                         class.exclude=TRUE,
-                        suppress.messages=TRUE)
+                        suppress.messages=TRUE,
+                        chemdata=chem.physical_and_invitro.data)
 {
   physiology.data <- physiology.data
 

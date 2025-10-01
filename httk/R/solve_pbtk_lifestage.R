@@ -231,6 +231,7 @@ solve_pbtk_lifestage <- function(chem.name = NULL,
                       method = 'virtual individuals',
                       nsamp = 25000),
                     ref.params = NULL,
+                    chemdata=chem.physical_and_invitro.data,
                     ...)
 {
   

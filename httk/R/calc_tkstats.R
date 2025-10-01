@@ -107,6 +107,7 @@ calc_tkstats <-function(
                tissue='plasma',
                model='pbtk',
                suppress.messages = FALSE,
+               chemdata=chem.physical_and_invitro.data,
                ...)
 {
 ### ERROR CHECKING

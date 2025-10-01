@@ -37,7 +37,7 @@
 #' get_lit_cheminfo(info=c('CAS','MW'))
 #' 
 #' @export get_lit_cheminfo
-get_lit_cheminfo <- function(info="CAS",species="Human")
+get_lit_cheminfo <- function(info="CAS",species="Human",chemdata=chem.physical_and_invitro.data)
 {
   Wetmore.data <- Wetmore.data
   valid.info <- c(

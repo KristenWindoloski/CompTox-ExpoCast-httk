@@ -57,7 +57,8 @@ calc_hep_bioavailability <- function(
                          default.to.human=FALSE,
                          flow.34=TRUE,
                          suppress.messages=FALSE,
-                         species="Human")
+                         species="Human",
+                         chemdata=chem.physical_and_invitro.data)
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

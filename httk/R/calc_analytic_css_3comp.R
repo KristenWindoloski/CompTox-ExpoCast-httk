@@ -103,6 +103,7 @@ calc_analytic_css_3comp <- function(chem.name=NULL,
                                    restrictive.clearance=TRUE,
                                    bioactive.free.invivo = FALSE,
                                    Caco2.options = list(),
+                                   chemdata=chem.physical_and_invitro.data,
                                    ...)
 {
   if (!is.null(hourly.dose))

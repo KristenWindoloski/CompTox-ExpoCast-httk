@@ -96,7 +96,8 @@ convert_units <- function(input.units = NULL,
                           parameters = NULL,
                           temp = 25,
                           liquid.density = 1.0, # g/mL
-                          state="liquid")
+                          state="liquid",
+                          chemdata=chem.physical_and_invitro.data)
 {
 # The volume of an ideal gas at this temperature (L/mol)
   volidealgas <- (273.15 + temp)*0.08205

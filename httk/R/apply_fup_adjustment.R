@@ -44,7 +44,8 @@ apply_fup_adjustment <- function(fup,
                          pKa_Donor=NULL, 
                          pKa_Accept=NULL,
                          suppress.messages=FALSE,
-                         minimum.Funbound.plasma=0.0001)
+                         minimum.Funbound.plasma=0.0001,
+                         chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(fup.correction))
   {

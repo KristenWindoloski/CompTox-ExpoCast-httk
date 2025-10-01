@@ -13,6 +13,7 @@
 #' @keywords monte-carlo 3compartment
 propagate_invitrouv_3comp<- function(
                              parameters.dt,
+                             chemdata=chem.physical_and_invitro.data,
                              ...)
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for

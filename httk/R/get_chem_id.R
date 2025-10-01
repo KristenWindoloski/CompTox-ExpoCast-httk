@@ -22,7 +22,8 @@
 #' @export get_chem_id
 get_chem_id <- function(chem.cas=NULL,
                         chem.name=NULL,
-                        dtxsid=NULL)
+                        dtxsid=NULL,
+                        chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid))
   {

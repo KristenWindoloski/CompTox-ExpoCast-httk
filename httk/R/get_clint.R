@@ -58,7 +58,8 @@ get_clint <- function(chem.cas=NULL,
                     default.to.human=FALSE,
                     force.human.clint=FALSE,
                     suppress.messages=FALSE,
-                    clint.pvalue.threshold=0.05)
+                    clint.pvalue.threshold=0.05,
+                    chemdata=chem.physical_and_invitro.data)
 {
  # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

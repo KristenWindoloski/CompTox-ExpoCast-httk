@@ -161,7 +161,8 @@ parameterize_sumclearancespfas <- function(
                               fup.lod.default=0.005,
                               suppress.messages=FALSE,
                               minimum.Funbound.plasma=0.0001,
-                              Caco2.options=NULL)
+                              Caco2.options=NULL,
+                              chemdata=chem.physical_and_invitro.data)
 {
 #R CMD CHECK throws notes about "no visible binding for global variable", for
 #each time a data.table column name is used without quotes. To appease R CMD

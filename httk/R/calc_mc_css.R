@@ -476,7 +476,8 @@ calc_mc_css <- function(chem.cas = NULL,
                         convert.httkpop.arg.list = NULL,
                         parameterize.args.list = NULL,
                         calc.analytic.css.arg.list = NULL,
-                        Caco2.options=NULL
+                        Caco2.options=NULL,
+                        chemdata=chem.physical_and_invitro.data
                         ) 
 {
 # We need to describe the chemical to be simulated one way or another:

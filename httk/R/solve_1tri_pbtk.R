@@ -191,6 +191,7 @@ solve_1tri_pbtk <- function(chem.name = NULL,
                              Caco2.options = list(),
                              atol = 1e-8,
                              rtol = 1e-8,
+                            chemdata=chem.physical_and_invitro.data,
                              ...)
 {
   #Screen any 'times' input

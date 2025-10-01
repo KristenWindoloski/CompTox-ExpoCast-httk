@@ -64,7 +64,8 @@ calc_hep_fu <- function(
                  dtxsid = NULL,
                  parameters=NULL,
                  Vr=0.005,
-                 pH=7.4) 
+                 pH=7.4,
+                 chemdata=chem.physical_and_invitro.data) 
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

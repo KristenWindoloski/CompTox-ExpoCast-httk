@@ -62,7 +62,8 @@ available_rblood2plasma <- function(chem.cas=NULL,
                                     species='Human',
                                     adjusted.Funbound.plasma=TRUE,
                                     class.exclude=TRUE,
-                                    suppress.messages=FALSE)
+                                    suppress.messages=FALSE,
+                                    chemdata=chem.physical_and_invitro.data)
 
 {
   chem.physical_and_invitro.data <- chem.physical_and_invitro.data

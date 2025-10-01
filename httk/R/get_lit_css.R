@@ -49,7 +49,8 @@ get_lit_css <- function(
                         species="Human",
                         clearance.assay.conc=NULL,
                         output.units="mg/L",
-                        suppress.messages=FALSE)
+                        suppress.messages=FALSE,
+                        chemdata=chem.physical_and_invitro.data)
 {
   Wetmore.data <- Wetmore.data
   if (species == "Human") available.quantiles <- c(0.05,0.5, 0.95)

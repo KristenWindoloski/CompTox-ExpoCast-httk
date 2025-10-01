@@ -74,6 +74,7 @@ convert_solve_x <- function(model.output.mat,
                             monitor.vars = NULL,
                             suppress.messages=FALSE,
                             verbose = FALSE,
+                            chemdata=chem.physical_and_invitro.data,
                             ...){
   # default compartment units; includes case 1, i.e. output.units is NULL
   compartment_units <- model.list[[model]]$compartment.units

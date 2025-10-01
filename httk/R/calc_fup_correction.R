@@ -108,7 +108,8 @@ calc_fup_correction <- function(
                  species="Human",
                  default.to.human=FALSE,
                  force.human.fup=FALSE,
-                 suppress.messages=FALSE
+                 suppress.messages=FALSE,
+                 chemdata=chem.physical_and_invitro.data,
                  ) 
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for

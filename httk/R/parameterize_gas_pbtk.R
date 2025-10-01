@@ -236,6 +236,7 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
                               class.exclude=TRUE,
                               physchem.exclude = TRUE,
                               restrictive.clearance = FALSE,
+                              chemdata=chem.physical_and_invitro.data,
                               ...)
 {
   physiology.data <- physiology.data

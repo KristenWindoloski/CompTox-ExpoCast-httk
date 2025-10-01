@@ -97,7 +97,8 @@ get_input_param_timeseries <- function(model,
                                        days = 10, # days
                                        ref.params = NULL,
                                        bandwidth = 12,
-                                       get.median.param.vals = FALSE) 
+                                       get.median.param.vals = FALSE,
+                                       chemdata=chem.physical_and_invitro.data) 
   {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

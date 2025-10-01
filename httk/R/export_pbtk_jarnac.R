@@ -42,6 +42,7 @@ export_pbtk_jarnac <- function(initial.amounts=list(Agutlumen=0),
                                folder=tempdir(),
                                filename="default.jan", 
                                digits = 4,
+                               chemdata=chem.physical_and_invitro.data,
                                ...)
 {
   Agutlumen <- Aart <- Aven <- Alung <- Agut <- Aliver <- Akidney <- Arest <- NULL

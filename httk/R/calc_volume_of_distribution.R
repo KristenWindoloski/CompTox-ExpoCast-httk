@@ -96,6 +96,7 @@ calc_vdist<- function(chem.cas=NULL,
                       adjusted.Funbound.plasma = TRUE,
                       species="Human",
                       default.to.human = FALSE,
+                      chemdata=chem.physical_and_invitro.data,
                       ...
                       )
 {

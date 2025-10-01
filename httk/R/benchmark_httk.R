@@ -141,7 +141,8 @@ benchmark_httk <- function(
                            in_vivo_stats.check=TRUE,
                            tissuepc.check=TRUE,
                            suppress.messages=TRUE,
-                           make.plots=TRUE)
+                           make.plots=TRUE,
+                           chemdata=chem.physical_and_invitro.data)
 {
   ## Setting up binding for Global Variables ##
   Compound <- Source <- Reference <- fu <- Exp_PC <- Tissue <- Species <- 

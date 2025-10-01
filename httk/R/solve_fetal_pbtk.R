@@ -217,6 +217,7 @@ solve_fetal_pbtk <- function(chem.name = NULL,
                              Caco2.options = list(),
                              atol=1e-6,
                              rtol=1e-6,
+                             chemdata=chem.physical_and_invitro.data,
                              ...)
 {
   #Screen any 'times' input

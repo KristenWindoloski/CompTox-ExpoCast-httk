@@ -50,6 +50,7 @@
 httkpop_mc <- function(model,
                        samples=1000,
                        httkpop.dt=NULL,
+                       chemdata=chem.physical_and_invitro.data,
                        ...)
 {
   if (is.null(model)) stop("Model must be specified.")

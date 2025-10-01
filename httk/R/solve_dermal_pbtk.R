@@ -262,6 +262,7 @@ solve_dermal_pbtk <- function(chem.name = NULL, #solve_model
                     dosing.matrix = NULL, #DERMAL - DOSING
                     washoff = FALSE,
                     InfiniteDose = FALSE,
+                    chemdata=chem.physical_and_invitro.data,
                     ...)
 {
 

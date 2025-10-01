@@ -106,6 +106,7 @@ calc_fbio.oral <- function(parameters = NULL,
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
+  chemdata=chem.physical_and_invitro.data,
   ...
   )
 {

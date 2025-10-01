@@ -46,7 +46,8 @@ scale_dosing <- function(
   output.units="uM",
   vol = NULL, # add volume conversion update for amount to conc (or vice versa),
   # then update solve_model
-  state = "liquid")
+  state = "liquid",
+  chemdata=chem.physical_and_invitro.data)
              
 {
   if (!all(c("BW","MW","Fabsgut")%in%names(parameters))) 

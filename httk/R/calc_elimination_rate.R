@@ -72,6 +72,7 @@ calc_elimination_rate <- function(chem.cas=NULL,
                                   species="Human",
                                   model="3compartmentss",
                                   suppress.messages=TRUE,
+                                  chemdata=chem.physical_and_invitro.data,
                                   ...
                                   )
 {

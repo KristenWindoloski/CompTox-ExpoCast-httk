@@ -33,7 +33,8 @@ get_caco2 <- function(
     chem.name=NULL,
     dtxsid = NULL,
     Caco2.Pab.default = 1.6,
-    suppress.messages=FALSE)
+    suppress.messages=FALSE,
+    chemdata=chem.physical_and_invitro.data)
 {
   # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

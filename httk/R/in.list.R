@@ -95,7 +95,8 @@
 #' @export is.nhanes
 #' @export is.pharma
 in.list <- function(chem.cas=NULL,
-                    which.list="ToxCast")
+                    which.list="ToxCast",
+                    chemdata=chem.physical_and_invitro.data)
 {
   chem.lists <- chem.lists
   if (!(tolower(which.list) %in% tolower(names(chem.lists))))

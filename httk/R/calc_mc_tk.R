@@ -208,7 +208,8 @@ calc_mc_tk<- function(chem.cas=NULL,
                         convert.httkpop.arg.list=NULL,
                         parameterize.args.list =NULL,
                       propagate.invitrouv.arg.list = NULL,
-                        return.all.sims=FALSE)
+                        return.all.sims=FALSE,
+                      chemdata=chem.physical_and_invitro.data)
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

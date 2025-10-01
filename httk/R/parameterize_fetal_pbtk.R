@@ -149,6 +149,7 @@ parameterize_fetal_pbtk<- function(
   fetal_fup_adjustment=TRUE,
   return.kapraun2019=TRUE,
   suppress.messages=FALSE,
+  chemdata=chem.physical_and_invitro.data,
   ...)
 {
   #initialize a parms list for fetal model parameters to output

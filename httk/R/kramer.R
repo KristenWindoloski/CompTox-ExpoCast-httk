@@ -123,7 +123,8 @@ kramer_eval <- function(chem.cas=NULL,
                         this.prot_conc = 0.21,         #Cell protein concentration (mg protein/million cells)
                         this.option.bottom = TRUE,     #Include the bottom of the well in surface area calculation
                         restrict.ion.partitioning = FALSE, #only allow the neutral fraction to partition
-                        surface.area.switch = TRUE      #Calculate surface area of the well (assumes yes)
+                        surface.area.switch = TRUE,      #Calculate surface area of the well (assumes yes)
+                        chemdata=chem.physical_and_invitro.data
 )
 
 

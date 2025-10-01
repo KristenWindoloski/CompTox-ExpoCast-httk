@@ -103,7 +103,8 @@ lump_tissues <- function(Ktissue2pu.in,
                          tissue.flows=NULL,
                          tissuenames=NULL,
                          model="pbtk",
-                         suppress.messages=FALSE)
+                         suppress.messages=FALSE,
+                         chemdata=chem.physical_and_invitro.data)
 {
 #R CMD CHECK throws notes about "no visible binding for global variable", for
 #each time a data.table column name is used without quotes. To appease R CMD

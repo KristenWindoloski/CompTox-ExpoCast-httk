@@ -180,6 +180,7 @@ parameterize_steadystate <- function(
                               suppress.messages=FALSE,
                               minimum.Funbound.plasma=0.0001,
                               Caco2.options=NULL,
+                              chemdata=chem.physical_and_invitro.data,
                               ...)
 {
 #R CMD CHECK throws notes about "no visible binding for global variable", for

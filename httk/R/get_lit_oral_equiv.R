@@ -60,6 +60,7 @@ get_lit_oral_equiv <- function(
                                input.units='uM',
                                output.units='mg',
                                clearance.assay.conc=NULL,
+                               chemdata=chem.physical_and_invitro.data,
                                ...)
 {
   Wetmore.data <- Wetmore.data

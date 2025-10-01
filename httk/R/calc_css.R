@@ -130,6 +130,7 @@ calc_css <- function(chem.name=NULL,
                     f.change = 0.00001,
                     dosing=NULL,
                     parameterize.args.list = list(),
+                    chemdata=chem.physical_and_invitro.data,
                     ...)
 {
   # We need to describe the chemical to be simulated one way or another:

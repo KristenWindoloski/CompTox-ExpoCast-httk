@@ -60,7 +60,8 @@ gen_age_height_weight <- function(nsamp=NULL,
                                   weight_category,
                                   agelim_years,
                                   agelim_months,
-                                  nhanes_mec_svy){
+                                  nhanes_mec_svy,
+                                  chemdata=chem.physical_and_invitro.data){
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for 
   #each time a data.table column name is used without quotes. To appease R CMD 

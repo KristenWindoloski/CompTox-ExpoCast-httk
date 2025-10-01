@@ -63,7 +63,8 @@ calc_dow <- function(Pow=NULL,
                      pKa_Donor=NULL,
                      pKa_Accept=NULL,
                      fraction_charged=NULL,
-                     alpha=0.001) 
+                     alpha=0.001,
+                     chemdata=chem.physical_and_invitro.data) 
 {
 # Check to see if Pow was provided:
   if (is.null(Pow))
@@ -302,7 +303,8 @@ calc_ionization <- function(
                      pH=NULL,
                      pKa_Donor=NULL,
                      pKa_Accept=NULL,
-                     return_charge_matrix = FALSE)
+                     return_charge_matrix = FALSE,
+                     chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(pH)) stop("pH is required to calculate the ionization.")
 
@@ -581,7 +583,11 @@ calc_ionization <- function(
   return(out)
 }
 
-is_acid <- function(pH=7,pKa_Donor=NA,pKa_Accept=NA,fraction_negative=NULL)
+is_acid <- function(pH=7,
+                    pKa_Donor=NA,
+                    pKa_Accept=NA,
+                    fraction_negative=NULL,
+                    chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(fraction_negative))
   {
@@ -592,7 +598,11 @@ is_acid <- function(pH=7,pKa_Donor=NA,pKa_Accept=NA,fraction_negative=NULL)
   else return(FALSE)
 }
 
-is_base <- function(pH=7,pKa_Donor=NA,pKa_Accept=NA,fraction_positive=NULL)
+is_base <- function(pH=7,
+                    pKa_Donor=NA,
+                    pKa_Accept=NA,
+                    fraction_positive=NULL,
+                    chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(fraction_positive))
   {
@@ -603,7 +613,11 @@ is_base <- function(pH=7,pKa_Donor=NA,pKa_Accept=NA,fraction_positive=NULL)
   else return(FALSE)
 }
 
-is_neutral <- function(pH=7,pKa_Donor=NA,pKa_Accept=NA,fraction_postive=NULL)
+is_neutral <- function(pH=7,
+                       pKa_Donor=NA,
+                       pKa_Accept=NA,
+                       fraction_postive=NULL,
+                       chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(fraction_neutral))
   {

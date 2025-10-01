@@ -281,6 +281,7 @@ solve_pbtk <- function(chem.name = NULL,
                     minimum.Funbound.plasma=0.0001,
                     Caco2.options = list(),
                     monitor.vars=NULL,
+                    chemdata=chem.physical_and_invitro.data,
                     ...)
 {
   out <- solve_model(

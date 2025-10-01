@@ -50,7 +50,8 @@ get_fup <- function(chem.cas=NULL,
                     default.to.human=FALSE,
                     force.human.fup=FALSE,
                     suppress.messages=FALSE,
-                    minimum.Funbound.plasma=0.0001)
+                    minimum.Funbound.plasma=0.0001,
+                    chemdata=chem.physical_and_invitro.data)
 {
  # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

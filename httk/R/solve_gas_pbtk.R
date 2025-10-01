@@ -314,6 +314,7 @@ solve_gas_pbtk <- function(chem.name = NULL,
                            VT = 0.75,
                            VD = 0.15,
                            Caco2.options = list(),
+                           chemdata=chem.physical_and_invitro.data,
                            ...)
 {
   

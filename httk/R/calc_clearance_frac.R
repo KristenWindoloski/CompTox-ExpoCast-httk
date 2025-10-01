@@ -92,7 +92,8 @@ calc_clearance_frac <- function(
                                 model="3compartmentss",
                                 restrictive.clearance = TRUE,
                                 parameterize.args = list(),
-                                analytic_css.args = list()
+                                analytic_css.args = list(),
+                                chemdata=chem.physical_and_invitro.data,
                                 )
 {
   if (is.null(model)) stop("Model must be specified.")

@@ -99,7 +99,8 @@ calc_kair <- function(
                  default.to.human = FALSE,
                  suppress.messages = FALSE,
                  pH = 7.4,
-                 alpha = 0.001) 
+                 alpha = 0.001,
+                 chemdata=chem.physical_and_invitro.data) 
 {
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

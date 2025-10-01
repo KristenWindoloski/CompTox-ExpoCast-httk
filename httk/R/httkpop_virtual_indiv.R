@@ -65,7 +65,8 @@ httkpop_virtual_indiv<- function(nsamp=NULL,
                                          'Other'),
                                  gfr_resid_var = TRUE,
                                  ckd_epi_race_coeff = FALSE,
-                                 nhanes_mec_svy) {
+                                 nhanes_mec_svy,
+                                 chemdata=chem.physical_and_invitro.data) {
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

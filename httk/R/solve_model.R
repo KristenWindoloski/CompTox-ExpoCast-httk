@@ -237,6 +237,7 @@ solve_model <- function(chem.name = NULL,
                     parameterize.args.list =list(),
                     small.time = 1e-4, 
                     forcings = NULL,
+                    chemdata=chem.physical_and_invitro.data,
                     ...)
 {
 #R CMD CHECK throws notes about "no visible binding for global variable", for

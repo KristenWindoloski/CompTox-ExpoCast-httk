@@ -52,6 +52,7 @@ calc_dermal_equiv <- function(conc,
                               skin.pH=7,
                               Vmedia=0.001,
                               Fskinexposed=0.1,
+                              chemdata=chem.physical_and_invitro.data,
                               ...)
 {
   if(is.null(parameters)){

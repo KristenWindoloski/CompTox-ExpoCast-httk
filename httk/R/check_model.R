@@ -53,7 +53,8 @@ check_model <- function(chem.name=NULL,
                         species=NULL,
                         class.exclude=TRUE,
                         physchem.exclude=TRUE,
-                        default.to.human=FALSE)
+                        default.to.human=FALSE,
+                        chemdata=chem.physical_and_invitro.data)
 {
   out <- get_chem_id(dtxsid=dtxsid,
                     chem.cas=chem.cas,

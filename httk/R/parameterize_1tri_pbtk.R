@@ -117,6 +117,7 @@ parameterize_1tri_pbtk<- function(
   species="Human",
   return.kapraun2019=TRUE, # this is mostly a subset of httk::kapraun2019 
   suppress.messages=FALSE, 
+  chemdata=chem.physical_and_invitro.data,
   ...)
 {
   #initialize a parms list for 1tri model parameters to output

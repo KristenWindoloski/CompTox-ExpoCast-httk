@@ -107,7 +107,8 @@ get_2023pfasinfo <- function(info="CAS",
                          median.only=FALSE,
                          fup.ci.cutoff=FALSE,
                          clint.pvalue.threshold=0.05,
-                         suppress.messages=FALSE)
+                         suppress.messages=FALSE,
+                         chemdata=chem.physical_and_invitro.data)
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

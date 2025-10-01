@@ -176,6 +176,7 @@ parameterize_1comp <- function(
                         class.exclude=TRUE,
                         physchem.exclude = TRUE,
                         Caco2.options = list(),
+                        chemdata=chem.physical_and_invitro.data,
                         ...
                         )
 {

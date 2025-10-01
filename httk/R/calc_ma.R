@@ -49,7 +49,8 @@ calc_ma <- function(
                  dtxsid = NULL,
                  parameters=NULL,
                  suppress.messages=FALSE,
-                 pfas.calibration=TRUE
+                 pfas.calibration=TRUE,
+                 chemdata=chem.physical_and_invitro.data
                  ) 
 {
 # We need to describe the chemical to be simulated one way or another:
