@@ -50,8 +50,6 @@ get_rblood2plasma <- function(
   CAS <- NULL
   #End R CMD CHECK appeasement.
   
-  
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
 
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
@@ -70,14 +68,12 @@ get_rblood2plasma <- function(
 
   species.Rblood2plasma <- paste0(toupper(substr(species,1,1)),
                              substr(species,2,nchar(species)),'.Rblood2plasma')
-  if (!species.Rblood2plasma %in% colnames(chem.physical_and_invitro.data)) 
+  if (!species.Rblood2plasma %in% colnames(chemdata)) 
     Rblood2plasma <- NA
-  else Rblood2plasma <- subset(chem.physical_and_invitro.data,CAS == chem.cas)[,
-    species.Rblood2plasma]
+  else Rblood2plasma <- subset(chemdata,CAS == chem.cas)[,species.Rblood2plasma]
   if (default.to.human & is.na(Rblood2plasma) & tolower(species) != 'human')
   {
-    Rblood2plasma <- subset(chem.physical_and_invitro.data,CAS == chem.cas)[,
-                       'Human.Rblood2plasma']
+    Rblood2plasma <- subset(chemdata,CAS == chem.cas)[,'Human.Rblood2plasma']
     if (!is.na(Rblood2plasma)) 
       warning('Human in vivo Rblood2plasma substituted for missing value.')
   }

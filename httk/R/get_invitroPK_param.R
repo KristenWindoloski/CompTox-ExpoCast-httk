@@ -68,8 +68,6 @@ get_invitroPK_param <- function(
                     chemdata=chem.physical_and_invitro.data)
 {
 
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
-
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 
       is.null(chem.name) & 
@@ -88,12 +86,9 @@ get_invitroPK_param <- function(
     dtxsid <- out$dtxsid
   }
 
-  if (length(dtxsid)!=0) chem.physical_and_invitro.data.index <- 
-    which(chem.physical_and_invitro.data$DTXSID == dtxsid)
-  else if (length(chem.cas)!=0) chem.physical_and_invitro.data.index <- 
-    which(chem.physical_and_invitro.data$CAS == chem.cas)
-  else chem.physical_and_invitro.data.index <- 
-    which(chem.physical_and_invitro.data$Compound == chem.name)
+  if (length(dtxsid)!=0) chem.physical_and_invitro.data.index <- which(chemdata$DTXSID == dtxsid)
+  else if (length(chem.cas)!=0) chem.physical_and_invitro.data.index <- which(chemdata$CAS == chem.cas)
+  else chem.physical_and_invitro.data.index <- which(chemdata$Compound == chem.name)
 
   this.col.name <- tolower(paste(species,param,sep="."))
 #  if (!(this.col.name %in% tolower(colnames(chem.physical_and_invitro.data))))
@@ -110,10 +105,10 @@ get_invitroPK_param <- function(
 #      }
 #    }
  # }
-  if (this.col.name %in% tolower(colnames(chem.physical_and_invitro.data)))
+  if (this.col.name %in% tolower(colnames(chemdata)))
   {
-    this.col.index <- which(tolower(colnames(chem.physical_and_invitro.data))==this.col.name)
-    param.val <- chem.physical_and_invitro.data[chem.physical_and_invitro.data.index,this.col.index]
+    this.col.index <- which(tolower(colnames(chemdata))==this.col.name)
+    param.val <- chemdata[chem.physical_and_invitro.data.index,this.col.index]
 
     if (is.na(param.val))
     {
@@ -125,7 +120,7 @@ get_invitroPK_param <- function(
       } else stop(param,
                   " does not currently exist for ",
                   species,
-                  " in the `chem.physical_and_invitro.data`.")
+                  " in the `chemdata`.")
 # Check to see if the parameter is a Clint value with four values separated by
 # commas (median, l95, u95, pvalue):
     } else if(param=="Clint" & 

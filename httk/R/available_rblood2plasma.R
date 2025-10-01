@@ -66,8 +66,6 @@ available_rblood2plasma <- function(chem.cas=NULL,
                                     chemdata=chem.physical_and_invitro.data)
 
 {
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
-
   if (!is.null(chem.cas) | !is.null(chem.name) | !is.null(dtxsid))
   {
     Rblood2plasma <- get_rblood2plasma(
@@ -93,10 +91,8 @@ available_rblood2plasma <- function(chem.cas=NULL,
     {
       if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid))
       {
-        Rblood2plasma.data <- 
-          chem.physical_and_invitro.data[,'Human.Rblood2plasma']
-        Rblood2plasma <- 
-          mean(Rblood2plasma.data[which(!is.na(Rblood2plasma.data))])
+        Rblood2plasma.data <- chemdata[,'Human.Rblood2plasma']
+        Rblood2plasma <- mean(Rblood2plasma.data[which(!is.na(Rblood2plasma.data))])
         if (!suppress.messages) 
           warning(paste('Average in vivo Human Rblood2plasma (',
                       signif(Rblood2plasma,3),
@@ -139,7 +135,7 @@ available_rblood2plasma <- function(chem.cas=NULL,
               substr(species, 2, nchar(species)),
               ' Rblood2plasma calculated with Human Funbound.plasma.',sep=""))
         } else {
-          Rblood2plasma.data <- chem.physical_and_invitro.data[,'Human.Rblood2plasma']
+          Rblood2plasma.data <- chemdata[,'Human.Rblood2plasma']
           Rblood2plasma <- mean(Rblood2plasma.data, na.rm=TRUE)
           if (is.nan(Rblood2plasma)) Rblood2plasma <- 1
           if (!suppress.messages) 
@@ -150,7 +146,7 @@ available_rblood2plasma <- function(chem.cas=NULL,
       }
     }
   } else {
-    Rblood2plasma.data <- chem.physical_and_invitro.data[,'Human.Rblood2plasma']
+    Rblood2plasma.data <- chemdata[,'Human.Rblood2plasma']
     Rblood2plasma <- mean(Rblood2plasma.data[which(!is.na(Rblood2plasma.data))])
     if (!suppress.messages) 
       warning(paste('Average in vivo Human Rblood2plasma (',

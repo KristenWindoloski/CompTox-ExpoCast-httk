@@ -123,7 +123,7 @@ check_model <- function(chem.name=NULL,
   
   if (!(chem.present)) 
   {
-    this.index <- which(dtxsid == chem.physical_and_invitro.data[,"DTXSID"])
+    this.index <- which(dtxsid == chemdata[,"DTXSID"])
     
     if (any(this.index))
     {

@@ -96,8 +96,6 @@ get_physchem_param <- function(
                    "pKa_Accept",
                    "Chemical.Class") 
 
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
-  
   chem.cas0 <- chem.cas
   chem.name0 <- chem.name
   dtxsid0 <- dtxsid
@@ -123,19 +121,19 @@ get_physchem_param <- function(
   if (!is.null(chem.cas0) & any(is.na(chem.name)))
   {
     stop(paste(
-      "CAS not matched in chem.physical_and_invitro.data for input CAS:", 
+      "CAS not matched in chemdata for input CAS:", 
       paste(chem.cas0[is.na(chem.name)], collapse = ",")))
   }
   if (!is.null(chem.name0) & any(is.na(chem.cas)))
   {
     stop(paste(
-      "Compound name not matched in chem.physical_and_invitro.data for input Compounds:", 
+      "Compound name not matched in chemdata for input Compounds:", 
       paste(chem.name0[is.na(chem.cas)], collapse = ",")))
   }
   if (!is.null(dtxsid0) & any(is.na(chem.cas)))
   {
     stop(paste(
-      "DTXSID not matched in chem.physical_and_invitro.data for input DTXSID:", 
+      "DTXSID not matched in chemdata for input DTXSID:", 
       paste(dtxsid0[is.na(chem.cas)], collapse = ",")))
   }
   
@@ -154,34 +152,27 @@ get_physchem_param <- function(
                    length(chem.name0), 
                    length(dtxsid0),
                    na.rm=TRUE)
-  if (length(dtxsid) == num.chems) this.index <- 
-    match(dtxsid, chem.physical_and_invitro.data[,"DTXSID"])
-  else if (length(chem.cas) == num.chems) this.index <- 
-    match(chem.cas, chem.physical_and_invitro.data[,"CAS"])
-  else if (length(chem.name) == num.chems) this.index <- 
-    match(chem.name, chem.physical_and_invitro.data[,"Compound"])
-  else stop("The chemical identifiers, dtxsid, chem.cas, or chem.name, were not all present in chem.physical_and_invitro.data.")
+  if (length(dtxsid) == num.chems) this.index <- match(dtxsid, chemdata[,"DTXSID"])
+  else if (length(chem.cas) == num.chems) this.index <- match(chem.cas, chemdata[,"CAS"])
+  else if (length(chem.name) == num.chems) this.index <- match(chem.name, chemdata[,"Compound"])
+  else stop("The chemical identifiers, dtxsid, chem.cas, or chem.name, were not all present in chemdata.")
 
   # Make code case insensitive:
-  PARAM <- colnames(chem.physical_and_invitro.data)[
-                    tolower(colnames(chem.physical_and_invitro.data))
-                    %in%
-                    tolower(param)]
+  PARAM <- colnames(chemdata)[tolower(colnames(chemdata)) %in% tolower(param)]
   param <- tolower(param)
   
   # We allow "pKa_Donor","pKa_Accept", and "logMA" to have the value "NA"
   # For the pKa's the value of "NA" means that the chemical doesn't ionize
   # For logMA we have a built-in predictor that can be used if logMA is NA
-  if (!any(is.na(suppressWarnings(
-    chem.physical_and_invitro.data[this.index,
+  if (!any(is.na(suppressWarnings(chemdata[this.index,
                                   PARAM[!param %in% 
                                         tolower(ACCEPTABLE.NA.PARAMS)]]))) | 
      any(param %in% tolower(ACCEPTABLE.NA.PARAMS)))
   {
     col.numbers <- NULL
     for (this.param in param) col.numbers <- c(col.numbers,
-         which(tolower(colnames(chem.physical_and_invitro.data)) == this.param))
-    values <- chem.physical_and_invitro.data[this.index, col.numbers]
+         which(tolower(colnames(chemdata)) == this.param))
+    values <- chemdata[this.index, col.numbers]
 # We want to make sure the values returned are numeric, unless they are pKa's
 # pKa's can be a comma separated list:
     if (any(!param %in% tolower(c("pKa_Accept", "pKa_Donor"))))
@@ -266,8 +257,9 @@ get_physchem_param <- function(
                    " -- missing ",
                    param,"."))
     }else{
-      missing.param <- which(is.na(chem.physical_and_invitro.data[
-        this.index,PARAM[!param %in% tolower(ACCEPTABLE.NA.PARAMS)]]), arr.ind = T)
+      missing.param <- which(is.na(chemdata[this.index,
+                                            PARAM[!param %in% tolower(ACCEPTABLE.NA.PARAMS)]]), 
+                             arr.ind = T)
       
       if(length(this.index) >= 1 & length(param) > 1)
       {

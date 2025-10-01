@@ -219,7 +219,6 @@ get_cheminfo <- function(info="CAS",
   info <- toupper(info)
   
   #Create a local copy so we can edit it:
-  chem.physical_and_invitro.data <- chem.physical_and_invitro.data
   physiology.data <- physiology.data
   
   #End R CMD CHECK appeasement.
@@ -266,15 +265,10 @@ get_cheminfo <- function(info="CAS",
   species.clint <- paste0(species,'.Clint')
   species.clint.pvalue <- paste0(species,'.Clint.pValue')
   # Make sure capitalization matches a table column:
-  if (tolower(species.clint) %in% 
-    tolower(colnames(chem.physical_and_invitro.data)))
+  if (tolower(species.clint) %in% tolower(colnames(chemdata)))
   {
-    species.clint <- colnames(chem.physical_and_invitro.data)[
-      tolower(colnames(chem.physical_and_invitro.data)) ==
-      tolower(species.clint)]
-    species.clint.pvalue <- colnames(chem.physical_and_invitro.data)[
-      tolower(colnames(chem.physical_and_invitro.data)) ==
-      tolower(species.clint.pvalue)]
+    species.clint <- colnames(chemdata)[tolower(colnames(chemdata)) == tolower(species.clint)]
+    species.clint.pvalue <- colnames(chemdata)[tolower(colnames(chemdata)) == tolower(species.clint.pvalue)]
   }
   
   # Check to see if we need clint:
@@ -285,45 +279,39 @@ get_cheminfo <- function(info="CAS",
     if (default.to.human)
     {
       # Check to see if this is a column that already has data:
-      if (species.clint %in% colnames(chem.physical_and_invitro.data))
+      if (species.clint %in% colnames(chemdata))
       {
         # Replace chemicals with NA's only:
-        replace.index <- is.na(chem.physical_and_invitro.data[,species.clint])
+        replace.index <- is.na(chemdata[,species.clint])
         if (any(replace.index))
         {
-          chem.physical_and_invitro.data[replace.index,species.clint] <-
-            chem.physical_and_invitro.data[replace.index,'Human.Clint']
-          chem.physical_and_invitro.data[replace.index,species.clint.pvalue] <-
-            chem.physical_and_invitro.data[replace.index,'Human.Clint.pValue']
+          chemdata[replace.index,species.clint] <- chemdata[replace.index,'Human.Clint']
+          chemdata[replace.index,species.clint.pvalue] <- chemdata[replace.index,'Human.Clint.pValue']
           if (!suppress.messages) 
             warning('Human values substituted for Clint and Clint.pValue.')
         }
       } else {
-        chem.physical_and_invitro.data[,species.clint] <-
-          chem.physical_and_invitro.data[,'Human.Clint']
-        chem.physical_and_invitro.data[,species.clint.pvalue] <-
-          chem.physical_and_invitro.data[,'Human.Clint.pValue']
+        chemdata[,species.clint] <- chemdata[,'Human.Clint']
+        chemdata[,species.clint.pvalue] <- chemdata[,'Human.Clint.pValue']
         if (!suppress.messages) 
           warning('Human values substituted for Clint and Clint.pValue.')
       }    
     }
     # Check to see if we have a column for this species in the table:
-    if (!(species.clint %in% colnames(chem.physical_and_invitro.data)))  
+    if (!(species.clint %in% colnames(chemdata)))  
     {
       incomplete.data <- TRUE
     } else {
       # Set observed clint values to 0 if clint.pvalue > threshold
       if (!is.null(clint.pvalue.threshold))
       {
-        if (any(!is.na(chem.physical_and_invitro.data[, 
-            species.clint])))
+        if (any(!is.na(chemdata[,species.clint])))
         {
-          clint.values  <- strsplit(chem.physical_and_invitro.data[,species.clint],
-            split = ",")
+          clint.values  <- strsplit(chemdata[,species.clint],split = ",")
         } else {
-          clint.values <- rep(NA,dim(chem.physical_and_invitro.data)[1])
+          clint.values <- rep(NA,dim(chemdata)[1])
         }
-        clint.pvalues <- chem.physical_and_invitro.data[,species.clint.pvalue]
+        clint.pvalues <- chemdata[,species.clint.pvalue]
         # Replace the clint.value with 0 when clint.pvalue > threshold
         clint.values[lapply(clint.values,length)!=4] <- 
           ifelse(
@@ -345,7 +333,7 @@ get_cheminfo <- function(info="CAS",
           )
         
         clint.values <- lapply(clint.values,function(x)paste(x,collapse = ","))
-        chem.physical_and_invitro.data[,species.clint] <- unlist(clint.values)
+        chemdata[,species.clint] <- unlist(clint.values)
         if (!suppress.messages & "CLINT" %in% info)
           warning(paste(
             'Clint values with a pvalue >',
@@ -353,7 +341,7 @@ get_cheminfo <- function(info="CAS",
             'were set to 0.'))
       }    
     }
-    # Change the necessary parameters to the chem.physical_and_invitro.data col:
+    # Change the necessary parameters to the chemdata col:
     if (!is.null(species.clint)) 
     {
       necessary.params[necessary.params=="Clint"]<-species.clint
@@ -369,14 +357,13 @@ get_cheminfo <- function(info="CAS",
     if (default.to.human)
     {
       # Check to see if this is a column that already has data:
-      if (species.fup %in% colnames(chem.physical_and_invitro.data))
+      if (species.fup %in% colnames(chemdata))
       {
         # Identify values to replace with human:
         if (exclude.fup.zero) 
         {
           # Turn triples with confidence intervals into single values: 
-          temp.fup <- strsplit(as.character(
-            chem.physical_and_invitro.data[,species.fup]),",")
+          temp.fup <- strsplit(as.character(chemdata[,species.fup]),",")
           if (any(unlist(lapply(temp.fup,length))>1)) 
           {
             temp.fup <-  suppressWarnings(as.numeric(unlist(lapply(
@@ -390,30 +377,27 @@ get_cheminfo <- function(info="CAS",
           replace.index[is.na(replace.index)] <- TRUE
         } else {
           # Otherwise just replace NA's
-          replace.index <- is.na(chem.physical_and_invitro.data[,species.fup])
+          replace.index <- is.na(chemdata[,species.fup])
         }
         if (any(replace.index))
         {
-          chem.physical_and_invitro.data[replace.index,species.fup] <-
-            chem.physical_and_invitro.data[replace.index,
-            'Human.Funbound.plasma']
+          chemdata[replace.index,species.fup] <- chemdata[replace.index,'Human.Funbound.plasma']
           if (!suppress.messages) 
             warning('Human values substituted for Funbound.plasma.')
         }
       } else {
-        chem.physical_and_invitro.data[,species.fup] <-
-          chem.physical_and_invitro.data[,'Human.Funbound.plasma']
+        chemdata[,species.fup] <- chemdata[,'Human.Funbound.plasma']
         if (!suppress.messages)
           warning('Human values substituted for Funbound.plasma.')
       }
     }
     # Check to see if we have a column for this species in the table:
     if (!(species.fup %in% 
-      colnames(chem.physical_and_invitro.data))) 
+      colnames(chemdata))) 
     {
       incomplete.data <- TRUE
     }
-    # Change the necessary parameters to the chem.physical_and_invitro.data col:
+    # Change the necessary parameters to the chemdata col:
     if (!is.null(species.fup)) 
     {
       necessary.params[necessary.params=="Funbound.plasma"]<-species.fup
@@ -429,31 +413,27 @@ get_cheminfo <- function(info="CAS",
     if (default.to.human)
     {
       # Check to see if this is a column that already has data:
-      if (species.rblood2plasma %in% colnames(chem.physical_and_invitro.data))
+      if (species.rblood2plasma %in% colnames(chemdata))
       {
         # Replace chemicals with NA's only:
-        replace.index <- is.na(
-          chem.physical_and_invitro.data[,species.rblood2plasma])
+        replace.index <- is.na(chemdata[,species.rblood2plasma])
         if (any(replace.index))
         {
-          chem.physical_and_invitro.data[replace.index,species.rblood2plasma] <-
-            chem.physical_and_invitro.data[replace.index,'Human.Rblood2plasma']
+          chemdata[replace.index,species.rblood2plasma] <- chemdata[replace.index,'Human.Rblood2plasma']
           if (!suppress.messages)
             warning('Human values substituted for Rblood2plasma.')
         }
       } else {
-        chem.physical_and_invitro.data[,species.rblood2plasma] <-
-          chem.physical_and_invitro.data[,'Human.Rblood2plasma']
+        chemdata[,species.rblood2plasma] <- chemdata[,'Human.Rblood2plasma']
         if (!suppress.messages)
           warning('Human values substituted for Rblood2plasma.')
       }    
     }
-    if (!(species.rblood2plasma %in% 
-      colnames(chem.physical_and_invitro.data)))
+    if (!(species.rblood2plasma %in% colnames(chemdata)))
     {
       incomplete.data <- TRUE
     }
-    # Change the necessary parameters to the chem.physical_and_invitro.data col:
+    # Change the necessary parameters to the chemdata col:
     if (!is.null(species.rblood2plasma)) 
     {
       necessary.params[necessary.params=="Rblood2plasma"]<-species.rblood2plasma
@@ -463,14 +443,12 @@ get_cheminfo <- function(info="CAS",
   if (!incomplete.data)
   {
     # Only look for parameters that we have in the table:
-    necessary.params <- necessary.params[tolower(necessary.params) %in%
-    tolower(colnames(chem.physical_and_invitro.data))]
+    necessary.params <- necessary.params[tolower(necessary.params) %in% tolower(colnames(chemdata))]
   
   # Pare the chemical data down to only those chemicals where all the necessary
   # parameters are not NA
     good.chemicals.index <- setNames(
-      stats::complete.cases(chem.physical_and_invitro.data[necessary.params]),
-      rownames(chem.physical_and_invitro.data)
+      stats::complete.cases(chemdata[necessary.params]),rownames(chemdata)
     )	
     
   # print a warning of exclusion criteria for compounds
@@ -487,8 +465,7 @@ For model ", model, " each chemical must have non-NA values for:",
       unique(tolower(c(necessary.params,info))))
     { 
      # Make sure that we have a usable fup:     
-      fup.values <- strsplit(as.character(
-        chem.physical_and_invitro.data[,species.fup]),",")
+      fup.values <- strsplit(as.character(chemdata[,species.fup]),",")
       if (any(unlist(lapply(fup.values,length))>1)) 
       {
       # Go with the upper 95th credible interval before throwing anything out:
@@ -515,8 +492,7 @@ For model ", model, " each chemical must have non-NA values for:",
       # If we are excluding fups with uncertain ci intervals, then get rid of those:
       if(fup.ci.cutoff){
         # separate concatenated values
-        fup.ci.diff <- strsplit(as.character(
-          chem.physical_and_invitro.data[,species.fup]),",")
+        fup.ci.diff <- strsplit(as.character(chemdata[,species.fup]),",")
         # if only one element assume TRUE
         fup.ci.diff[lapply(fup.ci.diff,length)!=3] <- TRUE
         # if 3 elements, then calculate interval length and check if it passes the cutoff 
@@ -537,22 +513,23 @@ For model ", model, " each chemical must have non-NA values for:",
         }
       }
     }
-    
-# If we need Clint:
+
+    # If we need Clint:
     if (tolower(paste(species,"Clint",sep=".")) %in% 
       unique(tolower(c(necessary.params,info))))
     {
-      clint.values <- chem.physical_and_invitro.data[,species.clint]
+      clint.values <- chemdata[,species.clint]
       clint.values.numeric <- suppressWarnings(!is.na(as.numeric(clint.values)))
       clint.values.dist <- 
         suppressWarnings(nchar(clint.values) - 
         nchar(gsub(",","",clint.values))==3)
       clint.values.dist[is.na(clint.values.dist)] <- FALSE
       good.chemicals.index <- good.chemicals.index &
-# Either a numeric value:
+
+        # Either a numeric value:
         (clint.values.numeric |
-# or four values separated by three commas:
-        clint.values.dist)
+           # or four values separated by three commas:
+           clint.values.dist)
       # print a warning of exclusion criteria for compounds
       #  - ONLY if it is applies (i.e. is an exclusion criterion for at least 1 compound)
       if(!suppress.messages & any((clint.values.numeric|clint.values.dist)==FALSE)){
@@ -564,9 +541,7 @@ For model ", model, " each chemical must have non-NA values for:",
     if(physchem.exclude & !is.null(log.henry.threshold))
     {
       # keep compounds with logHenry constant less than threshold & 'NA'
-      log.henry.pass <- 
-        chem.physical_and_invitro.data[,"logHenry"] < 
-        log.henry.threshold|is.na(chem.physical_and_invitro.data[,"logHenry"])
+      log.henry.pass <- chemdata[,"logHenry"] < log.henry.threshold|is.na(chemdata[,"logHenry"])
       
       # obtain the the chemical indexes to keep
       good.chemicals.index <- good.chemicals.index & log.henry.pass
@@ -581,9 +556,7 @@ For model ", model, " each chemical must have non-NA values for:",
     if (class.exclude & !is.null(chem.class.filt))
     {
       # obtain the chemical classifications
-      chem.class <- strsplit(
-        chem.physical_and_invitro.data[,"Chemical.Class"],
-        split = ",")
+      chem.class <- strsplit(chemdata[,"Chemical.Class"],split = ",")
       # check if the chemical class is in the filter-out object
       no.chem.class.index <- lapply(
         chem.class,
@@ -600,7 +573,7 @@ For model ", model, " each chemical must have non-NA values for:",
     }
     
 # Kep just the chemicals we want:    
-    good.chemical.data <- chem.physical_and_invitro.data[good.chemicals.index,] 
+    good.chemical.data <- chemdata[good.chemicals.index,] 
     
 # Get the calpitalizes tion correct on the information requested:
     if ('mw' %in% tolower(info)) info <- c('MW',info[tolower(info) != 'mw'])
@@ -629,9 +602,8 @@ For model ", model, " each chemical must have non-NA values for:",
     if (toupper("Rblood2plasma") %in% toupper(info)) 
       info[toupper(info)==toupper("Rblood2plasma")] <- species.rblood2plasma
     
-    columns <- colnames(chem.physical_and_invitro.data)
-    this.subset <- good.chemical.data[,
-      toupper(colnames(chem.physical_and_invitro.data))%in%toupper(columns)]
+    columns <- colnames(chemdata)
+    this.subset <- good.chemical.data[,toupper(colnames(chemdata))%in%toupper(columns)]
     
     if('CAS' %in% info) rownames(this.subset) <- NULL 
     
