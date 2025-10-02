@@ -60,7 +60,7 @@ get_lit_css <- function(
       
   if (!(tolower(output.units) %in% c("mg/l","um"))) stop(
       "Literature only includes mg/L and uM values for Css")
-  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name)
+  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
     

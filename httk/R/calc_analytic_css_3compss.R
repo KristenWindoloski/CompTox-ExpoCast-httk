@@ -130,10 +130,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
   chem_id_list  = list(chem.cas, chem.name, dtxsid)
   if (any(unlist(lapply(chem_id_list, is.null))) &
       !all(unlist(lapply(chem_id_list, is.null)))){
-  out <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  out <- get_chem_id(chem.cas=chem.cas,
+                     chem.name=chem.name,
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid  
@@ -143,10 +143,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
   if (is.null(parameters))
   {
   # Look up the chemical name/CAS, depending on what was provide:
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -300,7 +300,8 @@ add_schmitt.param_to_3compss <- function(parameters = NULL, chem.cas = NULL,
     stop("Must have input parameters to add Schmitt input to.")
   # Need to convert to 3compartmentss parameters:
   temp.params <- get_physchem_param(chem.cas = chem.cas, chem.name = chem.name,
-      dtxsid = dtxsid, param = c("logP", "logMA", "pKa_Accept","pKa_Donor"))
+      dtxsid = dtxsid, param = c("logP", "logMA", "pKa_Accept","pKa_Donor"),
+      chemdata=chemdata)
   if(!"Pow" %in% names(parameters)){
     parameters[["Pow"]] <- 10^temp.params[["logP"]]
   }

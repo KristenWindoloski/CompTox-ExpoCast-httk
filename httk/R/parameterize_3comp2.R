@@ -170,7 +170,8 @@ parameterize_3comp2 <- function(
               species=species,
               class.exclude=class.exclude,
               physchem.exclude=physchem.exclude,
-              default.to.human=default.to.human)
+              default.to.human=default.to.human,
+              chemdata=chemdata)
                 
   parms <- parameterize_pbtk(
              chem.cas = chem.cas,
@@ -213,7 +214,8 @@ parameterize_3comp2 <- function(
   parms[["logHenry"]] <- get_physchem_param(param = 'logHenry', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) #for log base 10 compiled Henry's law values
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) #for log base 10 compiled Henry's law values
  
   return(lapply(parms[model.list[["3compartment2"]]$param.names],
                 set_httk_precision))                   

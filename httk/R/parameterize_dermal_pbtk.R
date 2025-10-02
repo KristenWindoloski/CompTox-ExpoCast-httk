@@ -296,7 +296,8 @@ parameterize_dermal_pbtk <-
   # Look up the chemical name/CAS, depending on what was provided:
   out <- get_chem_id(chem.cas=chem.cas,
                      chem.name=chem.name,
-                     dtxsid=dtxsid)
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
   dtxsid <- out$dtxsid
@@ -318,19 +319,22 @@ parameterize_dermal_pbtk <-
   Clint.dist <- Clint.list$Clint.dist
 
 # Get phys-chemical properties:
-  MW <- get_physchem_param("MW",chem.cas=chem.cas) #g/mol
+  MW <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata) #g/mol
   # acid dissociation constants
   pKa_Donor <- suppressWarnings(get_physchem_param(
     "pKa_Donor",
-    chem.cas=chem.cas)) 
+    chem.cas=chem.cas,
+    chemdata=chemdata)) 
   # basic association cosntants
   pKa_Accept <- suppressWarnings(get_physchem_param(
     "pKa_Accept",
-    chem.cas=chem.cas)) 
+    chem.cas=chem.cas,
+    chemdata=chemdata)) 
   # Octanol:water partition coefficient
   Pow <- 10^get_physchem_param(
     "logP",
-    chem.cas=chem.cas) 
+    chem.cas=chem.cas,
+    chemdata=chemdata) 
     
 # Calculate unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -452,9 +456,10 @@ parameterize_dermal_pbtk <-
   # Blood to plasma ratio:
   outlist <- c(outlist,
     Rblood2plasma=available_rblood2plasma(chem.cas=chem.cas,
-      species=species,
-      adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-      suppress.messages=suppress.messages))
+                                          species=species,
+                                          adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata))
 
   # Liver metabolism properties:
   outlist <- c(

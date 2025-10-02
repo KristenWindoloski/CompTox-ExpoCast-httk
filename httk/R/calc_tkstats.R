@@ -136,7 +136,8 @@ calc_tkstats <-function(
     mean.conc <- NULL
     out <- NULL
     for (this.CAS in sort(get_cheminfo(species=species,
-                      model=model)))
+                                       model=model,
+                                       chemdata=chemdata)))
     {
       cat(paste(this.CAS,"\n"))
 
@@ -264,7 +265,8 @@ calc_tkstats <-function(
                     dtxsid=dtxsid,
                     species=species,
                     suppress.messages=TRUE,
-                    adjusted.Funbound.plasma = adjusted.Funbound.plasma
+                    adjusted.Funbound.plasma = adjusted.Funbound.plasma,
+                    chemdata=chemdata
                     )))
     }
   

@@ -77,11 +77,12 @@ calc_dow <- function(Pow=NULL,
         out <- get_chem_id(
                chem.cas=chem.cas,
                chem.name=chem.name,
-               dtxsid=dtxsid)
+               dtxsid=dtxsid,
+               chemdata=chemdata)
         dtxsid <- out$dtxsid
       }
       Pow <- 
-        suppressWarnings(10^get_physchem_param("logP", dtxsid=dtxsid))
+        suppressWarnings(10^get_physchem_param("logP", dtxsid=dtxsid,chemdata=chemdata))
     } else if (!all(c("Pow") %in% names(parameters)))
 # If not see if "parameters" was provided
     {
@@ -102,13 +103,14 @@ calc_dow <- function(Pow=NULL,
           out <- get_chem_id(
                  chem.cas=chem.cas,
                  chem.name=chem.name,
-                 dtxsid=dtxsid)
+                 dtxsid=dtxsid,
+                 chemdata=chemdata)
           dtxsid <- out$dtxsid
         }
         pKa_Donor <- 
-          suppressWarnings(get_physchem_param("pKa_Donor", dtxsid=dtxsid))
+          suppressWarnings(get_physchem_param("pKa_Donor", dtxsid=dtxsid,chemdata=chemdata))
         pKa_Accept <- 
-          suppressWarnings(get_physchem_param("pKa_Accept", dtxsid=dtxsid))
+          suppressWarnings(get_physchem_param("pKa_Accept", dtxsid=dtxsid,chemdata=chemdata))
       } else if (all(c("pKa_Donor","pKa_Accept") %in% names(parameters)))
   # If not see if "parameters" was provided
       {
@@ -316,12 +318,13 @@ calc_ionization <- function(
     out <- get_chem_id(
              chem.cas=chem.cas,
              chem.name=chem.name,
-             dtxsid=dtxsid)
+             dtxsid=dtxsid,
+             chemdata=chemdata)
     chem.cas <- out$chem.cas
     parameters$pKa_Donor <- 
-      suppressWarnings(get_physchem_param("pKa_Donor",chem.cas=chem.cas))
+      suppressWarnings(get_physchem_param("pKa_Donor",chem.cas=chem.cas,chemdata=chemdata))
     parameters$pKa_Accept <- 
-      suppressWarnings(get_physchem_param("pKa_Accept",chem.cas=chem.cas))
+      suppressWarnings(get_physchem_param("pKa_Accept",chem.cas=chem.cas,chemdata=chemdata))
   }
   
   if (all(c("pKa_Donor","pKa_Accept") %in% names(parameters)))

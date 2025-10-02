@@ -46,7 +46,8 @@ get_caco2 <- function(
   chem.ids <- get_chem_id(
     chem.cas=chem.cas,
     chem.name=chem.name,
-    dtxsid=dtxsid)
+    dtxsid=dtxsid,
+    chemdata=chemdata)
   chem.cas <- chem.ids$chem.cas
   chem.name <- chem.ids$chem.name                                
   dtxsid <- chem.ids$dtxsid
@@ -62,7 +63,8 @@ get_caco2 <- function(
       species = "Human", 
       chem.cas=chem.cas,
       chem.name=chem.name,
-      dtxsid=dtxsid), 
+      dtxsid=dtxsid,
+      chemdata=chemdata), 
       silent = TRUE)
     if (is(Caco2.Pab.db,"try-error"))
     {  

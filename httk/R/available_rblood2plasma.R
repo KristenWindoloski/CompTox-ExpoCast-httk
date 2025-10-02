@@ -72,7 +72,8 @@ available_rblood2plasma <- function(chem.cas=NULL,
                        chem.name=chem.name,
                        chem.cas=chem.cas,
                        dtxsid=dtxsid,
-                       species=species) 
+                       species=species,
+                       chemdata=chemdata) 
   
     if (tolower(species) != 'human' & is.na(Rblood2plasma))
     {
@@ -80,7 +81,8 @@ available_rblood2plasma <- function(chem.cas=NULL,
                          chem.cas=chem.cas,
                          chem.name=chem.name,
                          dtxsid=dtxsid,
-                         species='Human')
+                         species='Human',
+                         chemdata=chemdata)
       if (!is.na(Rblood2plasma) & !suppress.messages) 
         warning('Human in vivo measured Rblood2plasma substituted.')
     } else if (!is.na(Rblood2plasma) & !suppress.messages) 
@@ -102,12 +104,14 @@ available_rblood2plasma <- function(chem.cas=NULL,
         {
           out <- get_chem_id(chem.cas=chem.cas,
                              chem.name=chem.name,
-                             dtxsid=dtxsid)
+                             dtxsid=dtxsid,
+                             chemdata=chemdata)
           chem.cas <- out$chem.cas
         }
         if (chem.cas %in% get_cheminfo(species=species,model='schmitt',
                                        class.exclude=class.exclude,
-                                       suppress.messages=TRUE))
+                                       suppress.messages=TRUE,
+                                       chemdata=chemdata))
         {
           Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
             species=species,
@@ -118,11 +122,11 @@ available_rblood2plasma <- function(chem.cas=NULL,
             warning(paste(toupper(substr(species, 1, 1)), 
               substr(species, 2, nchar(species)),
               ' Rblood2plasma calculated with calc_rblood2plasma.',sep="")) 
-        } else if (chem.cas %in% get_cheminfo(
-                                              species='Human',
+        } else if (chem.cas %in% get_cheminfo(species='Human',
                                               model='schmitt',
                                               class.exclude=class.exclude,
-                                              suppress.messages=TRUE)) 
+                                              suppress.messages=TRUE,
+                                              chemdata=chemdata)) 
         {
           Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
             species="Human",

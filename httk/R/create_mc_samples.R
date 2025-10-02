@@ -555,7 +555,8 @@ Set species=\"Human\" to run httkpop model.')
            chem.name = chem.name,
            dtxsid = dtxsid,
            species = species,
-           default.to.human = parameterize.args.list$default.to.human)
+           default.to.human = parameterize.args.list$default.to.human,
+           chemdata=chemdata)
     )
     
     Rb2p.invivo <- do.call(what = get_rblood2plasma,
@@ -677,10 +678,11 @@ Set species=\"Human\" to run httkpop model.')
                             chem.name=chem.name,
                             dtxsid=dtxsid,
                             species=species,
-# We can set this to TRUE because the value in Funbound.plasma is either adjusted
-# or not adjusted already:                           
-adjusted.Funbound.plasma=TRUE,
-                            suppress.messages=suppress.messages)]
+                            # We can set this to TRUE because the value in Funbound.plasma is either adjusted
+                            # or not adjusted already:                           
+                            adjusted.Funbound.plasma=TRUE,
+                            suppress.messages=suppress.messages,
+                            chemdata=chemdata)]
     }
   }
 

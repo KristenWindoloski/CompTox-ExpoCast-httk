@@ -71,7 +71,8 @@ parameterize_IVD <- function(tcdata = NA, # optionally supply columns logHenry, 
     # If not, pull them:
     tcdata[, c("logHenry","logWSol","MP","MW") := 
              as.data.frame(get_physchem_param(param = c("logHenry","logWSol","MP","MW"), 
-                                              chem.cas = casrn))]
+                                              chem.cas = casrn,
+                                              chemdata=chemdata))]
     
   }
   
@@ -81,7 +82,8 @@ parameterize_IVD <- function(tcdata = NA, # optionally supply columns logHenry, 
     # If not, pull it:
     tcdata[, c("gkow") := 
              as.data.frame(get_physchem_param(param = c("logP"), 
-                                              chem.cas = casrn))] 
+                                              chem.cas = casrn,
+                                              chemdata=chemdata))] 
     
   } 
   
@@ -91,10 +93,12 @@ parameterize_IVD <- function(tcdata = NA, # optionally supply columns logHenry, 
     # If not present, pull them:
     tcdata[, c("pKa_Donor") := 
              as.data.frame(get_physchem_param(param = c("pKa_Donor"), 
-                                              chem.cas = casrn),row.names = casrn)]
+                                              chem.cas = casrn,
+                                              chemdata=chemdata),row.names = casrn)]
     tcdata[, c("pKa_Accept") := 
              as.data.frame(get_physchem_param(param = c("pKa_Accept"), 
-                                              chem.cas = casrn),row.names = casrn)]
+                                              chem.cas = casrn,
+                                              chemdata=chemdata),row.names = casrn)]
   }
   
   # Check if pH is provided:

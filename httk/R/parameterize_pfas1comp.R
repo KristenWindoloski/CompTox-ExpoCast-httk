@@ -175,7 +175,8 @@ parameterize_pfas1comp <- function(
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -187,7 +188,8 @@ parameterize_pfas1comp <- function(
                 model="pfas1compartment",
                 species=species,
                 class.exclude=class.exclude,
-                physchem.exclude=physchem.exclude)
+                physchem.exclude=physchem.exclude,
+                chemdata=chemdata)
                     
   params <- list()
   params[['Vdist']] <- 0.205 # Dawson et al. (2023)
@@ -266,27 +268,30 @@ parameterize_pfas1comp <- function(
                               suppress.messages = suppress.messages))
  
 # Phys-chem properties:
-  Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas)
+  Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas,chemdata=chemdata)
   names(Pow) <- NULL
 
   pKa_Donor <- suppressWarnings(get_physchem_param(
                                     "pKa_Donor",
                                     chem.cas=chem.cas,
                                     chem.name=chem.name,
-                                    dtxsid=dtxsid))
+                                    dtxsid=dtxsid,
+                                    chemdata=chemdata))
  
   pKa_Accept <- suppressWarnings(get_physchem_param(
                                      "pKa_Accept",
                                      chem.cas=chem.cas,
                                      chem.name=chem.name,
-                                     dtxsid=dtxsid))
+                                     dtxsid=dtxsid,
+                                     chemdata=chemdata))
 
   MA <- NA
     if (any(!is.null(chem.cas),!is.null(chem.name),!is.null(dtxsid)))
       MA <- suppressWarnings(10^(get_physchem_param("logMA",
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid))) 
+            dtxsid=dtxsid,
+            chemdata=chemdata))) 
 
     # If we don't have a measured value for membrane affintity, 
     # use Yun & Edgington (2013):
@@ -336,7 +341,7 @@ parameterize_pfas1comp <- function(
   params[['hematocrit']] <- this.phys.data[["Hematocrit"]]
   params[['plasma.vol']] <- this.phys.data[["Plasma Volume"]]/1000 # L/kg BW
 
-  params[['MW']] <- get_physchem_param("MW",chem.cas=chem.cas)
+  params[['MW']] <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata)
 
 # Assume well absobred:
   params[["fbio.oral"]] <- 1 # No Clint

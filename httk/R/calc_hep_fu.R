@@ -82,7 +82,8 @@ calc_hep_fu <- function(
       out <- get_chem_id(
               chem.cas=chem.cas,
               chem.name=chem.name,
-              dtxsid=dtxsid)
+              dtxsid=dtxsid,
+              chemdata=chemdata)
       chem.cas <- out$chem.cas
       chem.name <- out$chem.name                                
       dtxsid <- out$dtxsid
@@ -92,19 +93,22 @@ calc_hep_fu <- function(
       "pKa_Donor",
       dtxsid=dtxsid,
       chem.name=chem.name,
-      chem.cas=chem.cas)) 
+      chem.cas=chem.cas,
+      chemdata=chemdata)) 
     # basic association cosntants
     pKa_Accept <- suppressWarnings(get_physchem_param(
       "pKa_Accept",
       dtxsid=dtxsid,
       chem.name=chem.name,
-      chem.cas=chem.cas)) 
+      chem.cas=chem.cas,
+      chemdata=chemdata)) 
     # Octanol:water partition coefficient
     Pow <- 10^get_physchem_param(
       "logP",
       dtxsid=dtxsid,
       chem.name=chem.name,
-      chem.cas=chem.cas) 
+      chem.cas=chem.cas,
+      chemdata=chemdata) 
   } else {
     if (!all(c("Pow","pKa_Donor","pKa_Accept") 
       %in% names(parameters))) 

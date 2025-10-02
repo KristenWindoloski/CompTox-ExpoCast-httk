@@ -65,7 +65,8 @@ get_fup <- function(chem.cas=NULL,
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -78,7 +79,8 @@ get_fup <- function(chem.cas=NULL,
       species,
       chem.cas=chem.cas,
       chem.name=chem.name,
-      dtxsid=dtxsid),
+      dtxsid=dtxsid,
+      chemdata=chemdata),
     silent=TRUE)
   if ((is(fup.db,"try-error") & default.to.human) || force.human.fup) 
   {
@@ -88,7 +90,8 @@ get_fup <- function(chem.cas=NULL,
         "Human",
         chem.cas=chem.cas,
         chem.name=chem.name,
-        dtxsid=dtxsid),
+        dtxsid=dtxsid,
+        chemdata=chemdata),
       silent=TRUE)
     if (!suppress.messages) 
       warning(paste(species,"coerced to Human for protein binding data."))
@@ -122,7 +125,8 @@ get_fup <- function(chem.cas=NULL,
                   "Human",
                   chem.cas=chem.cas,
                   chem.name=chem.name,
-                  dtxsid=dtxsid),
+                  dtxsid=dtxsid,
+                  chemdata=chemdata),
                 silent=TRUE)
   # Check if fup is a point value or a distribution, if a distribution, use the median:
     if (nchar(fup.db) - nchar(gsub(",","",fup.db))==2) 

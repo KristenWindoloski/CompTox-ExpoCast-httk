@@ -198,7 +198,8 @@ parameterize_1comp <- function(
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -211,7 +212,8 @@ parameterize_1comp <- function(
                 species=species,
                 class.exclude=class.exclude,
                 physchem.exclude=physchem.exclude,
-                default.to.human=default.to.human)
+                default.to.human=default.to.human,
+                chemdata=chemdata)
     
     #Check also to make sure we can use steady-state model,
     #since we need to be able to call parameterize_steadystate
@@ -223,7 +225,8 @@ parameterize_1comp <- function(
                 species=species,
                 class.exclude=class.exclude,
                 physchem.exclude=physchem.exclude,
-                default.to.human=default.to.human)
+                default.to.human=default.to.human,
+                chemdata=chemdata)
      
   params <- list()
   params[['Vdist']] <- calc_vdist(
@@ -292,8 +295,11 @@ parameterize_1comp <- function(
   params[['kgutabs']] <- 2.18
   
   params[['Rblood2plasma']] <- 
-    available_rblood2plasma(chem.cas=chem.cas,chem.name=chem.name,
-        species=species,adjusted.Funbound.plasma=adjusted.Funbound.plasma)
+    available_rblood2plasma(chem.cas=chem.cas,
+                            chem.name=chem.name,
+                            species=species,
+                            adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                            chemdata=chemdata)
   
   params[['million.cells.per.gliver']] <- 110
   params[["liver.density"]] <- 1.05 # g/mL
@@ -317,7 +323,7 @@ parameterize_1comp <- function(
   params[['hematocrit']] <- this.phys.data[["Hematocrit"]]
   params[['plasma.vol']] <- this.phys.data[["Plasma Volume"]]/1000 # L/kg BW
 
-  params[['MW']] <- get_physchem_param("MW",chem.cas=chem.cas)
+  params[['MW']] <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata)
 
   params[['Fabsgut']] <- ss.params[['Fabsgut']]
   params[['Fabs']] <- ss.params[['Fabs']]

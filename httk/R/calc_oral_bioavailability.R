@@ -286,7 +286,8 @@ calc_fabs.oral <- function(parameters = NULL,
         out <- get_chem_id(
                 chem.cas=chem.cas,
                 chem.name=chem.name,
-                dtxsid=dtxsid)
+                dtxsid=dtxsid,
+                chemdata=chemdata)
         chem.cas <- out$chem.cas
         chem.name <- out$chem.name                                
         dtxsid <- out$dtxsid
@@ -382,7 +383,8 @@ calc_peff <- function(parameters = NULL,
           out <- get_chem_id(
                   chem.cas=chem.cas,
                   chem.name=chem.name,
-                  dtxsid=dtxsid)
+                  dtxsid=dtxsid,
+                  chemdata=chemdata)
           chem.cas <- out$chem.cas
           chem.name <- out$chem.name                                
           dtxsid <- out$dtxsid
@@ -451,7 +453,8 @@ calc_kgutabs<- function(parameters = NULL,
         out <- get_chem_id(
                 chem.cas=chem.cas,
                 chem.name=chem.name,
-                dtxsid=dtxsid)
+                dtxsid=dtxsid,
+                chemdata=chemdata)
         chem.cas <- out$chem.cas
         chem.name <- out$chem.name                                
         dtxsid <- out$dtxsid
@@ -539,7 +542,8 @@ calc_fgut.oral <- function(parameters = NULL,
         out <- get_chem_id(
                 chem.cas=chem.cas,
                 chem.name=chem.name,
-                dtxsid=dtxsid)
+                dtxsid=dtxsid,
+                chemdata=chemdata)
         chem.cas <- out$chem.cas
         chem.name <- out$chem.name                                
         dtxsid <- out$dtxsid

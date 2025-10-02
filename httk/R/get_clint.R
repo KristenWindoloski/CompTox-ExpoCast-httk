@@ -73,7 +73,8 @@ get_clint <- function(chem.cas=NULL,
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -84,13 +85,15 @@ get_clint <- function(chem.cas=NULL,
   Clint.db <- try(get_invitroPK_param(
                     "Clint",
                     species,
-                    chem.cas=chem.cas),
+                    chem.cas=chem.cas,
+                    chemdata=chemdata),
                 silent=TRUE)
   # Check that the trend in the CLint assay was significant:
   Clint.pValue <- try(get_invitroPK_param(
                         "Clint.pValue",
                         species,
-                        chem.cas=chem.cas),
+                        chem.cas=chem.cas,
+                        chemdata=chemdata),
                     silent=TRUE)
   if (is(Clint.pValue, "try-error")) Clint.pValue <- NA
   
@@ -107,12 +110,14 @@ get_clint <- function(chem.cas=NULL,
     Clint.db <- try(get_invitroPK_param(
                       "Clint",
                       "Human",
-                      chem.cas=chem.cas),
+                      chem.cas=chem.cas,
+                      chemdata=chemdata),
                   silent=TRUE)
     Clint.pValue <- try(get_invitroPK_param(
                           "Clint.pValue",
                           "Human",
-                          chem.cas=chem.cas),
+                          chem.cas=chem.cas,
+                          chemdata=chemdata),
                       silent=TRUE)
 
     if (!suppress.messages) warning(paste(species,"coerced to Human for metabolic clearance data."))

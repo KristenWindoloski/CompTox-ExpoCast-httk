@@ -214,4 +214,7 @@ is.pharma <- function (chem.cas) return(in.list(chem.cas = chem.cas, which.list 
 #' }
 #'
 #' @export is.httk
-is.httk <- function(chem.cas,species="Human", model = "3compartmentss") return(chem.cas %in% get_cheminfo(species=species,model = model))
+is.httk <- function(chem.cas,species="Human", model = "3compartmentss",chemdata = chem.physical_and_invitro.data) 
+  return(chem.cas %in% get_cheminfo(species=species,
+                                    model = model,
+                                    chemdata=chemdata))

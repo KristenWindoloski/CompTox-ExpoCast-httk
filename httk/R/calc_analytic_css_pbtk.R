@@ -141,10 +141,10 @@ calc_analytic_css_pbtk <- function(chem.name=NULL,
 # Look up the chemical name/CAS, depending on what was provide:
   if (is.null(parameters))
   {
-    out <- get_chem_id(
-            chem.cas=chem.cas,
-            chem.name=chem.name,
-            dtxsid=dtxsid)
+    out <- get_chem_id(chem.cas=chem.cas,
+                       chem.name=chem.name,
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid  

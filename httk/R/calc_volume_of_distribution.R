@@ -116,7 +116,8 @@ calc_vdist<- function(chem.cas=NULL,
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -163,13 +164,13 @@ calc_vdist<- function(chem.cas=NULL,
       stop("Specify chem.name or chem.cas with correct species if not including Funbound.plasma with predict_partitioning_schmitt coefficients.")
     else if(is.null(chem.cas))
     {
-      out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name)
+      out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
       chem.cas <- out$chem.cas
     }
-    fup <- try(get_invitroPK_param("Funbound.plasma",species,chem.cas=chem.cas),silent=TRUE)
+    fup <- try(get_invitroPK_param("Funbound.plasma",species,chem.cas=chem.cas,chemdata=chemdata),silent=TRUE)
     if (is(fup,"try-error") & default.to.human) 
     {
-      fup <- try(get_invitroPK_param("Funbound.plasma","Human",chem.cas=chem.cas),silent=TRUE)
+      fup <- try(get_invitroPK_param("Funbound.plasma","Human",chem.cas=chem.cas,chemdata=chemdata),silent=TRUE)
       warning(paste(species,"coerced to Human for protein binding data."))
     }
     if (is(fup,"try-error")) stop("Missing protein binding data for given species. Set default.to.human to true to substitute human value.")
@@ -183,10 +184,12 @@ calc_vdist<- function(chem.cas=NULL,
         Parameter=='Plasma Effective Neutral Lipid Volume Fraction')[,
           which(tolower(colnames(physiology.data)) == tolower(species))]
       pKa_Donor <- suppressWarnings(get_physchem_param("pKa_Donor",
-                                                       chem.cas=chem.cas))
+                                                       chem.cas=chem.cas,
+                                                       chemdata=chemdata))
       pKa_Accept <- suppressWarnings(get_physchem_param("pKa_Accept",
-                                                        chem.cas=chem.cas))
-      Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas)
+                                                        chem.cas=chem.cas,
+                                                        chemdata=chemdata))
+      Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas,chemdata=chemdata)
       ion <- calc_ionization(pH=7.4,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
       dow <- Pow * (ion$fraction_neutral + 0.001 * ion$fraction_charged + 
                       ion$fraction_zwitter)

@@ -203,7 +203,8 @@ parameterize_steadystate <- function(
   out <- get_chem_id(
           chem.cas=chem.cas,
           chem.name=chem.name,
-          dtxsid=dtxsid)
+          dtxsid=dtxsid,
+          chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid
@@ -216,7 +217,8 @@ parameterize_steadystate <- function(
               species=species,
               class.exclude=class.exclude,
               physchem.exclude=physchem.exclude,
-              default.to.human=default.to.human|force.human.clint.fup)
+              default.to.human=default.to.human|force.human.clint.fup,
+              chemdata=chemdata)
 
   #Capitalize the first letter of species only:
   species <- tolower(species)
@@ -263,19 +265,22 @@ parameterize_steadystate <- function(
   Clint.dist <- Clint.list$Clint.dist
 
 # Get phys-chemical properties:
-  MW <- get_physchem_param("MW",chem.cas=chem.cas) #g/mol
+  MW <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata) #g/mol
   # acid dissociation constants
   pKa_Donor <- suppressWarnings(get_physchem_param(
     "pKa_Donor",
-    chem.cas=chem.cas)) 
+    chem.cas=chem.cas,
+    chemdata=chemdata)) 
   # basic association cosntants
   pKa_Accept <- suppressWarnings(get_physchem_param(
     "pKa_Accept",
-    chem.cas=chem.cas)) 
+    chem.cas=chem.cas,
+    chemdata=chemdata)) 
   # Octanol:water partition coefficient
   Pow <- 10^get_physchem_param(
     "logP",
-    chem.cas=chem.cas) 
+    chem.cas=chem.cas,
+    chemdata=chemdata) 
     
 # Calculate unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -352,7 +357,7 @@ parameterize_steadystate <- function(
   Params[["Dow74"]] <- dow # unitless istribution coefficient at plasma pH 7.4
   Params[["BW"]] <- BW # kg
   Params[["MW"]] <- 
-    get_physchem_param("MW",chem.cas=chem.cas) # molecular weight g/mol
+    get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata) # molecular weight g/mol
   Params[["Fhep.assay.correction"]] <- Fu_hep
   Params[["million.cells.per.gliver"]] <- 110 # 10^6 cells/g-liver
   Params[["Vliverc"]] <- Vliverc # L/kg BW
@@ -366,7 +371,8 @@ parameterize_steadystate <- function(
             species=species,
             class.exclude=class.exclude,
             adjusted.Funbound.plasma=fup.corrected,
-            suppress.messages=TRUE)
+            suppress.messages=TRUE,
+            chemdata=chemdata)
   Params[["Rblood2plasma"]] <- Rb2p
   
 # Oral bioavailability parameters:

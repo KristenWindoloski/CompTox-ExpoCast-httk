@@ -128,10 +128,10 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
   chem_id_list  = list(chem.cas, chem.name, dtxsid)
   if (any(unlist(lapply(chem_id_list, is.null))) &
       !all(unlist(lapply(chem_id_list, is.null)))){
-  out <- get_chem_id(
-    chem.cas=chem.cas,
-    chem.name=chem.name,
-    dtxsid=dtxsid)
+  out <- get_chem_id(chem.cas=chem.cas,
+                     chem.name=chem.name,
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid  

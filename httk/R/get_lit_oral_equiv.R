@@ -67,17 +67,17 @@ get_lit_oral_equiv <- function(
   if (is.null(chem.cas)){
     if(!is.null(chem.name)){
       chem.cas <- 
-        get_chem_id(chem.name=chem.name)[['chem.cas']]
+        get_chem_id(chem.name=chem.name,chemdata=chemdata)[['chem.cas']]
     }else if(!is.null(dtxsid)){
       chem.cas <- 
-        get_chem_id(dtxsid=dtxsid)[['chem.cas']]
+        get_chem_id(dtxsid=dtxsid,chemdata=chemdata)[['chem.cas']]
     }else{
       stop("Provide at least one chemical identifier either 'chem.cas',
            'chem.name', or 'dtxsid'.")
     }
   } 
   if (tolower(input.units) =='mg/l' | tolower(output.units) == 'mol') {
-    MW <- get_physchem_param("MW",chem.cas=chem.cas)
+    MW <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata)
   }   
   # if the user provided concentration is in 'mg/L' units,
   # then convert the concentration from 'mg/L' to 'uM'

@@ -117,7 +117,8 @@ calc_kair <- function(
       out <- get_chem_id(
               chem.cas=chem.cas,
               chem.name=chem.name,
-              dtxsid=dtxsid)
+              dtxsid=dtxsid,
+              chemdata=chemdata)
       chem.cas <- out$chem.cas
       chem.name <- out$chem.name                                
       dtxsid <- out$dtxsid
@@ -130,7 +131,8 @@ calc_kair <- function(
     logHenry = get_physchem_param(param = 'logHenry', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) #for log base 10 compiled Henry's law values
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) #for log base 10 compiled Henry's law values
   } else {
     logHenry <- parameters$logHenry 
   }
@@ -140,7 +142,8 @@ calc_kair <- function(
     pKa_Donor = get_physchem_param(param = 'pKa_Donor', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) 
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) 
   } else {
     pKa_Donor <- parameters$pKa_Donor 
   }
@@ -150,7 +153,8 @@ calc_kair <- function(
     pKa_Accept = get_physchem_param(param = 'pKa_Accept', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) 
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) 
   } else {
     pKa_Accept <- parameters$pKa_Accept 
   }
@@ -190,7 +194,8 @@ calc_kair <- function(
     Pow <- 10^get_physchem_param(param = 'logP', 
                                 chem.cas=chem.cas,
                                 chem.name=chem.name,
-                                dtxsid=dtxsid)  # Octanol:water partition coeffiecient
+                                dtxsid=dtxsid,
+                                chemdata=chemdata)  # Octanol:water partition coeffiecient
 
     # Get the central tendency (point estimate) and potentially the distribution
     # quantiles for the fraction unbound in plasma (fup):
@@ -250,7 +255,8 @@ calc_kair <- function(
             dtxsid=dtxsid,
             species=species,
             adjusted.Funbound.plasma=fup.corrected,
-            suppress.messages=TRUE)
+            suppress.messages=TRUE,
+            chemdata=chemdata)
   }  
 
   hl <- 10^logHenry #Henry's constant in atm*m^3 / mol 

@@ -158,7 +158,8 @@ convert_units <- function(input.units = NULL,
   compound data.table/data.frame or list.')
     } else {
       MW <- get_physchem_param(param = 'MW', chem.cas=chem.cas,
-                               chem.name=chem.name, dtxsid=dtxsid)
+                               chem.name=chem.name, dtxsid=dtxsid,
+                               chemdata=chemdata)
       }
     }else {MW<-0}
   }

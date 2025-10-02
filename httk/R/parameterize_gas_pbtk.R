@@ -251,7 +251,9 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
   out <- get_chem_id(
     chem.cas=chem.cas,
     chem.name=chem.name,
-    dtxsid=dtxsid)
+    dtxsid=dtxsid,
+    chemdata=chemdata
+    )
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name                                
   dtxsid <- out$dtxsid
@@ -264,7 +266,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
             species=species,
             class.exclude=class.exclude,
             physchem.exclude=physchem.exclude,
-            default.to.human=default.to.human|force.human.clint.fup)
+            default.to.human=default.to.human|force.human.clint.fup,
+            chemdata=chemdata)
             
   if (is(tissuelist,'list')==FALSE) stop("tissuelist must be a list of vectors.") 
 
@@ -282,19 +285,22 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
   Clint.dist <- Clint.list$Clint.dist
 
 # Get phys-chemical properties:
-  MW <- get_physchem_param("MW",chem.cas=chem.cas) #g/mol
+  MW <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata) #g/mol
   # acid dissociation constants
   pKa_Donor <- suppressWarnings(get_physchem_param(
     "pKa_Donor",
-    chem.cas=chem.cas)) 
+    chem.cas=chem.cas,
+    chemdata=chemdata)) 
   # basic association cosntants
   pKa_Accept <- suppressWarnings(get_physchem_param(
     "pKa_Accept",
-    chem.cas=chem.cas)) 
+    chem.cas=chem.cas,
+    chemdata=chemdata)) 
   # Octanol:water partition coefficient
   Pow <- 10^get_physchem_param(
     "logP",
-    chem.cas=chem.cas) 
+    chem.cas=chem.cas,
+    chemdata=chemdata) 
     
 # Calculate unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -338,7 +344,7 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
 # Restrict the value of fup:
   if (fup < minimum.Funbound.plasma) fup <- minimum.Funbound.plasma
 
-  Fabsgut <- try(get_invitroPK_param("Fabsgut",species,chem.cas=chem.cas),silent=TRUE)
+  Fabsgut <- try(get_invitroPK_param("Fabsgut",species,chem.cas=chem.cas,chemdata=chemdata),silent=TRUE)
   if (is(Fabsgut,"try-error")) Fabsgut <- 1
   
  # Check the species argument for capitilization problems and whether or not it is in the table:  
@@ -446,16 +452,18 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
 # Blood to plasma ratio:
   outlist <- c(outlist,
     Rblood2plasma=available_rblood2plasma(chem.cas=chem.cas,
-      species=species,
-      class.exclude=class.exclude,
-      adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-      suppress.messages=TRUE))
+                                          species=species,
+                                          class.exclude=class.exclude,
+                                          adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                          suppress.messages=TRUE,
+                                          chemdata=chemdata))
 
 # Henry's law (water:air partitioning) coefficient:
   outlist[["logHenry"]] <- get_physchem_param(param = 'logHenry', 
                                   chem.cas=chem.cas,
                                   chem.name=chem.name,
-                                  dtxsid=dtxsid) #for log base 10 compiled Henry's law values
+                                  dtxsid=dtxsid,
+                                  chemdata=chemdata) #for log base 10 compiled Henry's law values
     
 # Get the blood:air and mucus:air partition coefficients:
   Kx2air <- calc_kair(chem.name=chem.name,

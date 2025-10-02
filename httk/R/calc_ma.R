@@ -68,7 +68,8 @@ calc_ma <- function(
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -83,7 +84,8 @@ calc_ma <- function(
     Pow <- 10^get_physchem_param("logP",
                                  chem.cas=chem.cas,
                                  dtxsid=dtxsid,
-                                 chem.name=chem.name)
+                                 chem.name=chem.name,
+                                 chemdata=chemdata)
   } else {
     if (!("Pow" %in% names(parameters)))
     {
@@ -99,7 +101,7 @@ calc_ma <- function(
   
   # Calibration for PFAS based on Droge (2019) data:
   if (pfas.calibration & 
-      regexpr("PFAS", get_physchem_param("Chemical.Class",dtxsid=dtxsid))!=-1)
+      regexpr("PFAS", get_physchem_param("Chemical.Class",dtxsid=dtxsid,chemdata=chemdata))!=-1)
   {
     MA <- 10^(-2.59 + 2.61 * log10(MA))
     if (!suppress.messages) warning(

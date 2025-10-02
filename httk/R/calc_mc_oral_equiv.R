@@ -402,10 +402,10 @@ calc_mc_oral_equiv <- function(conc,
   if (tolower(tmp.output.units) == 'umol')
   {
     if (is.null(chem.cas)){
-      chem.cas <- get_chem_id(chem.name=chem.name)[['chem.cas']]
+      chem.cas <- get_chem_id(chem.name=chem.name,chemdata=chemdata)[['chem.cas']]
     } 
 
-    MW <- get_physchem_param("MW",chem.cas=chem.cas)
+    MW <- get_physchem_param("MW",chem.cas=chem.cas,chemdata=chemdata)
     # output units are in 'umol/kg/day' for 'dose'
     dose <- dose * convert_units(
       input.units = 'mg',

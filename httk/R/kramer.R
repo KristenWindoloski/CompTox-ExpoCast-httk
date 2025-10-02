@@ -165,7 +165,8 @@ kramer_eval <- function(chem.cas=NULL,
     
     out <- get_chem_id(chem.cas=chem.cas,
                        chem.name=chem.name,
-                       dtxsid=dtxsid)
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name
     dtxsid <- out$dtxsid

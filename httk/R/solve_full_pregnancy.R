@@ -114,7 +114,8 @@ solve_full_pregnancy <- function(
   # Look up the chemical name/CAS, depending on what was provided:
   chid <- get_chem_id(chem.cas=chem.cas,
                      chem.name=chem.name,
-                     dtxsid=dtxsid)
+                     dtxsid=dtxsid,
+                     chemdata=chemdata)
   chem.cas <- chid$chem.cas
   chem.name <- chid$chem.name
   dtxsid <- chid$dtxsid

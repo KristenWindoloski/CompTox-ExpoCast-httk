@@ -109,7 +109,8 @@ calc_hep_clearance <- function(chem.name=NULL,
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -267,7 +268,8 @@ calc_hep_clearance <- function(chem.name=NULL,
           chem.cas=chem.cas,
           species=species,
           adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-          suppress.messages=suppress.messages)
+          suppress.messages=suppress.messages,
+          chemdata=chemdata)
       } else(stop("Enter chem.cas or chem.name with corresponding species or enter Rblood2plasma as a parameter for the well-stirred model correction."))
       CLh <- Qtotal.liver_pkg*fup*Clint/(Qtotal.liver_pkg+fup*Clint / Rblood2plasma)
     } else CLh <- Qtotal.liver_pkg*fup*Clint/(Qtotal.liver_pkg+fup*Clint)   

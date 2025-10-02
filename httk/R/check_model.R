@@ -58,7 +58,8 @@ check_model <- function(chem.name=NULL,
 {
   out <- get_chem_id(dtxsid=dtxsid,
                     chem.cas=chem.cas,
-                    chem.name=chem.name)
+                    chem.name=chem.name,
+                    chemdata=chemdata)
   dtxsid <- out$dtxsid
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
@@ -70,7 +71,8 @@ check_model <- function(chem.name=NULL,
                              species=species,
                              class.exclude=class.exclude,
                              physchem.exclude=physchem.exclude,
-                             suppress.messages=TRUE)
+                             suppress.messages=TRUE,
+                             chemdata=chemdata)
   good.chems.nophyschem <- get_cheminfo(info=c("Compound",
                                     "CAS",
                                     "DTXSID"),
@@ -78,7 +80,8 @@ check_model <- function(chem.name=NULL,
                              species=species,
                              class.exclude=class.exclude,
                              physchem.exclude=FALSE,
-                             suppress.messages=TRUE)
+                             suppress.messages=TRUE,
+                             chemdata=chemdata)
   good.chems.noclass <- get_cheminfo(info=c("Compound",
                                     "CAS",
                                     "DTXSID"),
@@ -86,7 +89,8 @@ check_model <- function(chem.name=NULL,
                              species=species,
                              class.exclude=FALSE,
                              physchem.exclude=TRUE,
-                             suppress.messages=TRUE)
+                             suppress.messages=TRUE,
+                             chemdata=chemdata)
   if (tolower(species) != "human" & default.to.human)
   {
     good.chems <- rbind(good.chems,
@@ -97,7 +101,8 @@ check_model <- function(chem.name=NULL,
                                      species="Human",
                                      class.exclude=class.exclude,
                                      physchem.exclude=physchem.exclude,
-                                     suppress.messages=TRUE)
+                                     suppress.messages=TRUE,
+                                     chemdata=chemdata)
                         )       
   }
                                                 

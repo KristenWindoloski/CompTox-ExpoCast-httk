@@ -141,7 +141,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
     out <- get_chem_id(
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid)
+            dtxsid=dtxsid,
+            chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name                                
     dtxsid <- out$dtxsid
@@ -153,7 +154,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
                 model="schmitt",
                 species=species,
                 class.exclude=class.exclude,
-                default.to.human=default.to.human|force.human.fup
+                default.to.human=default.to.human|force.human.fup,
+                chemdata=chemdata
                 )
   } else {
     # Work with local copy of parameters in function(scoping):
@@ -255,7 +257,7 @@ parameterize_schmitt <- function(chem.cas=NULL,
     
   if (is.na(Pow))
   {
-    Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas)
+    Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas,chemdata=chemdata)
     names(Pow) <- NULL
   }   
 
@@ -265,7 +267,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
                                     "pKa_Donor",
                                     chem.cas=chem.cas,
                                     chem.name=chem.name,
-                                    dtxsid=dtxsid))
+                                    dtxsid=dtxsid,
+                                    chemdata=chemdata))
   }
   
   if (!is.na(pKa_Accept)) if (pKa_Accept == -999)
@@ -274,7 +277,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
                                      "pKa_Accept",
                                      chem.cas=chem.cas,
                                      chem.name=chem.name,
-                                     dtxsid=dtxsid))
+                                     dtxsid=dtxsid,
+                                     chemdata=chemdata))
   }
 
   if (is.na(MA))
@@ -283,7 +287,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
       MA <- suppressWarnings(10^(get_physchem_param("logMA",
             chem.cas=chem.cas,
             chem.name=chem.name,
-            dtxsid=dtxsid))) 
+            dtxsid=dtxsid,
+            chemdata=chemdata))) 
     # If we don't have a measured value for membrane affintity, 
     # use Yun & Edgington (2013):
     if (is.na(MA))
