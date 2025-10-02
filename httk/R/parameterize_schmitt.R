@@ -345,7 +345,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
                                             species = species,
                                             default.to.human=default.to.human,
                                             force.human.fup=force.human.fup,
-                                            suppress.messages=suppress.messages)
+                                            suppress.messages=suppress.messages,
+                                            chemdata=chemdata)
       fup.corrected <- apply_fup_adjustment(
                          fup.point,
                          fup.correction=fup.adjustment,

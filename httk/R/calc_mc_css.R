@@ -575,7 +575,8 @@ calc_mc_css <- function(chem.cas = NULL,
                                 output.units=output.units,
                                 daily.dose=daily.dose,
                                 clint.pvalue.threshold=
-                                  parameterize.args.list$clint.pvalue.threshold),
+                                  parameterize.args.list$clint.pvalue.threshold,
+                                chemdata=chemdata),
                                 calc.analytic.css.arg.list)))]
   } else {
     parameter.dt[,Css:= do.call(calc_css,

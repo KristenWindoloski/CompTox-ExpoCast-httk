@@ -330,7 +330,8 @@ parameterize_steadystate <- function(
                                         species=species,
                                         default.to.human=default.to.human,
                                         force.human.fup=force.human.clint.fup,
-                                        suppress.messages=suppress.messages)
+                                        suppress.messages=suppress.messages,
+                                        chemdata=chemdata)
 
   # Apply the correction if requested:
   if (adjusted.Funbound.plasma)

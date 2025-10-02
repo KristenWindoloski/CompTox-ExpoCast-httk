@@ -51,7 +51,8 @@ apply_fup_adjustment <- function(fup,
   {
     fup.correction <- calc_fup_correction(parameters=list(Pow = Pow,
                                           pKa_Donor = pKa_Donor,
-                                          pKa_Accept = pKa_Accept))
+                                          pKa_Accept = pKa_Accept,
+                                          chemdata=chemdata))
   }
   fup.corrected <- pmax(fup * fup.correction,
                    minimum.Funbound.plasma,

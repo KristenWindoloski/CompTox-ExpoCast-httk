@@ -504,7 +504,8 @@ Set species=\"Human\" to run httkpop model.')
                                   list(
                                     parameters = parameters.dt,
                                     species = species,
-                                    default.to.human = parameterize.args.list$default.to.human
+                                    default.to.human = parameterize.args.list$default.to.human,
+                                    chemdata=chemdata
                                   )
                                 ))]
         

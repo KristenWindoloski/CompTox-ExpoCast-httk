@@ -490,7 +490,8 @@ invitro_mc <- function(parameters.dt=NULL,
         parameters.dt[, Funbound.plasma:=unadjusted.Funbound.plasma]
         parameters.dt[, Funbound.plasma.adjustment:=
           calc_fup_correction(
-            parameters = parameters.dt)]
+            parameters = parameters.dt,
+            chemdata=chemdata)]
       } else stop("Missing phys-chem parameters in invitro_mc for calc_fup_correction.") 
     } else {
       parameters.dt[, Funbound.plasma.adjustment:=1]

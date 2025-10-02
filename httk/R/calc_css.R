@@ -218,7 +218,8 @@ calc_css <- function(chem.name=NULL,
     model=model,
     output.units = output.units,
     suppress.messages=TRUE,
-    parameterize.args.list = parameterize.args.list
+    parameterize.args.list = parameterize.args.list,
+    chemdata=chemdata
   )
   # Check to see if there is analytic Css funtion:
   if (!is.null(model.list[[model]]$analytic.css.func))
