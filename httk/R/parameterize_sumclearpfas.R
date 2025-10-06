@@ -242,7 +242,8 @@ parameterize_sumclearancespfas <- function(
       default.to.human=default.to.human,
       force.human.clint=force.human.clint.fup,
       clint.pvalue.threshold=clint.pvalue.threshold,
-      suppress.messages=suppress.messages) 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata) 
   Clint.point <- Clint.list$Clint.point
   Clint.dist <- Clint.list$Clint.dist
 
@@ -269,7 +270,8 @@ parameterize_sumclearancespfas <- function(
   Fu_hep <- calc_hep_fu(parameters=list(
     Pow=Pow,
     pKa_Donor=pKa_Donor,
-    pKa_Accept=pKa_Accept)) # fraction 
+    pKa_Accept=pKa_Accept),
+    chemdata=chemdata) # fraction 
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -287,7 +289,8 @@ parameterize_sumclearancespfas <- function(
       species=species,
       default.to.human=default.to.human,
       force.human.fup=force.human.clint.fup,
-      suppress.messages=suppress.messages) 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata) 
   fup.point <- fup.list$Funbound.plasma.point
   fup.dist <- fup.list$Funbound.plasma.dist 
 
@@ -301,7 +304,11 @@ parameterize_sumclearancespfas <- function(
   }
 
 # Distribution coefficient:
-  dow<- calc_dow(Pow = Pow, pH=7.4, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept)
+  dow<- calc_dow(Pow = Pow, 
+                 pH=7.4, 
+                 pKa_Donor=pKa_Donor, 
+                 pKa_Accept=pKa_Accept,
+                 chemdata=chemdata)
 
   # Get the Pearce et al. (2017) lipid binding correction:       
   fup.adjustment <- calc_fup_correction(fup.point,
@@ -420,8 +427,9 @@ parameterize_sumclearancespfas <- function(
     # Now let's use calc_ionization to estimate the chemical's charge profile:
     ion <- calc_ionization(
       pH=7.4,
-      pKa_Donor=pKa_Donor,,
-      pKa_Accept=pKa_Accept)
+      pKa_Donor=pKa_Donor,
+      pKa_Accept=pKa_Accept,
+      chemdata=chemdata)
       
     # Poothong (2017)
     if (ion$fraction_negative > 0.9) Params[['Rblood2plasma']] <- 0.5
@@ -453,7 +461,8 @@ parameterize_sumclearancespfas <- function(
                       species=species,
                       default.to.human=default.to.human,
                       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-                      suppress.messages=suppress.messages)
+                      suppress.messages=suppress.messages,
+                      chemdata=chemdata)
   Kwater2air <- Kx2air$Kwater2air
   Kblood2air <- Kx2air$Kblood2air
   Kmuc2air <- Kx2air$Kmuc2air
@@ -470,7 +479,8 @@ parameterize_sumclearancespfas <- function(
   cl <- calc_hep_clearance(parameters=Params,
           hepatic.model='unscaled',
           restrictive.clearance = restrictive.clearance,
-          suppress.messages=TRUE)#L/h/kg body weight
+          suppress.messages=TRUE,
+          chemdata=chemdata)#L/h/kg body weight
           
 # "hepatic bioavailability" simulates first-pass hepatic metabolism since we 
 # don't explicitly model blood from the gut:
@@ -495,7 +505,8 @@ parameterize_sumclearancespfas <- function(
       parameterize.args = list(default.to.human=default.to.human,
                                class.exclude=class.exclude,
                                physchem.exclude=physchem.exclude),
-      suppress.messages=suppress.messages
+      suppress.messages=suppress.messages,
+      chemdata=chemdata
       ),
     Caco2.options))
     ))

@@ -56,10 +56,10 @@ parameterize_armitage <- function(tcdata = NA,                  #Data.table with
     tcdata[,gswat_n:= as.double(NA)]}
   
   #### Call parameterize_IVD ####
-  p_Armitage_output<- parameterize_IVD(tcdata)
+  p_Armitage_output<- parameterize_IVD(tcdata,chemdata=chemdata)
   
   # Convert from chem.physical_and_invitro.data units to Armitage model units:
-  p_Armitage_output[is.na(gswat_n), "gswat_n" := logWSol + log10(MW*convert_units("g", "mg"))] # log10 mol/L to log10 mg/L
+  p_Armitage_output[is.na(gswat_n), "gswat_n" := logWSol + log10(MW*convert_units("g", "mg",chemdata=chemdata))] # log10 mol/L to log10 mg/L
   
   return(p_Armitage_output)
 

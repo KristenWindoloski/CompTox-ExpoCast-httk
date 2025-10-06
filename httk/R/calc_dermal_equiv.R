@@ -60,7 +60,8 @@ calc_dermal_equiv <- function(conc,
                                            chem.name=chem.name,
                                            chem.cas=chem.cas,
                                            skin_depth=skin_depth,
-                                           skin.pH=skin.pH)
+                                           skin.pH=skin.pH,
+                                           chemdata=chemdata)
     parameters$Vmedia <- Vmedia
     parameters$Fskinexposed <- Fskinexposed
   }

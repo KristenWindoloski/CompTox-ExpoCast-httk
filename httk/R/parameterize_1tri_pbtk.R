@@ -167,7 +167,8 @@ parameterize_1tri_pbtk<- function(
     chem.name=chem.name,
     dtxsid=dtxsid,
     species=species,
-    suppress.messages=TRUE)
+    suppress.messages=TRUE,
+    chemdata=chemdata)
   
   maternal.blood.pH <- 7.38 #average maternal blood pH value measured by and 
   #reported in K.H. Lee 1972 for over 80 mothers.
@@ -229,7 +230,8 @@ parameterize_1tri_pbtk<- function(
                                    chem.name=chem.name,
                                    dtxsid=dtxsid,
                                    species=species,
-                                   suppress.messages=TRUE
+                                   suppress.messages=TRUE,
+                                   chemdata=chemdata
                                    ),
                                  list(...)
                                  ))

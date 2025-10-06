@@ -260,7 +260,8 @@ parameterize_steadystate <- function(
       default.to.human=default.to.human,
       force.human.clint=force.human.clint.fup,
       clint.pvalue.threshold=clint.pvalue.threshold,
-      suppress.messages=suppress.messages) 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata) 
   Clint.point <- Clint.list$Clint.point
   Clint.dist <- Clint.list$Clint.dist
 
@@ -287,7 +288,8 @@ parameterize_steadystate <- function(
   Fu_hep <- calc_hep_fu(parameters=list(
     Pow=Pow,
     pKa_Donor=pKa_Donor,
-    pKa_Accept=pKa_Accept)) # fraction 
+    pKa_Accept=pKa_Accept),
+    chemdata=chemdata) # fraction 
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -306,7 +308,8 @@ parameterize_steadystate <- function(
       default.to.human=default.to.human,
       force.human.fup=force.human.clint.fup,
       suppress.messages=suppress.messages,
-      minimum.Funbound.plasma = minimum.Funbound.plasma) 
+      minimum.Funbound.plasma = minimum.Funbound.plasma,
+      chemdata=chemdata) 
   fup.point <- fup.list$Funbound.plasma.point
   fup.dist <- fup.list$Funbound.plasma.dist 
 
@@ -320,7 +323,11 @@ parameterize_steadystate <- function(
   }
 
 # Distribution coefficient:
-  dow<- calc_dow(Pow = Pow, pH=7.4, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept)
+  dow<- calc_dow(Pow = Pow, 
+                 pH=7.4, 
+                 pKa_Donor=pKa_Donor, 
+                 pKa_Accept=pKa_Accept,
+                 chemdata=chemdata)
 
   # Get the Pearce et al. (2017) lipid binding correction:       
   fup.adjustment <- calc_fup_correction(fup.point,
@@ -383,7 +390,8 @@ parameterize_steadystate <- function(
   cl <- calc_hep_clearance(parameters=Params,
           hepatic.model="unscaled",
           restrictive.clearance = restrictive.clearance,
-          suppress.messages=TRUE) #L/h/kg body weight
+          suppress.messages=TRUE,
+          chemdata=chemdata) #L/h/kg body weight
           
 # "hepatic bioavailability" simulates first-pass hepatic metabolism since we 
 # don't explicitly model blood from the gut:
@@ -410,7 +418,8 @@ parameterize_steadystate <- function(
       parameterize.args.list = list(default.to.human=default.to.human,
                                class.exclude=class.exclude,
                                physchem.exclude=physchem.exclude),
-      suppress.messages=suppress.messages
+      suppress.messages=suppress.messages,
+      chemdata=chemdata
       ),
     Caco2.options))
     ))

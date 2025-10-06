@@ -476,7 +476,8 @@ specification in compartment_units for model ", model)
         hepatic.model='unscaled',
         restrictive.clearance = 
           parameterize.args.list[["restrictive.clearance"]],
-        suppress.messages=TRUE))
+        suppress.messages=TRUE,
+        chemdata=chemdata))
     )
   }
     
@@ -662,7 +663,8 @@ specification in compartment_units for model ", model)
         input.units=given.units,
         output.units=model.units,
         MW = MW,
-        state = model.compartment.state) # ,
+        state = model.compartment.state,
+        chemdata=chemdata) # ,
         # vol = tissue.vol)
       
       return(out.unit.conversion)

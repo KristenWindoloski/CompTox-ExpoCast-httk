@@ -76,7 +76,8 @@ calc_total_clearance <- function(chem.cas=NULL,
                                species=species,
                                suppress.messages=suppress.messages,
                                class.exclude=FALSE,
-                               physchem.exclude=FALSE
+                               physchem.exclude=FALSE,
+                               chemdata=chemdata
                                ),
                            list(...)
                            )

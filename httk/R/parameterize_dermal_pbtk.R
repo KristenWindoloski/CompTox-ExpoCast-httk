@@ -314,7 +314,8 @@ parameterize_dermal_pbtk <-
       default.to.human=default.to.human,
       force.human.clint=force.human.clint.fup,
       clint.pvalue.threshold=clint.pvalue.threshold,
-      suppress.messages=suppress.messages) 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata) 
   Clint.point <- Clint.list$Clint.point
   Clint.dist <- Clint.list$Clint.dist
 
@@ -341,7 +342,8 @@ parameterize_dermal_pbtk <-
   Fu_hep <- calc_hep_fu(parameters=list(
     Pow=Pow,
     pKa_Donor=pKa_Donor,
-    pKa_Accept=pKa_Accept)) # fraction 
+    pKa_Accept=pKa_Accept),
+    chemdata=chemdata) # fraction 
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -358,7 +360,8 @@ parameterize_dermal_pbtk <-
                       force.human.fup=force.human.clint.fup,
                       suppress.messages=suppress.messages,
                       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-                      minimum.Funbound.plasma=minimum.Funbound.plasma
+                      minimum.Funbound.plasma=minimum.Funbound.plasma,
+                      chemdata=chemdata
                       )
 
   # Check to see if we should use the in vitro fup assay correction:
@@ -481,7 +484,8 @@ parameterize_dermal_pbtk <-
              Qtotal.liverc=
                (lumped_params$Qtotal.liverf*as.numeric(Qcardiacc))/1000*60),
            suppress.messages=TRUE,
-           restrictive.clearance=restrictive.clearance)), #L/h/kg BW
+           restrictive.clearance=restrictive.clearance,
+           chemdata=chemdata)), #L/h/kg BW
       million.cells.per.gliver=110, # 10^6 cells/g-liver
       liver.density=1.05)) # g/mL
     
@@ -493,7 +497,8 @@ parameterize_dermal_pbtk <-
                       species=species,
                       default.to.human=default.to.human,
                       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-                      suppress.messages=suppress.messages)
+                      suppress.messages=suppress.messages,
+                      chemdata=chemdata)
   Kblood2air <- Kx2air$Kblood2air
   
   # Get unscaled alveolar ventilation rate (L/h/kg BW^(3/4))
@@ -534,7 +539,7 @@ parameterize_dermal_pbtk <-
     } else { stop('Kvehicle2water must be numeric, "octanol", "olive oil", or "water" and default to vehicle being water.')}
     
     Km2sc = Km2w/Ksc2w; #Equation 1, Chen, 2015
-      ionization <- calc_ionization(chem.cas=chem.cas,pH=skin.pH)
+      ionization <- calc_ionization(chem.cas=chem.cas,pH=skin.pH,chemdata=chemdata)
       fnon <- 1 - ionization$fraction_charged      
     Ked2w <- 0.7 * (0.68 + 0.32 / fup + 0.025 * fnon * Ksc2w) #Equation 11, Chen , 2015
     Ked2m <-  Ked2w / Km2w
@@ -627,7 +632,8 @@ parameterize_dermal_pbtk <-
       chem.cas=chem.cas,
       chem.name=chem.name,
       species=species,
-      suppress.messages=suppress.messages
+      suppress.messages=suppress.messages,
+      chemdata=chemdata
       ),
     Caco2.options))
     ))

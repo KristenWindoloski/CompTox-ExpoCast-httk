@@ -278,7 +278,8 @@ parameterize_pbtk <- function(
       default.to.human=default.to.human,
       force.human.clint=force.human.clint.fup,
       clint.pvalue.threshold=clint.pvalue.threshold,
-      suppress.messages=suppress.messages) 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata) 
   Clint.point <- Clint.list$Clint.point
   Clint.dist <- Clint.list$Clint.dist
 
@@ -305,7 +306,8 @@ parameterize_pbtk <- function(
   Fu_hep <- calc_hep_fu(parameters=list(
     Pow=Pow,
     pKa_Donor=pKa_Donor,
-    pKa_Accept=pKa_Accept)) # fraction 
+    pKa_Accept=pKa_Accept),
+    chemdata=chemdata) # fraction 
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -323,7 +325,8 @@ parameterize_pbtk <- function(
                       force.human.fup=force.human.clint.fup,
                       suppress.messages=suppress.messages,
                       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-                      minimum.Funbound.plasma=minimum.Funbound.plasma)
+                      minimum.Funbound.plasma=minimum.Funbound.plasma,
+                      chemdata=chemdata)
        
   fup <- schmitt.params$Funbound.plasma
   
@@ -440,7 +443,8 @@ parameterize_pbtk <- function(
                (lumped_params$Qtotal.liverf*as.numeric(Qcardiacc))), # L/h/kgBW^(3/4)
            suppress.messages=TRUE,
            species = species,
-           restrictive.clearance=restrictive.clearance)), #L/h/kg BW
+           restrictive.clearance=restrictive.clearance,
+           chemdata=chemdata)), #L/h/kg BW
       million.cells.per.gliver=110, # 10^6 cells/g-liver
       liver.density=1.05)) # g/mL
    
@@ -453,7 +457,8 @@ parameterize_pbtk <- function(
       chem.cas=chem.cas,
       chem.name=chem.name,
       species=species,
-      suppress.messages=suppress.messages
+      suppress.messages=suppress.messages,
+      chemdata=chemdata
       ),
     Caco2.options))
     ))

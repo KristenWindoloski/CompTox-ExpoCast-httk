@@ -438,7 +438,8 @@ calc_analytic_css <- function(chem.name=NULL,
                  chem.cas = chem.cas,
                  chem.name = chem.name,
                  dtxsid=dtxsid,
-                 parameters = parameters)
+                 parameters = parameters,
+                 chemdata=chemdata)
 
 #User message:
   if (!suppress.messages)

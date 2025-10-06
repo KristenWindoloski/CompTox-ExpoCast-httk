@@ -92,7 +92,8 @@ get_fbio <- function(
           chem.name=chem.name,
           dtxsid=dtxsid,
           species=species,
-          suppress.messages=suppress.messages
+          suppress.messages=suppress.messages,
+          chemdata=chemdata
           ),
         list(...)))
       ) 
@@ -111,7 +112,8 @@ get_fbio <- function(
                           chem.name=chem.name,
                           dtxsid=dtxsid,
                           Caco2.Pab.default = Caco2.Pab.default,
-                          suppress.messages = suppress.messages)
+                          suppress.messages = suppress.messages,
+                         chemdata=chemdata)
   out <- c(out, Caco2.Pab)
   parameters <- c(parameters, Caco2.Pab)
   
@@ -125,7 +127,8 @@ get_fbio <- function(
           chem.name=chem.name,
           dtxsid=dtxsid,
           species=species,
-          suppress.messages=suppress.messages
+          suppress.messages=suppress.messages,
+          chemdata=chemdata
           ),
           list(...)))
         )

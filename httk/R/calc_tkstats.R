@@ -155,6 +155,7 @@ calc_tkstats <-function(
                 tissue=tissue,
                 model=model,
                 suppress.messages=TRUE,
+                chemdata=chemdata,
                 ...)
 
       if (length(stat)==1)
@@ -419,5 +420,6 @@ calc_stats <-function(
                  restrictive.clearance = restrictive.clearance
                ),
                suppress.messages=suppress.messages,
+               chemdata=chemdata,
                ...))
 }

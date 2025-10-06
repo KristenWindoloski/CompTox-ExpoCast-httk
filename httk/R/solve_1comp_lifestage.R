@@ -198,7 +198,8 @@ solve_1comp_lifestage <- function(chem.name = NULL,
                                       model = "pbtk",
                                       httkpop.dt = ref.pop.dt,
                                       samples = dim(ref.pop.dt)[1],
-                                      suppress.messages = TRUE)
+                                      suppress.messages = TRUE,
+                                      chemdata=chemdata)
       
       ref.params <- cbind(ref.params,
                           age_years = ref.pop.dt$age_years, 
@@ -213,7 +214,8 @@ solve_1comp_lifestage <- function(chem.name = NULL,
                                                   initial.params = parameters,
                                                   start.age = start.age,
                                                   days = days,
-                                                  ref.params = ref.params)
+                                                  ref.params = ref.params,
+                                                  chemdata=chemdata)
     # forcing is current - initial
   } else { # forcing is repeated zero
     for (param in model.list[["1compartment_lifestage"]]$input.var.names) {

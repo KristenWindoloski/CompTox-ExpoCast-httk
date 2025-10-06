@@ -318,7 +318,8 @@ create_mc_samples <- function(chem.cas=NULL,
                                              species=species,
                                         parameters=parameters,
                                         suppress.messages=suppress.messages,
-                                        tissuelist = tmp_tissuelist),
+                                        tissuelist = tmp_tissuelist,
+                                        chemdata=chemdata),
                                         parameterize.args.list))
   if (!is.null(Caco2.options)) parameterize.args.list[["Caco2.options"]] <- Caco2.options
   
@@ -667,7 +668,8 @@ Set species=\"Human\" to run httkpop model.')
                                                 default.to.human = parameterize.args.list$default.to.human,
                                                 # We can set this to TRUE because the value in Funbound.plasma is either adjusted
                                                 # or not adjusted already:
-                                                adjusted.Funbound.plasma=TRUE)
+                                                adjusted.Funbound.plasma=TRUE,
+                                                chemdata=chemdata)
                                             ))]
                              
                                       
@@ -707,7 +709,8 @@ Set species=\"Human\" to run httkpop model.')
                     species = species,
           hepatic.model='unscaled',
           restrictive.clearance=parameterize.args.list[["restrictive.clearance"]],
-          suppress.messages=TRUE)
+          suppress.messages=TRUE,
+          chemdata=chemdata)
           )
           ) #L/h/kg body weight
 
@@ -740,7 +743,8 @@ Set species=\"Human\" to run httkpop model.')
   if (!keepit100) 
   {
     bioavail <- calc_fbio.oral(parameters = parameters.dt,
-                               species = species) 
+                               species = species,
+                               chemdata=chemdata) 
     if (Caco2.Fabs) parameters.dt[,Fabs:=
                                    bioavail$fabs.oral]
     if (Caco2.Fgut) parameters.dt[,Fgut:=

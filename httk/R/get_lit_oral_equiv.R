@@ -88,7 +88,8 @@ get_lit_oral_equiv <- function(
       output.units = 'um',
       chem.cas = chem.cas,
       chem.name = chem.name,
-      dtxsid = dtxsid
+      dtxsid = dtxsid,
+      chemdata=chemdata
     )
   } else if(tolower(input.units)!='um') stop(
            'Input units can only be in mg/L or uM.')
@@ -124,7 +125,8 @@ get_lit_oral_equiv <- function(
       output.units = output.units,
       chem.cas = chem.cas,
       chem.name = chem.name,
-      dtxsid = dtxsid
+      dtxsid = dtxsid,
+      chemdata=chemdata
     )
   } else if(tolower(output.units) != 'mg') stop(
             "Output units can only be in mg or umol.")
@@ -215,6 +217,7 @@ get_wetmore_oral_equiv <- function(
                                input.units='uM',
                                output.units='mg',
                                clearance.assay.conc=NULL,
+                               chemdata=chem.physical_and_invitro.data,
                                ...)
 {
   if (!suppress.messages)
@@ -229,6 +232,7 @@ get_wetmore_oral_equiv <- function(
                                species=species,
                                input.units=input.units,
                                output.units=output.units,
-                               clearance.assay.conc=clearance.assay.conc),
+                               clearance.assay.conc=clearance.assay.conc,
+                               chemdata=chemdata),
                                ...))))
 }

@@ -182,7 +182,8 @@ calc_analytic_css_3comp <- function(chem.name=NULL,
                    24 * 
                    convert_units(MW = parameters[["MW"]],
                                  dose.units,
-                                 "mg") # mg/h
+                                 "mg",
+                                 chemdata=chemdata) # mg/h
                                    
   fup <- parameters[["Funbound.plasma"]]
   Rblood2plasma <- parameters[["Rblood2plasma"]]

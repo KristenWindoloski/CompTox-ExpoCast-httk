@@ -265,7 +265,8 @@ parameterize_pfas1comp <- function(
                               chem.name=chem.name,
                               dtxsid=dtxsid,
                               Caco2.Pab.default = 30, # More rapid default for PFAS
-                              suppress.messages = suppress.messages))
+                              suppress.messages = suppress.messages,
+                              chemdata=chemdata))
  
 # Phys-chem properties:
   Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas,chemdata=chemdata)
@@ -301,7 +302,8 @@ parameterize_pfas1comp <- function(
             chem.name=chem.name,
             dtxsid=dtxsid,
             suppress.messages=suppress.messages,
-            pfas.calibration=TRUE)
+            pfas.calibration=TRUE,
+            chemdata=chemdata)
     }
 
   params[["Pow"]] <- Pow
@@ -313,7 +315,8 @@ parameterize_pfas1comp <- function(
   ion <- calc_ionization(
     pH=7.4,
     pKa_Donor=params[["pKa_Donor"]],
-    pKa_Accept=params[["pKa_Accept"]])
+    pKa_Accept=params[["pKa_Accept"]],
+    chemdata=chemdata)
   
   # Poothong (2017)
   if (ion$fraction_negative > 0.9) params[['Rblood2plasma']] <- 0.5
@@ -345,10 +348,10 @@ parameterize_pfas1comp <- function(
 
 # Assume well absobred:
   params[["fbio.oral"]] <- 1 # No Clint
-  params[["fabs.oral"]] <- calc_fabs.oral(parameters=params)
+  params[["fabs.oral"]] <- calc_fabs.oral(parameters=params,chemdata=chemdata)
   params[["fgut.oral"]] <- 1 # No Clint
   params[["fhep.oral"]] <- 1 # No Clint                                                                                                   
-  params[["kgutabs"]] <- calc_kgutabs(parameters=params)
+  params[["kgutabs"]] <- calc_kgutabs(parameters=params,chemdata=chemdata)
   params[["Fabsgut"]] <- params[["fabs.oral"]]
   params[["hepatic.bioavailability"]] <- 1 # No Clint
 

@@ -122,13 +122,14 @@ calc_hep_fu <- function(
   Pow <- min(Pow,1e6) # Octanal:water partitioning above 1:1000000 would likely take longer than hepatocyte assay
   
   # Select the appropriate partition coefficient (we treat bases differently):
-  if (!is_base(pH=pH, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept))
+  if (!is_base(pH=pH, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept,chemdata=chemdata))
   {
     logPD <- log10(calc_dow(
                Pow, 
                pH=pH,
                pKa_Donor=pKa_Donor,
-               pKa_Accept=pKa_Accept)) 
+               pKa_Accept=pKa_Accept,
+               chemdata=chemdata)) 
   } else logPD <- log10(Pow)
   
   fu_hep <- 1/(1+ 125*Vr*10^(0.072*logPD^2+0.067*logPD-1.126))

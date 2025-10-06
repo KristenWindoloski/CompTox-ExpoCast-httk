@@ -98,7 +98,8 @@ armitage_estimate_sarea <- function(tcdata = NA, # optionally supply columns v_w
     }
     
     #account for option.plastic and option.bottom
-    tcdata[option.bottom==FALSE, sarea := (4*diam*height)*convert_units("mm2", "m2")] %>% #overwrite sarea with the bottom area removed
+    tcdata[option.bottom==FALSE, 
+           sarea := (4*diam*height)*convert_units("mm2", "m2",chemdata=chemdata)] %>% #overwrite sarea with the bottom area removed
       .[option.plastic==FALSE, sarea := 0] #overwrite sarea to zero
     
   }
@@ -712,11 +713,13 @@ armitage_eval <- function(chem.cas=NULL,
   tcdata[, Fneutral_cell := apply(.SD,1,function(x) calc_ionization(
     pH = this.cell_pH,    
     pKa_Donor = x["pKa_Donor"], 
-    pKa_Accept = x["pKa_Accept"])[["fraction_neutral"]])] %>% 
+    pKa_Accept = x["pKa_Accept"],
+    chemdata=chemdata)[["fraction_neutral"]])] %>% 
     .[, Fpositive_cell := apply(.SD,1,function(x) calc_ionization(
       pH = this.cell_pH,    
       pKa_Donor = x["pKa_Donor"], 
-      pKa_Accept = x["pKa_Accept"])[["fraction_positive"]])] %>% 
+      pKa_Accept = x["pKa_Accept"],
+      chemdata=chemdata)[["fraction_positive"]])] %>% 
     .[, Fcharged_cell := 1- Fneutral_cell] %>% 
     .[, Fnegative_cell := Fcharged_cell - Fpositive_cell]
   
@@ -818,20 +821,20 @@ armitage_eval <- function(chem.cas=NULL,
   tcdata[option.swat2==FALSE, swat_L:=DR_swat/F_ratio]
   
   ### Calculate the volume (in Liters) of each compartment ###
-  tcdata[,Vbm:=v_working*convert_units("ul", "l")] %>% # uL to L; the volume of bulk medium
-    .[,Vwell:=v_total*convert_units("ul", "l")] %>% # uL to L; the volume of well
-    .[,Vcells:=cell_yield*(cellmass*convert_units("ng", "mg"))/celldensity*convert_units("ul", "l")] %>% # cell*(ng/cell)*(1mg/1e6ng)/(mg/uL)*(1uL/L); the volume of cells  
+  tcdata[,Vbm:=v_working*convert_units("ul", "l",chemdata=chemdata)] %>% # uL to L; the volume of bulk medium
+    .[,Vwell:=v_total*convert_units("ul", "l",chemdata=chemdata)] %>% # uL to L; the volume of well
+    .[,Vcells:=cell_yield*(cellmass*convert_units("ng", "mg",chemdata=chemdata))/celldensity*convert_units("ul", "l")] %>% # cell*(ng/cell)*(1mg/1e6ng)/(mg/uL)*(1uL/L); the volume of cells  
     .[,Vair:=Vwell-Vbm-Vcells] %>%  # the volume of head space
-    .[,Valb:=Vbm*FBSf*0.733*conc_ser_alb*convert_units("ml", "l")] %>% # the volume of serum albumin; 0.733 mL/g is the partial specific volume of bovine serum albumin (source: Chemical, Physiological, and Immunological Properties and Clinical Uses of Blood Derivatives)
-    .[,Vslip:=Vbm*FBSf*conc_ser_lip*convert_units("ml", "l")] %>% # the volume of serum lipids
-    .[,Vdom:=Vdom*convert_units("ul", "l")] %>% # uL to L; the volume of Dissolved Organic Matter (DOM)
+    .[,Valb:=Vbm*FBSf*0.733*conc_ser_alb*convert_units("ml", "l",chemdata=chemdata)] %>% # the volume of serum albumin; 0.733 mL/g is the partial specific volume of bovine serum albumin (source: Chemical, Physiological, and Immunological Properties and Clinical Uses of Blood Derivatives)
+    .[,Vslip:=Vbm*FBSf*conc_ser_lip*convert_units("ml", "l",chemdata=chemdata)] %>% # the volume of serum lipids
+    .[,Vdom:=Vdom*convert_units("ul", "l",chemdata=chemdata)] %>% # uL to L; the volume of Dissolved Organic Matter (DOM)
     .[,Vm:=Vbm-Valb-Vslip-Vdom] # the volume of medium
 
   # umol/L for all concentrations
   tcdata[,mtot:= nomconc*Vbm] %>% # amount of umol chemical in the bulk medium in each well
     .[,cwat:=mtot/(DR_kaw*Vair + Vm + DR_kbsa*Valb +
                      P_cells*DR_kow*Vslip + DR_kow*P_dom*f_oc*Vdom + DR_kcw*Vcells +
-                     DR_kpl*sarea*convert_units("m3", "l"))] %>% #calculate freely dissolved aqueous concentration in the test system (umol/L)
+                     DR_kpl*sarea*convert_units("m3", "l",chemdata=chemdata))] %>% #calculate freely dissolved aqueous concentration in the test system (umol/L)
     #DR_kpl (m3/m2) * sarea (m2) * 1000 (L/m3) =  (L)
     .[cwat>DR_swat,cwat_s:=DR_swat] %>% #if the water solubility is exceeded, we use the water solubility as the dissolved concentration in the water (uM) and the excess is assumed to precipitate, therefore not included in the mass balance 
     .[cwat>DR_swat,csat:=1] %>% # and note that the solution is saturated (1 = true)
@@ -848,7 +851,7 @@ armitage_eval <- function(chem.cas=NULL,
     .[Vslip>0,cslip:=DR_kow*cwat_s*P_cells] %>% #concentration bound to serum lipids
     .[Vdom>0,cdom:=DR_kow*cwat_s*P_dom*f_oc] %>% #concentration bound to dissolved organic matter
     .[Vcells>0,ccells:=DR_kcw*cwat_s] %>% #concentration in cells
-    .[,cplastic:=DR_kpl*cwat_s*convert_units("m3", "l")] %>% #DR_kpl (m3/m2) * cwat_s (umol/L) * 1000 (L/m3) = cplastic (umol/m2)
+    .[,cplastic:=DR_kpl*cwat_s*convert_units("m3", "l",chemdata=chemdata)] %>% #DR_kpl (m3/m2) * cwat_s (umol/L) * 1000 (L/m3) = cplastic (umol/m2)
     .[,mwat_s:=cwat_s*Vm] %>% #umol in water (medium)
     .[,mair:=cair*Vair] %>% #umol in air (headspace)
     .[,mbsa:=calb*Valb] %>% #umol in bsa

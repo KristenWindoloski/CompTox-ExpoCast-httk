@@ -53,7 +53,8 @@ apply_clint_adjustment <- function(Clint,
   {
     Fu_hep <- calc_hep_fu(parameters=list(Pow = Pow,
                                           pKa_Donor = pKa_Donor,
-                                          pKa_Accept = pKa_Accept))
+                                          pKa_Accept = pKa_Accept,
+                                          chemdata=chemdata))
   }
   Clint <- Clint / Fu_hep
   

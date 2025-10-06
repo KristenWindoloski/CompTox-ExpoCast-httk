@@ -55,7 +55,8 @@ export_pbtk_jarnac <- function(initial.amounts=list(Agutlumen=0),
     else eval(parse(text=paste(this.compartment,"<- 0")))
   }
   
-  inlist <- parameterize_pbtk(...)
+  inlist <- parameterize_pbtk(chemdata=chemdata,
+                              ...)
 
   # Look up chemical identity from any arguments passed to parameterize_pbtk:
   out <- do.call(get_chem_id, 

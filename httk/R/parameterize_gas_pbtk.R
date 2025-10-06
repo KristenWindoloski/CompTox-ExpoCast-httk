@@ -280,7 +280,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
       default.to.human=default.to.human,
       force.human.clint=force.human.clint.fup,
       clint.pvalue.threshold=clint.pvalue.threshold,
-      suppress.messages=suppress.messages) 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata) 
   Clint.point <- Clint.list$Clint.point
   Clint.dist <- Clint.list$Clint.dist
 
@@ -307,7 +308,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
   Fu_hep <- calc_hep_fu(parameters=list(
     Pow=Pow,
     pKa_Donor=pKa_Donor,
-    pKa_Accept=pKa_Accept)) # fraction 
+    pKa_Accept=pKa_Accept),
+    chemdata=chemdata) # fraction 
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
@@ -323,7 +325,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
                                          class.exclude=class.exclude,
                                          force.human.fup=force.human.clint.fup,
                                          suppress.messages=TRUE,
-                                         minimum.Funbound.plasma=minimum.Funbound.plasma)
+                                         minimum.Funbound.plasma=minimum.Funbound.plasma,
+                                         chemdata=chemdata)
   PCs <- predict_partitioning_schmitt(parameters=schmitt.params,
                                       species=species,
                                       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
@@ -436,7 +439,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
                (lumped_params$Qtotal.liverf*as.numeric(Qcardiacc))/1000*60),
           suppress.messages=TRUE,
         species = species,
-          restrictive.clearance=restrictive.clearance)), #L/h/kg BW
+          restrictive.clearance=restrictive.clearance,
+        chemdata=chemdata)), #L/h/kg BW
       million.cells.per.gliver=110, # 10^6 cells/g-liver
       liver.density=1.05)) # g/mL
   } else {
@@ -473,7 +477,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
                       species=species,
                       default.to.human=default.to.human,
                       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-                      suppress.messages=suppress.messages)
+                      suppress.messages=suppress.messages,
+                      chemdata=chemdata)
   
   Kwater2air <- Kx2air$Kwater2air
   Kblood2air <- Kx2air$Kblood2air
@@ -500,7 +505,8 @@ parameterize_gas_pbtk <- function(chem.cas=NULL,
       chem.cas=chem.cas,
       chem.name=chem.name,
       species=species,
-      suppress.messages=suppress.messages
+      suppress.messages=suppress.messages,
+      chemdata=chemdata
       ),
     Caco2.options))
     ))

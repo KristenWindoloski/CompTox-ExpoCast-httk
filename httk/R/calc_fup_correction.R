@@ -170,7 +170,8 @@ calc_fup_correction <- function(
       species=species,
       default.to.human=default.to.human,
       force.human.fup=force.human.fup,
-      suppress.messages=suppress.messages)$Funbound.plasma.point 
+      suppress.messages=suppress.messages,
+      chemdata=chemdata)$Funbound.plasma.point 
   } else {
     if ("Funbound.plasma" %in% names(parameters))
     {
@@ -215,7 +216,8 @@ calc_fup_correction <- function(
     dow <- calc_dow(Pow=Pow,
                   pH=plasma.pH,
                   pKa_Donor=pKa_Donor,
-                  pKa_Accept=pKa_Accept
+                  pKa_Accept=pKa_Accept,
+                  chemdata=chemdata
                   ) 
   } else dow <- dow74
   

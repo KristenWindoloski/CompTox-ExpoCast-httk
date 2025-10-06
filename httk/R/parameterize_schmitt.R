@@ -293,11 +293,12 @@ parameterize_schmitt <- function(chem.cas=NULL,
     # use Yun & Edgington (2013):
     if (is.na(MA))
     {
-      MA <- calc_ma( chem.cas=chem.cas,
+      MA <- calc_ma(chem.cas=chem.cas,
             chem.name=chem.name,
             dtxsid=dtxsid,
             suppress.messages=suppress.messages,
-            pfas.calibration=pfas.calibration)
+            pfas.calibration=pfas.calibration,
+            chemdata=chemdata)
     }
     names(MA) <- NULL
   }
@@ -326,7 +327,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
         default.to.human=default.to.human,
         force.human.fup=force.human.fup,
         minimum.Funbound.plasma=minimum.Funbound.plasma,
-        suppress.messages=suppress.messages) 
+        suppress.messages=suppress.messages,
+        chemdata=chemdata) 
     fup.point <- fup.list$Funbound.plasma.point
     fup.dist <- fup.list$Funbound.plasma.dist 
   }

@@ -188,7 +188,8 @@ calc_analytic_css_pbtk <- function(chem.name=NULL,
                    24 *
                    convert_units(MW = parameters[["MW"]],
                                  dose.units,
-                                 "mg") # mg/kg/h
+                                 "mg",
+                                 chemdata=chemdata) # mg/kg/h
                                  
   Qcardiac <-  parameters[["Qcardiacc"]] / parameters[['BW']]^0.25 # L/h/kg
   Qgfr <-  parameters[["Qgfrc"]] / parameters[['BW']]^0.25 # L/h/kg   

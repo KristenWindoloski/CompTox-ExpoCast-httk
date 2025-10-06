@@ -111,17 +111,60 @@ in.list <- function(chem.cas=NULL,
   return(chem.cas %in% chem.lists[tolower(names(chem.lists))==tolower(which.list)][[1]][,"CAS"])
 }
 
-is.nhanes.serum.parent <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES.serum.parent"))
-is.nhanes.serum.analyte <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES.serum.analyte"))
-is.nhanes.blood.parent <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES.blood.parent"))
-is.nhanes.blood.analyte <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES.blood.analyte"))
-is.nhanes.urine.parent <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES.urine.parent"))
-is.nhanes.urine.analyte <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES.urine.analyte"))
-is.tox21 <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="Tox21"))
-is.toxcast <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="ToxCast"))
-is.expocast <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="ExpoCast"))
-is.nhanes <- function(chem.cas) return(in.list(chem.cas=chem.cas,which.list="NHANES"))
-is.pharma <- function (chem.cas) return(in.list(chem.cas = chem.cas, which.list = "Pharma"))
+is.nhanes.serum.parent <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES.serum.parent",
+                 chemdata=chemdata))
+
+is.nhanes.serum.analyte <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES.serum.analyte",
+                 chemdata=chemdata))
+
+is.nhanes.blood.parent <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES.blood.parent",
+                 chemdata=chemdata))
+
+is.nhanes.blood.analyte <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES.blood.analyte",
+                 chemdata=chemdata))
+
+is.nhanes.urine.parent <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES.urine.parent",
+                 chemdata=chemdata))
+
+is.nhanes.urine.analyte <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES.urine.analyte",
+                 chemdata=chemdata))
+
+is.tox21 <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="Tox21",
+                 chemdata=chemdata))
+
+is.toxcast <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="ToxCast",
+                 chemdata=chemdata))
+
+is.expocast <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="ExpoCast",
+                 chemdata=chemdata))
+
+is.nhanes <- function(chem.cas) 
+  return(in.list(chem.cas=chem.cas,
+                 which.list="NHANES",
+                 chemdata=chemdata))
+
+is.pharma <- function (chem.cas) 
+  return(in.list(chem.cas = chem.cas,
+                 which.list = "Pharma",
+                 chemdata=chemdata))
 
 
 
@@ -214,7 +257,10 @@ is.pharma <- function (chem.cas) return(in.list(chem.cas = chem.cas, which.list 
 #' }
 #'
 #' @export is.httk
-is.httk <- function(chem.cas,species="Human", model = "3compartmentss",chemdata = chem.physical_and_invitro.data) 
+is.httk <- function(chem.cas,species="Human", 
+                    model = "3compartmentss",
+                    chemdata = chem.physical_and_invitro.data) 
+  
   return(chem.cas %in% get_cheminfo(species=species,
                                     model = model,
                                     chemdata=chemdata))

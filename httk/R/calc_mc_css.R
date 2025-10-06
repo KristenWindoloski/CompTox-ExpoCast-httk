@@ -550,7 +550,8 @@ calc_mc_css <- function(chem.cas = NULL,
                               httkpop.generate.arg.list=httkpop.generate.arg.list,
                               convert.httkpop.arg.list=convert.httkpop.arg.list,
                               parameterize.args.list =parameterize.args.list,
-                              Caco2.options=Caco2.options))))
+                              Caco2.options=Caco2.options,
+                              chemdata=chemdata))))
   else parameter.dt <- parameters
 #
 # HERE LIES THE ACTUAL MONTE CARLO STEP:

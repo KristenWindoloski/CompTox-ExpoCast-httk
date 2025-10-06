@@ -110,7 +110,8 @@ parameterize_IVD <- function(tcdata = NA, # optionally supply columns logHenry, 
   tcdata[, Fneutral := apply(.SD,1,function(x) calc_ionization(
     pH = as.numeric(x["pH"]),
     pKa_Donor = x["pKa_Donor"], 
-    pKa_Accept = x["pKa_Accept"])[["fraction_neutral"]])]
+    pKa_Accept = x["pKa_Accept"],
+    chemdata=chemdata)[["fraction_neutral"]])]
   
   # Calculate the fraction charged:
   tcdata[, Fcharged := 1 - Fneutral]
@@ -119,7 +120,8 @@ parameterize_IVD <- function(tcdata = NA, # optionally supply columns logHenry, 
   tcdata[, Fpositive := apply(.SD,1,function(x) calc_ionization(
     pH = this.pH,    
     pKa_Donor = x["pKa_Donor"], 
-    pKa_Accept = x["pKa_Accept"])[["fraction_positive"]])]
+    pKa_Accept = x["pKa_Accept"],
+    chemdata=chemdata)[["fraction_positive"]])]
   
   # Calculate the fraction negative:
   tcdata[, Fnegative := Fcharged - Fpositive]

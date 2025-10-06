@@ -194,7 +194,8 @@ calc_clearance_frac <- function(
     {
       cl <- calc_hep_clearance(parameters=these.params,
         hepatic.model='unscaled',
-        suppress.messages=TRUE) #L/h/kg body weight
+        suppress.messages=TRUE,
+        chemdata=chemdata) #L/h/kg body weight
 
       these.params["hepatic.bioavailability"] <- 
         do.call(calc_hep_bioavailability,

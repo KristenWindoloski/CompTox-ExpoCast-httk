@@ -72,7 +72,8 @@ scale_dosing <- function(
       output.units = output.units, 
       MW =MW,
       vol=vol,
-      state = state) # Should NOT be in '/kg' if applicable
+      state = state,
+      chemdata=chemdata) # Should NOT be in '/kg' if applicable
 
 # We currently model absorption processes as just diminishing overall dose:
   if (route=="oral")

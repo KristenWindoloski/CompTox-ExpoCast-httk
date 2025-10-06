@@ -412,7 +412,8 @@ calc_mc_oral_equiv <- function(conc,
       output.units = tmp.output.units,
       chem.cas = chem.cas,
       chem.name = chem.name,
-      dtxsid = dtxsid
+      dtxsid = dtxsid,
+      chemdata=chemdata
     )
   } else if (tolower(tmp.output.units) != 'mg') 
     stop("Output units can only be in mgpkgpday or umolpkgpday.")

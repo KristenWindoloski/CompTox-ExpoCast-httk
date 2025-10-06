@@ -220,7 +220,8 @@ calc_analytic_css_3comp2 <- function(chem.name=NULL,
                      24 *
                      convert_units(MW = parameters[["MW"]],
                                    dose.units,
-                                   "mg") # mg/h
+                                   "mg",
+                                   chemdata=chemdata) # mg/h
     
     Css_blood <- hourly.dose * # Oral dose rate mg/h
                  Fabsgut * # Fraction of dose absorbed from gut (in vivo or Caco-2)
@@ -240,7 +241,8 @@ calc_analytic_css_3comp2 <- function(chem.name=NULL,
                       convert_units(MW = parameters[["MW"]],
                                     dose.units,
                                     "mg/L", 
-                                    state="gas") # mg/l
+                                    state="gas",
+                                    chemdata=chemdata) # mg/l
     
     Css_blood <- CinhaledmgpL * # Inhaled concentration mg/L
                  Qalv / # Alveolar air flow # L/h
@@ -315,7 +317,8 @@ calc_analytic_css_3comp2 <- function(chem.name=NULL,
                      24 *
                      convert_units(MW = parameters[["MW"]],
                                    dose.units,
-                                   "mg")
+                                   "mg",
+                                   chemdata=chemdata)
       }
       Qgut <- parameters$Qgutf * parameters$Qcardiacc / parameters$BW^0.25
       Css <- parameters[['Kgut2pu']] * fup * 

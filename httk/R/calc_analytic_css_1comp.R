@@ -158,7 +158,8 @@ calc_analytic_css_1comp <- function(chem.name=NULL,
                    24 *
                    convert_units(MW = parameters[["MW"]],
                                  dose.units,
-                                 "mg") # mg/kg/h
+                                 "mg",
+                                 chemdata=chemdata) # mg/kg/h
                                  
   Css.plasma <- hourly.dose *
   # Oral bioavailability:

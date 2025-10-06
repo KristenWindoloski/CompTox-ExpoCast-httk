@@ -200,7 +200,10 @@ invitro_mc <- function(parameters.dt=NULL,
       pKa_Donor <- parameters.dt[["pKa_Donor"]]
       pKa_Accept <- parameters.dt[["pKa_Accept"]]
       Pow <- parameters.dt[["Pow"]] # Octanol:water partition coeffiecient
-      ion <- calc_ionization(pH=7.4,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
+      ion <- calc_ionization(pH=7.4,
+                             pKa_Donor=pKa_Donor,
+                             pKa_Accept=pKa_Accept,
+                             chemdata=chemdata)
       dow <- Pow * (ion$fraction_neutral + 0.001 * ion$fraction_charged + ion$fraction_zwitter)
       parameters.dt[,Dow74:=dow]
   }
@@ -310,7 +313,8 @@ invitro_mc <- function(parameters.dt=NULL,
     # phys-chem but does not vary biologically):
     # First check that this model has phys-chem parameters:
     if (all(c("Pow","pKa_Donor","pKa_Accept")%in%colnames(parameters.dt)))
-      parameters.dt[,Fhep.assay.correction:=calc_hep_fu(parameters=parameters.dt)]
+      parameters.dt[,Fhep.assay.correction:=calc_hep_fu(parameters=parameters.dt,
+                                                        chemdata=chemdata)]
   
     # Correct for fraction of chemical unbound in in vitro hepatocyte assay:
     if (adjusted.Clint)

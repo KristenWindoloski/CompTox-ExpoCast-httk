@@ -184,7 +184,8 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
   {
     parameters$Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
                                                    parameters=parameters,
-                                                   hematocrit=parameters$hematocrit)
+                                                   hematocrit=parameters$hematocrit,
+                                                   chemdata=chemdata)
   }
 
   BW <- parameters$BW
@@ -195,7 +196,8 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
                    BW *
                    convert_units(MW = parameters[["MW"]],
                                  dose.units,
-                                 "mg") # mg/kg/h
+                                 "mg",
+                                 chemdata=chemdata) # mg/kg/h
 
   Fup <- parameters$Funbound.plasma
   Rb2p <- parameters$Rblood2plasma 
@@ -208,9 +210,10 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
 
   # Scale up from in vitro Clint to a whole liver clearance:
   Clhep <- calc_hep_clearance(parameters=parameters,
-          hepatic.model="well-stirred",
-          restrictive.clearance = restrictive.clearance,
-          suppress.messages=TRUE) # L / h / kg BW
+                              hepatic.model="well-stirred",
+                              restrictive.clearance = restrictive.clearance,
+                              suppress.messages=TRUE,
+                              chemdata=chemdata) # L / h / kg BW
 
   # Oral bioavailability:
   Fabsgut <- parameters$Fabsgut

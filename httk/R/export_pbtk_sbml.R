@@ -57,7 +57,8 @@ export_pbtk_sbml <- function(initial.amounts=list(Agutlumen=0),
     else eval(parse(text=paste(this.compartment,"<- 0")))
   }
   
-  inlist <- parameterize_pbtk(...)
+  inlist <- parameterize_pbtk(chemdata=chemdata,
+                              ...)
   inlist[["Qcardiac"]] <- inlist[["Qcardiacc"]] * 24 * inlist[["BW"]]^0.75
   
   cat("<?xml version=\"1.0\" encoding=\"UTF-8\"?>

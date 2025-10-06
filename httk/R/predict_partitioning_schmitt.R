@@ -194,7 +194,8 @@ predict_partitioning_schmitt <- function(
       default.to.human=default.to.human,
       adjusted.Funbound.plasma=adjusted.Funbound.plasma,
       minimum.Funbound.plasma=minimum.Funbound.plasma,
-      suppress.messages=suppress.messages)
+      suppress.messages=suppress.messages,
+      chemdata=chemdata)
     user.params <- FALSE
   } else {
   # Work with local copy of parameters in function(scoping):
@@ -231,7 +232,8 @@ Fraction unbound for species below limit of detection, cannot predict partitioni
   {
     parameters$MA[is.na(parameters$MA)] <- 
       calc_ma(parameters = parameters,
-              suppress.messages = suppress.messages)
+              suppress.messages = suppress.messages,
+              chemdata=chemdata)
   }   
   
   if(! tolower(species) %in% c('rat','human')){
@@ -376,7 +378,7 @@ Fraction unbound for species below limit of detection, cannot predict partitioni
 # First, calc_ionization handles the Hendersen-Hasselbalch relation for arbitrary pKa''s.
 # We need to calculate the distribution of charged and uncharged molecules at
 # the pH of the tissue:
-    ionization <- calc_ionization(pH=pH,parameters=parameters)
+    ionization <- calc_ionization(pH=pH,parameters=parameters,chemdata=chemdata)
     fraction_neutral  <- ionization[["fraction_neutral"]]
     fraction_charged <- ionization[["fraction_charged"]]
     fraction_negative <- ionization[["fraction_negative"]]
@@ -387,7 +389,8 @@ Fraction unbound for species below limit of detection, cannot predict partitioni
 # This is a generalized version of Schmitt (2008) equations 13 and 14:
 		Kn_L <- calc_dow(Pow = parameters$Pow,
                      fraction_charged = fraction_charged,
-                     alpha = parameters$alpha)
+                     alpha = parameters$alpha,
+		                 chemdata=chemdata)
 
 # Schmitt (2008) section 2.5.3: protein:water partition coefficient 
 # Schmitt (2008) equation 19:
@@ -413,7 +416,9 @@ Fraction unbound for species below limit of detection, cannot predict partitioni
 
 # The following is our attempt to calculate the parameter kappa in general. 
 # We run calc_ionization a second time for the plasma pH.
-    plasma <- calc_ionization(pH=parameters$plasma.pH,parameters=parameters)
+    plasma <- calc_ionization(pH=parameters$plasma.pH,
+                              parameters=parameters,
+                              chemdata=chemdata)
     fraction_neutral_plasma <- plasma[['fraction_neutral']]
     fraction_zwitter_plasma <- plasma[['fraction_zwitter']]    
     fraction_charged_plasma <- plasma[['fraction_charged']] 

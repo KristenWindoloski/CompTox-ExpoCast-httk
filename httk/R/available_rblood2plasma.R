@@ -114,10 +114,11 @@ available_rblood2plasma <- function(chem.cas=NULL,
                                        chemdata=chemdata))
         {
           Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
-            species=species,
-            adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-            class.exclude=class.exclude,
-            suppress.messages=suppress.messages)
+                                              species=species,
+                                              adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                              class.exclude=class.exclude,
+                                              suppress.messages=suppress.messages,
+                                              chemdata=chemdata)
           if (!suppress.messages) 
             warning(paste(toupper(substr(species, 1, 1)), 
               substr(species, 2, nchar(species)),
@@ -129,11 +130,12 @@ available_rblood2plasma <- function(chem.cas=NULL,
                                               chemdata=chemdata)) 
         {
           Rblood2plasma <- calc_rblood2plasma(chem.cas=chem.cas,
-            species="Human",
-            default.to.human=TRUE,
-            class.exclude=class.exclude,
-            adjusted.Funbound.plasma=adjusted.Funbound.plasma,
-            suppress.messages=suppress.messages)
+                                              species="Human",
+                                              default.to.human=TRUE,
+                                              class.exclude=class.exclude,
+                                              adjusted.Funbound.plasma=adjusted.Funbound.plasma,
+                                              suppress.messages=suppress.messages,
+                                              chemdata=chemdata)
           if (!suppress.messages) 
             warning(paste(toupper(substr(species, 1, 1)), 
               substr(species, 2, nchar(species)),

@@ -130,7 +130,8 @@ calc_vdist<- function(chem.cas=NULL,
                                          suppress.messages=suppress.messages,
                                          adjusted.Funbound.plasma = adjusted.Funbound.plasma,
                                          species=species,
-                                         default.to.human=default.to.human
+                                         default.to.human=default.to.human,
+                                         chemdata=chemdata
                                          ),
    # Send only the arguments in ... wanted by the function:
                                     list(...)[names(formals(parameterize_schmitt))]
@@ -190,7 +191,10 @@ calc_vdist<- function(chem.cas=NULL,
                                                         chem.cas=chem.cas,
                                                         chemdata=chemdata))
       Pow <- 10^get_physchem_param("logP",chem.cas=chem.cas,chemdata=chemdata)
-      ion <- calc_ionization(pH=7.4,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
+      ion <- calc_ionization(pH=7.4,
+                             pKa_Donor=pKa_Donor,
+                             pKa_Accept=pKa_Accept,
+                             chemdata=chemdata)
       dow <- Pow * (ion$fraction_neutral + 0.001 * ion$fraction_charged + 
                       ion$fraction_zwitter)
       fup <- 1 / ((dow) * Flipid + 1 / fup)

@@ -206,7 +206,8 @@ calc_kair <- function(
         species=species,
         default.to.human=default.to.human,
         force.human.fup=force.human.clint.fup,
-        suppress.messages=suppress.messages) 
+        suppress.messages=suppress.messages,
+        chemdata=chemdata) 
     fup.point <- fup.list$Funbound.plasma.point
     fup.dist <- fup.list$Funbound.plasma.dist 
   
@@ -220,7 +221,11 @@ calc_kair <- function(
     }
     
     # Distribution coefficient:
-    dow<- calc_dow(Pow = Pow, pH=7.4, pKa_Donor=pKa_Donor, pKa_Accept=pKa_Accept)
+    dow<- calc_dow(Pow = Pow, 
+                   pH=7.4, 
+                   pKa_Donor=pKa_Donor, 
+                   pKa_Accept=pKa_Accept,
+                   chemdata=chemdata)
   
     # Get the Pearce et al. (2017) lipid binding correction:       
     fup.adjustment <- calc_fup_correction(fup.point,
@@ -230,7 +235,8 @@ calc_kair <- function(
                                           species=species,
                                           default.to.human=default.to.human,
                                           force.human.fup=force.human.clint.fup,
-                                          suppress.messages=suppress.messages)
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata)
   
     # Apply the correction if requested:
     if (adjusted.Funbound.plasma)
@@ -264,7 +270,8 @@ calc_kair <- function(
 # For the most part only neutral compound partitions into the air:
   ionization <- calc_ionization(pH=pH,
                                 pKa_Donor=pKa_Donor,
-                                pKa_Accept=pKa_Accept)
+                                pKa_Accept=pKa_Accept,
+                                chemdata=chemdata)
   fraction_neutral  <- ionization[["fraction_neutral"]]
   fraction_charged <- ionization[["fraction_charged"]]
   

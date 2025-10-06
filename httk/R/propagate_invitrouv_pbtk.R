@@ -47,7 +47,8 @@ propagate_invitrouv_pbtk <- function(
                                Vliverc=Vliverc, #L/kg
                                Qtotal.liverc=
                                  ((Qgutf+Qliverf)*as.numeric(Qcardiacc))), # L/h/kgBW^(3/4)
-                             suppress.messages=TRUE),
+                             suppress.messages=TRUE,
+                             chemdata=chemdata),
                              calc.hep.clear.args))))]
 
   return(parameters.dt)

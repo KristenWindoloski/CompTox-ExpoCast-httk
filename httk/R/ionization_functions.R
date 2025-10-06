@@ -594,7 +594,10 @@ is_acid <- function(pH=7,
 {
   if (is.null(fraction_negative))
   {
-    ionization <- calc_ionization(pH=pH,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
+    ionization <- calc_ionization(pH=pH,
+                                  pKa_Donor=pKa_Donor,
+                                  pKa_Accept=pKa_Accept,
+                                  chemdata=chemdata)
     fraction_negative  <- ionization[["fraction_negative"]]
   }
   if (fraction_negative > 0.5) return(TRUE)
@@ -609,7 +612,10 @@ is_base <- function(pH=7,
 {
   if (is.null(fraction_positive))
   {
-    ionization <- calc_ionization(pH=pH,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
+    ionization <- calc_ionization(pH=pH,
+                                  pKa_Donor=pKa_Donor,
+                                  pKa_Accept=pKa_Accept,
+                                  chemdata=chemdata)
     fraction_positive  <- ionization[["fraction_positive"]]
   }
   if (fraction_positive > 0.5) return(TRUE)
@@ -624,7 +630,10 @@ is_neutral <- function(pH=7,
 {
   if (is.null(fraction_neutral))
   {
-    ionization <- calc_ionization(pH=pH,pKa_Donor=pKa_Donor,pKa_Accept=pKa_Accept)
+    ionization <- calc_ionization(pH=pH,
+                                  pKa_Donor=pKa_Donor,
+                                  pKa_Accept=pKa_Accept,
+                                  chemdata=chemdata)
     fraction_neutral  <- ionization[["fraction_neutral"]]
   }
   if (fraction_neutral > 0.5) return(TRUE)

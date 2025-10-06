@@ -194,19 +194,20 @@ parameterize_3comp2 <- function(
              physchem.exclude = FALSE,
              class.exclude = FALSE,
              Caco2.options = Caco2.options,
+             chemdata=chemdata,
              ...)
                               
   parms$Qkidneyf <- parms$Vvenc <- parms$Vartc <- NULL
  
 # Inhalation parameters:
   gasparms <- do.call(parameterize_gas_pbtk, args=purrr::compact(c(
-    list(
-             chem.cas = chem.cas,
-             chem.name = chem.name,
-             dtxsid = dtxsid,
-             species = species,
-             default.to.human = default.to.human,
-      suppress.messages=suppress.messages
+    list(chem.cas = chem.cas,
+         chem.name = chem.name,
+         dtxsid = dtxsid,
+         species = species,
+         default.to.human = default.to.human,
+         suppress.messages=suppress.messages,
+         chemdata=chemdata
       ),
     Caco2.options))
     )

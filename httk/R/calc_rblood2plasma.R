@@ -116,7 +116,8 @@ calc_rblood2plasma <- function(
                     default.to.human=default.to.human,
                     species=species,
                     class.exclude=class.exclude,
-                    suppress.messages=suppress.messages)
+                    suppress.messages=suppress.messages,
+                    chemdata=chemdata)
   } else if (is.null(parameters))
   {                                                                                 
     parameters <- list(

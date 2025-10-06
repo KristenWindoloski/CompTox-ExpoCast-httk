@@ -176,7 +176,8 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
       c(list(chem.cas=chem.cas,
            parameters=parameters,
            hematocrit=parameters$hematocrit,
-           species = species),
+           species = species,
+           chemdata=chemdata),
         #any additional args specified in ... (captured in parameterize.arg.list)
         parameterize.arg.list[
           setdiff(
@@ -214,7 +215,8 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
             hepatic.model='well-stirred',
             restrictive.clearance = restrictive.clearance,
             suppress.messages=TRUE,
-           species = species),
+           species = species,
+           chemdata=chemdata),
       #any additional args specified in ... (captured in parameterize.arg.list)
       parameterize.arg.list[
         setdiff(
@@ -243,7 +245,8 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
                      24 * 
                      convert_units(MW = parameters[["MW"]], 
                                    dose.units, 
-                                   "mg") # mg/kg/h
+                                   "mg",
+                                   chemdata=chemdata) # mg/kg/h
 
 # Steady-state chemical concentration in blood in units of mg/L:
       Css_blood <- hourly.dose * # Oral dose rate mg/kg/h
@@ -260,7 +263,8 @@ calc_analytic_css_sumclearances <- function(chem.name=NULL,
                       convert_units(MW = parameters[["MW"]],
                                     dose.units,
                                     "mg/L", 
-                                    state="gas") # mg/l
+                                    state="gas",
+                                    chemdata=chemdata) # mg/l
     
 # Steady-state chemical concentration in blood in units of mg/L:
     Css_blood <- CinhaledmgpL * # Inhaled concentration mg/L

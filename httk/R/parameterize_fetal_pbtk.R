@@ -199,7 +199,8 @@ parameterize_fetal_pbtk<- function(
                          chem.name=chem.name,
                          dtxsid=dtxsid,
                          species=species,
-                         suppress.messages=TRUE),
+                         suppress.messages=TRUE,
+                         chemdata=chemdata),
                     list(...)
                     )
   schmitt.args <- schmitt.args[names(schmitt.args) %in% 
@@ -263,7 +264,8 @@ parameterize_fetal_pbtk<- function(
                           chem.name=chem.name,
                           dtxsid=dtxsid,
                           species=species,
-                          suppress.messages=TRUE
+                          suppress.messages=TRUE,
+                          chemdata=chemdata
                         ),
                         list(...)
                         ))
@@ -334,7 +336,8 @@ parameterize_fetal_pbtk<- function(
     ion <- calc_ionization(
       pH=fetal.blood.pH,
       pKa_Donor=pKa_Donor,
-      pKa_Accept=pKa_Accept)
+      pKa_Accept=pKa_Accept,
+      chemdata=chemdata)
     
     fraction_positive <- ion$fraction_positive
     

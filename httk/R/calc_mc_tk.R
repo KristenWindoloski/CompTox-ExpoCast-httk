@@ -280,7 +280,8 @@ calc_mc_tk<- function(chem.cas=NULL,
                             httkpop.generate.arg.list=httkpop.generate.arg.list,
                             convert.httkpop.arg.list=convert.httkpop.arg.list,
                             parameterize.args.list =parameterize.args.list,
-                            propagate.invitrouv.arg.list = propagate.invitrouv.arg.list))))
+                            propagate.invitrouv.arg.list = propagate.invitrouv.arg.list,
+                            chemdata=chemdata))))
 
 #
 # HERE LIES THE ACTUAL MONTE CARLO STEP:

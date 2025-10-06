@@ -195,6 +195,7 @@ parameterize_3comp <- function(
              restrictive.clearance = restrictive.clearance,
              minimum.Funbound.plasma = minimum.Funbound.plasma,
              Caco2.options = Caco2.options,
+             chemdata=chemdata,
              ...)
                               
   parms$Qkidneyf <- parms$Vvenc <- parms$Vartc <- NULL

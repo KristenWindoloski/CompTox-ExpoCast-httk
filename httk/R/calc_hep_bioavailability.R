@@ -97,14 +97,16 @@ calc_hep_bioavailability <- function(
                             dtxsid=dtxsid,
                             species=species,
                             default.to.human=default.to.human,
-                            suppress.messages=suppress.messages))))
+                            suppress.messages=suppress.messages,
+                            chemdata=chemdata))))
   }
   
   if (!"Clmetabolismc" %in% names(parameters))
     parameters[["Clmetabolismc"]] <- calc_hep_clearance(parameters=parameters,
                                                         restrictive.clearance=restrictive.clearance,
                                                         hepatic.model='unscaled',
-                                                        suppress.messages=TRUE) #L/h/kg body weight
+                                                        suppress.messages=TRUE,
+                                                        chemdata=chemdata) #L/h/kg body weight
   
   if (!all(c("Qtotal.liverc","Funbound.plasma","Clmetabolismc","Rblood2plasma") 
     %in% names(parameters))) 

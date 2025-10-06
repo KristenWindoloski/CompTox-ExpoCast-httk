@@ -168,6 +168,7 @@ convert_solve_x <- function(model.output.mat,
                       dtxsid = dtxsid,
                       parameters = parameters,
                       state = compartment_state[this.compartment],
+                      chemdata=chemdata,
                       ...)
       )
 

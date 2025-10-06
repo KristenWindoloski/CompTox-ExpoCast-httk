@@ -239,7 +239,8 @@ parameterize_1comp <- function(
                          adjusted.Funbound.plasma=adjusted.Funbound.plasma,
                          regression=regression,
                          suppress.messages=suppress.messages,
-                         minimum.Funbound.plasma = minimum.Funbound.plasma)
+                         minimum.Funbound.plasma = minimum.Funbound.plasma,
+                         chemdata=chemdata)
   
   ss.params <- suppressWarnings(parameterize_steadystate(
                                   chem.name=chem.name,
@@ -256,7 +257,8 @@ parameterize_1comp <- function(
                                     minimum.Funbound.plasma,
                                   class.exclude = class.exclude,
                                   physchem.exclude = physchem.exclude,
-                                  Caco2.options = Caco2.options))
+                                  Caco2.options = Caco2.options,
+                                  chemdata=chemdata))
   ss.params <- c(ss.params, params['Vdist'])
   
   params[['kelim']] <- calc_elimination_rate(parameters=ss.params,
@@ -286,7 +288,8 @@ parameterize_1comp <- function(
                     chem.cas=chem.cas,
                     species=species,
                     default.to.human=default.to.human,
-                    minimum.Funbound.plasma=minimum.Funbound.plasma)) 
+                    minimum.Funbound.plasma=minimum.Funbound.plasma,
+                    chemdata=chemdata)) 
   params[["Pow"]] <- phys.params[["Pow"]]
   params[["pKa_Donor"]] <- phys.params[["pKa_Donor"]] 
   params[["pKa_Accept"]] <- phys.params[["pKa_Accept"]]
