@@ -149,64 +149,69 @@ benchmark_httk <- function(
     CAS <- logMA <- Benchmark <- Version <- Value <- NULL
   SLE.AUC <- SLE.Cmax <- SLE.nomc <- SLE.wetmore <- NULL
   Media <- NULL
+  
   ## Call a copy of the data.tables from httk - local copy from the package 
   chem.ivv.PK.agg <- data.table::copy(httk::chem.invivo.PK.aggregate.data)
+  
   # Use only the plasma data for individual dose treatments:
-  chem.ivv.PK.sum <- subset(
-    data.table::copy(httk::chem.invivo.PK.summary.data),
-    tolower(Media) %in% "plasma")
+  chem.ivv.PK.sum <- subset(data.table::copy(httk::chem.invivo.PK.summary.data),
+                            tolower(Media) %in% "plasma")
+  
   ####
   benchmarks <- list()
 
-  if (basic.check)
-  {
+  if (basic.check) {
     cat("Running Basic check...\n")
     MW.BPA <- httk::chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS=="80-05-7","MW"] 
     set.seed(1234)
-    if (!("method" %in% formalArgs(calc_mc_css)) |
-        !is.null(formals(calc_mc_css)[["method"]]))
-    {
+    if (!("method" %in% formalArgs(calc_mc_css)) | !is.null(formals(calc_mc_css)[["method"]])){
+      
       mc1 <- try(calc_mc_css(chem.cas="80-05-7",
-                         output.units="mg/L",
-                         suppress.messages=suppress.messages)[1])
+                             output.units="mg/L",
+                             suppress.messages=suppress.messages,
+                             chemdata=chemdata)[1])
       set.seed(1234)
       mc2 <- try(calc_mc_css(chem.cas="80-05-7",
-                         output.units="uM",
-                         suppress.messages=suppress.messages)[1])
-    # v1.5 did not have a default method for resampling in httk-pop
-    } else {
+                             output.units="uM",
+                             suppress.messages=suppress.messages,
+                             chemdata=chemdata)[1])
+      # v1.5 did not have a default method for resampling in httk-pop
+      } 
+    else {
       mc1 <- try(calc_mc_css(chem.cas="80-05-7",
-                         output.units="mg/L",
-                         httkpop.generate.arg.list = list(
-                           method="dr" 
-                         ),
-                         suppress.messages=suppress.messages)[1])
+                             output.units="mg/L",
+                             httkpop.generate.arg.list = list(method="dr"),
+                             suppress.messages=suppress.messages,
+                             chemdata=chemdata)[1])
       set.seed(1234)
       mc2 <- try(calc_mc_css(chem.cas="80-05-7",
-                         output.units="uM",
-                         httkpop.generate.arg.list = list(
-                           method="dr" 
-                         ),
-                         suppress.messages=suppress.messages)[1])
+                             output.units="uM",
+                             httkpop.generate.arg.list = list(method="dr"),
+                             suppress.messages=suppress.messages,
+                             chemdata=chemdata)[1])
     }
     benchmarks[["basic"]] <- list(
       N.steadystate = length(get_cheminfo()),
       calc_analytic.units = signif(
         calc_analytic_css(chem.cas="80-05-7", 
                           output.units="mg/L",
-                          suppress.messages=suppress.messages) /
+                          suppress.messages=suppress.messages,
+                          chemdata=chemdata) /
         calc_analytic_css(chem.cas="80-05-7", 
                           output.units="uM",
-                          suppress.messages=suppress.messages) *
+                          suppress.messages=suppress.messages,
+                          chemdata=chemdata) *
         1000/MW.BPA, 4),
       calc_mc.units = signif(signif(mc1/mc2*1000,4) / signif(MW.BPA,4),4),
       solve_pbtk.units = signif(
         solve_pbtk(chem.cas="80-05-7", 
                    output.units="mg/l",
-                   suppress.messages=suppress.messages)[500,"Cplasma"] /
+                   suppress.messages=suppress.messages,
+                   chemdata=chemdata)[500,"Cplasma"] /
         solve_pbtk(chem.cas="80-05-7",
                    output.units="um",
-                   suppress.messages=suppress.messages)[500,"Cplasma"] *
+                   suppress.messages=suppress.messages,
+                   chemdata=chemdata)[500,"Cplasma"] *
         1000/MW.BPA, 4)
       )
       print(benchmarks[["basic"]])
@@ -215,86 +220,113 @@ benchmark_httk <- function(
   if (calc_mc_css.check)
   {
     cat("Running Monte Carlo Steady-State Plasma Concentration check...\n")
-# Get the chemicals with SimCYP numbers:
-    if (exists("get_lit_cheminfo")) wetmore.chems <- get_lit_cheminfo()
-    else wetmore.chems <- get_wetmore_cheminfo()
-# Get list of chemicals where 3comp steadystate model works:  
-  if ("suppress.messages" %in% formalArgs(get_cheminfo)) valid.chems <- 
-    get_cheminfo(suppress.messages=suppress.messages)
-  else valid.chems <- get_cheminfo()
-# Build a table by looping over chemicals with Wetmore-reported SimCYP values:  
-  css.table <- NULL
-  for (this.cas in wetmore.chems)
-    if (this.cas %in% valid.chems)
-    {
-        ids <- httk::get_chem_id(chem.cas=this.cas)
+
+    # Get the chemicals with SimCYP numbers:
+    if (exists("get_lit_cheminfo")) 
+      wetmore.chems <- get_lit_cheminfo(chemdata=chemdata)
+    else 
+      wetmore.chems <- get_wetmore_cheminfo(chemdata=chemdata)
+
+    # Get list of chemicals where 3comp steadystate model works:  
+    if ("suppress.messages" %in% formalArgs(get_cheminfo)) 
+      valid.chems <- get_cheminfo(suppress.messages=suppress.messages,
+                                  chemdata=chemdata)
+    else 
+      valid.chems <- get_cheminfo()
+    
+    # Build a table by looping over chemicals with Wetmore-reported SimCYP values:  
+    css.table <- NULL
+    
+    for (this.cas in wetmore.chems)
+      
+      if (this.cas %in% valid.chems) {
+        
+        ids <- httk::get_chem_id(chem.cas=this.cas,chemdata=chemdata)
         if (!("dtxsid" %in% names(ids)))
         {
           ids$dtxsid <- NA 
         }
         this.row <- data.frame(Compound=ids$chem.name,
-                                  DTXSID=ids$dtxsid,
-                                  CAS=this.cas)
-# Analytical Css, no Monte Carlo
+                               DTXSID=ids$dtxsid,
+                               CAS=this.cas)
+
+        # Analytical Css, no Monte Carlo
         css.analytic <- try(as.data.frame(
                             as.numeric(calc_analytic_css(
                               chem.cas = this.cas,
                               model = "3compartmentss",
                               output.units = "uM",
-                              suppress.messages=suppress.messages))))
-        if (is(css.analytic, "try-error")) css.analytic <- NA
+                              suppress.messages=suppress.messages,
+                              chemdata=chemdata))))
+        
+        if (is(css.analytic, "try-error")) 
+          css.analytic <- NA
+        
         this.row <- cbind(this.row, css.analytic)
-# SimCYP Css from Wetmore papers
-        if (exists("get_lit_css")) lit.func <- "get_lit_css"
-        else lit.func <- "get_wetmore_css"
+
+        # SimCYP Css from Wetmore papers
+        if (exists("get_lit_css")) 
+          lit.func <- "get_lit_css"
+        else 
+          lit.func <- "get_wetmore_css"
+        
         css.lit <- try(as.data.frame(
                         do.call(lit.func, args=list(
                           chem.cas = this.cas,
                           which.quantile = 0.50,
                           output.units = "uM",
                           suppress.messages=suppress.messages))))
-        if (is(css.lit, "try-error")) css.lit <- NA
+        
+        if (is(css.lit, "try-error")) 
+          css.lit <- NA
         this.row <- cbind(this.row, css.lit)
-# Median Css from Monte Carlo                                                      
+
+        # Median Css from Monte Carlo                                                      
         set.seed(2347030)
-        if (!("method" %in% formalArgs(calc_mc_css)) |
-            !is.null(formals(calc_mc_css)[["method"]]))
-        {
+        if (!("method" %in% formalArgs(calc_mc_css)) | !is.null(formals(calc_mc_css)[["method"]])) {
+          
           # v1.4 and earlier did not have argument "model"
-          if ("model" %in% formalArgs(calc_mc_css))
-          {
+          if ("model" %in% formalArgs(calc_mc_css)) {
             css.mc <- try(as.data.frame(
                         calc_mc_css(
                           chem.cas = this.cas,
                           which.quantile = 0.50,
                           model = "3compartmentss",
                           output.units = "uM",
-                          suppress.messages=suppress.messages)))
-          } else {
+                          suppress.messages=suppress.messages,
+                          chemdata=chemdata)))
+            } 
+          else {
             css.mc <- try(as.data.frame(
                         calc_mc_css(
                           chem.cas = this.cas,
                           which.quantile = 0.50,
                           output.units = "uM",
-                          suppress.messages=suppress.messages)))
+                          suppress.messages=suppress.messages,
+                          chemdata=chemdata)))
           }
-        } else {
+        } 
+        else {
           css.mc <- try(as.data.frame(
                       calc_mc_css(
                         chem.cas = this.cas,
                         which.quantile = 0.50,
                         model = "3compartmentss",
                         output.units = "uM",
-                        httkpop.generate.arg.list = list(
-                          method="dr" 
-                        ),
-                        suppress.messages=suppress.messages)))
+                        httkpop.generate.arg.list = list(method="dr"),
+                        suppress.messages=suppress.messages,
+                        chemdata=chemdata)))
         }
-        if (is(css.mc, "try-error")) css.mc <- NA
-# Handle weird output:
-        if (!is.null(dim(css.mc))) css.mc <- median(css.mc[,1])  
+        if (is(css.mc, "try-error")) 
+          css.mc <- NA
+
+        # Handle weird output:
+        if (!is.null(dim(css.mc))) 
+          css.mc <- median(css.mc[,1])  
+        
         this.row <- cbind(this.row, css.mc)
-# Add row to the table:  
+
+        # Add row to the table:  
         colnames(this.row) <-  c(
              "Compound",
              "DTXSID","CAS", 
@@ -312,7 +344,7 @@ benchmark_httk <- function(
     RMSLE.nomc <- signif(mean(css.table$SLE.nomc,
                          na.rm=TRUE)^(1/2),4)
                          
- # Write out values with more than two orders of magnitude error:
+    # Write out values with more than two orders of magnitude error:
     write.table(format(subset(css.table, SLE.wetmore>4), digits=3),
                 row.names=FALSE,
                 sep="\t",
@@ -334,16 +366,20 @@ benchmark_httk <- function(
   {
     cat("Running In Vivo PK Stats check...\n")
     FitData <- chem.ivv.PK.agg
-    if (!("dose" %in% colnames(FitData))) FitData$dose <- FitData$Dose
-    if (!("Css" %in% colnames(FitData))) FitData$Css <- FitData$Css.tkstats
-#    # Subset 'FitData' - exclude Bensulide for poor data in Wambaugh et al. 2018
-#    FitData <- subset(chem.ivv.PK.agg,
-#                      !(Compound=="Bensulide" &
-#                      Source=="Wambaugh et al. (2018), NHEERL/RTI"))
-#    # Subset 'FitData' - exclude Propyzamide for poor data in Wambaugh et al. 2018
-#    FitData <- subset(FitData,
-#                      !(Compound=="Propyzamide" &
-#                      Source=="Wambaugh et al. (2018), NHEERL/RTI"))
+    if (!("dose" %in% colnames(FitData))) 
+      FitData$dose <- FitData$Dose
+    if (!("Css" %in% colnames(FitData))) 
+      FitData$Css <- FitData$Css.tkstats
+
+    #    # Subset 'FitData' - exclude Bensulide for poor data in Wambaugh et al. 2018
+    #    FitData <- subset(chem.ivv.PK.agg,
+    #                      !(Compound=="Bensulide" &
+    #                      Source=="Wambaugh et al. (2018), NHEERL/RTI"))
+    #    # Subset 'FitData' - exclude Propyzamide for poor data in Wambaugh et al. 2018
+    #    FitData <- subset(FitData,
+    #                      !(Compound=="Propyzamide" &
+    #                      Source=="Wambaugh et al. (2018), NHEERL/RTI"))
+    
     if (any(regexpr("parameterize.args.list", formalArgs(calc_analytic_css))!=-1))
     {
       calc_analytic_css.args <- function(x) return(list(
@@ -352,8 +388,10 @@ benchmark_httk <- function(
             model="3compartmentss",
             suppress.messages=suppress.messages,
             output.units="mg/l",
-            parameterize.args.list=list(default.to.human=TRUE)))
-    } else if (any(regexpr("parameterize.args", formalArgs(calc_analytic_css))!=-1))
+            parameterize.args.list=list(default.to.human=TRUE),
+            chemdata=chemdata))
+    } 
+    else if (any(regexpr("parameterize.args", formalArgs(calc_analytic_css))!=-1))
     {
       calc_analytic_css.args <- function(x) return(list(
             chem.cas=x,
@@ -361,7 +399,8 @@ benchmark_httk <- function(
             model="3compartmentss",
             suppress.messages=suppress.messages,
             output.units="mg/l",
-            parameterize.args=list(default.to.human=TRUE)))
+            parameterize.args=list(default.to.human=TRUE),
+            chemdata=chemdata))
     } else if ("default.to.human" %in% formalArgs(calc_analytic_css)) {
       calc_analytic_css.args <- function(x) return(list(
             chem.cas=x,
@@ -369,17 +408,20 @@ benchmark_httk <- function(
             model="3compartmentss",
             suppress.messages=suppress.messages,
             output.units="mg/l",
-            default.to.human=TRUE))
+            default.to.human=TRUE,
+            chemdata=chemdata))
     # No default.to.human argument in v1.1
     } else {
       calc_analytic_css.args <- function(x) return(list(
             parameters=parameterize_steadystate(
               chem.cas=x,
               species="Rat",
-              default.to.human=TRUE),
+              default.to.human=TRUE,
+              chemdata=chemdata),
             model="3compartmentss",
             suppress.messages=suppress.messages,
-            output.units="mg/l"))
+            output.units="mg/l",
+            chemdata=chemdata))
     }
     FitData$Css.pred <- sapply(FitData$CAS,
         function(x) as.numeric(try(ifelse(x %in% get_cheminfo(),
@@ -410,12 +452,13 @@ benchmark_httk <- function(
     {
       out <- apply(FitData2, 1,
         function(x) ifelse(
-          x[["CAS"]] %in% get_cheminfo(model="pbtk"),
+          x[["CAS"]] %in% get_cheminfo(model="pbtk",chemdata=chemdata),
           try(return(unlist(calc_stats(
             parameters=parameterize_pbtk(
               chem.cas=x[["CAS"]],
               species=x[["Species"]],
-              default.to.human=TRUE
+              default.to.human=TRUE,
+              chemdata=chemdata
               ),
             model="pbtk",
             days=10,
@@ -424,17 +467,19 @@ benchmark_httk <- function(
             dose=as.numeric(x[["dose"]]),
             suppress.messages=suppress.messages,
             output.units="mg/l",
-            iv.dose=(x[["Route"]]=="iv"))))), 
+            iv.dose=(x[["Route"]]=="iv"),
+            chemdata=chemdata)))), 
           NA))
     } else {
       out <- apply(FitData2, 1,
         function(x) ifelse(
-          x[["CAS"]] %in% get_cheminfo(model="pbtk"),
+          x[["CAS"]] %in% get_cheminfo(model="pbtk",chemdata=chemdata),
           try(return(unlist(calc_stats(
             parameters=parameterize_pbtk(
               chem.cas=x[["CAS"]],
               species=x[["Species"]],
-              default.to.human=TRUE
+              default.to.human=TRUE,
+              chemdata=chemdata
               ),
             model="pbtk",
             days=1,
@@ -442,7 +487,8 @@ benchmark_httk <- function(
             doses.per.day=1,
             suppress.messages=suppress.messages,
             output.units="mg/l",
-            iv.dose=(x[["Route"]]=="iv"))))), 
+            iv.dose=(x[["Route"]]=="iv"),
+            chemdata=chemdata)))), 
           NA))
     }
     FitData2$Pred.AUC <- unlist(lapply(out,function(x) as.numeric(x["AUC"])*24))
@@ -499,14 +545,16 @@ benchmark_httk <- function(
       cas.list <- get_cheminfo(
                     model='schmitt',
                     species='rat',
-                    suppress.messages=TRUE)
+                    suppress.messages=TRUE,
+                    chemdata=chemdata)
     } else {
       cas.list <- get_cheminfo(
                     model='schmitt',
-                    species='rat')
+                    species='rat',
+                    chemdata=chemdata)
     }
     cas.list <-  cas.list[cas.list %in% pc.data[,'CAS']]
-    ma.data.list <- subset(chem.physical_and_invitro.data,!is.na(logMA))[,'CAS']
+    ma.data.list <- subset(chemdata,!is.na(logMA))[,'CAS']
     for(this.cas in cas.list)
     {
       if ("suppress.messages" %in% formalArgs(parameterize_schmitt))
@@ -514,11 +562,13 @@ benchmark_httk <- function(
         parameters <- parameterize_schmitt(
           chem.cas=this.cas,
           species='rat',
-          suppress.messages=TRUE)
+          suppress.messages=TRUE,
+          chemdata=chemdata)
       } else {
         parameters <- parameterize_schmitt(
           chem.cas=this.cas,
-          species='rat')
+          species='rat',
+          chemdata=chemdata)
       }
       # Switched the name of this parameter aroung v1.9
       if ("Funbound.plasma.uncorrected" %in% names(parameters))
@@ -531,50 +581,58 @@ benchmark_httk <- function(
       init.parameters <- parameters
       if (exists("calc_ionization"))
       {
-        charge <- calc_ionization(
-          chem.cas=this.cas,
-          pH=7.4)$fraction_charged
-      } else charge <- 0
+        charge <- calc_ionization(chem.cas=this.cas,
+                                  pH=7.4,
+                                  chemdata=chemdata)$fraction_charged
+      } else 
+        charge <- 0
+      
       if(!this.cas %in% ma.data.list){
         init.parameters$MA <- 10^(0.999831 - 0.016578*38.7 + 0.881721 * log10(parameters$Pow))
       }
       # Versions prior to 1.6 did not have regression arg:
       if (!("regression" %in% formalArgs(predict_partitioning_schmitt)))
       {
-        pcs <- predict_partitioning_schmitt(
-          parameters=parameters,
-          species='rat')
-        init.pcs <- predict_partitioning_schmitt(
-          parameters=init.parameters,
-          species='rat')
+        pcs <- predict_partitioning_schmitt(parameters=parameters,
+                                            species='rat',
+                                            chemdata=chemdata)
+        init.pcs <- predict_partitioning_schmitt(parameters=init.parameters,
+                                                 species='rat',
+                                                 chemdata=chemdata)
       # Suppress messages added later:
-      } else if (!("suppress.messages" %in% 
-                   formalArgs(predict_partitioning_schmitt)))
+      } 
+      else if (!("suppress.messages" %in% formalArgs(predict_partitioning_schmitt)))
       {
-        pcs <- predict_partitioning_schmitt(
-          parameters=parameters,
-          species='rat',
-          regression=FALSE)
-        init.pcs <- predict_partitioning_schmitt(
-          parameters=init.parameters,
-          species='rat',
-          regression=FALSE)
-      } else {
-        pcs <- predict_partitioning_schmitt(
-          parameters=parameters,
-          species='rat',
-          regression=FALSE,
-          suppress.messages=TRUE)
-        init.pcs <- predict_partitioning_schmitt(
-          parameters=init.parameters,
-          species='rat',
-          regression=FALSE,
-          suppress.messages=TRUE)
+        pcs <- predict_partitioning_schmitt(parameters=parameters,
+                                            species='rat',
+                                            regression=FALSE,
+                                            chemdata=chemdata)
+        init.pcs <- predict_partitioning_schmitt(parameters=init.parameters,
+                                                 species='rat',
+                                                 regression=FALSE,
+                                                 chemdata=chemdata)
+      } 
+      else {
+        pcs <- predict_partitioning_schmitt(parameters=parameters,
+                                            species='rat',
+                                            regression=FALSE,
+                                            suppress.messages=TRUE,
+                                            chemdata=chemdata)
+        
+        init.pcs <- predict_partitioning_schmitt(parameters=init.parameters,
+                                                 species='rat',
+                                                 regression=FALSE,
+                                                 suppress.messages=TRUE,
+                                                 chemdata=chemdata)
       }
-      for(this.tissue in subset(pc.data,CAS==this.cas)[,'Tissue'])
-      {
-        if(this.tissue == 'Blood Cells') this.pc <- 'rbc'
-        else this.pc <- this.tissue
+      
+      for(this.tissue in subset(pc.data,CAS==this.cas)[,'Tissue']) {
+        
+        if(this.tissue == 'Blood Cells') 
+          this.pc <- 'rbc'
+        else 
+          this.pc <- this.tissue
+        
         pc.table <- rbind(pc.table,
                       cbind(
                         as.data.frame(this.cas),

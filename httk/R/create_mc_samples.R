@@ -620,7 +620,8 @@ Set species=\"Human\" to run httkpop model.')
                                         Rb2p = adj.parameters.mean$Rblood2plasma,
                                         Funbound.plasma = adj.parameters.mean$Funbound.plasma,
                                         species = species,
-                                        default.to.human = parameterize.args.list$default.to.human    
+                                        default.to.human = parameterize.args.list$default.to.human,
+                                        chemdata=chemdata
                                       )
                                     )
    )]
@@ -654,10 +655,11 @@ Set species=\"Human\" to run httkpop model.')
         calc_krbc2pu,
         args = purrr::compact(
           list(Rb2p = Rb2p.invivo,
-                                            Funbound.plasma = Funbound.plasma,
-                                            hematocrit = hematocrit,
-                                            species = species,
-                                            default.to.human = parameterize.args.list$default.to.human)
+               Funbound.plasma = Funbound.plasma,
+               hematocrit = hematocrit,
+               species = species,
+               default.to.human = parameterize.args.list$default.to.human,
+               chemdata=chemdata)
           ))]
     } 
 # Calculate Rblood2plasma based on hematocrit, Krbc2plasma, and Funbound.plasma. 

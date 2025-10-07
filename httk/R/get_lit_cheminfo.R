@@ -37,7 +37,9 @@
 #' get_lit_cheminfo(info=c('CAS','MW'))
 #' 
 #' @export get_lit_cheminfo
-get_lit_cheminfo <- function(info="CAS",species="Human",chemdata=chem.physical_and_invitro.data)
+get_lit_cheminfo <- function(info="CAS",
+                             species="Human",
+                             chemdata=chem.physical_and_invitro.data)
 {
   Wetmore.data <- Wetmore.data
   valid.info <- c(
@@ -123,11 +125,12 @@ get_lit_cheminfo <- function(info="CAS",species="Human",chemdata=chem.physical_a
 get_wetmore_cheminfo <- function(
     info="CAS",
     species="Human",
-    suppress.messages=FALSE)
+    suppress.messages=FALSE,
+    chemdata=chem.physical_and_invitro.data)
 {
   if (!suppress.messages) warning(
     "Function \"get_wetmore_cheminfo\" has been renamed to \"get_lit_cheminfo\".")
 
     return(do.call(get_lit_cheminfo, 
-                   args=purrr::compact(list(info = info, species=species))))
+                   args=purrr::compact(list(info = info, species=species,chemdata=chemdata))))
 }

@@ -172,7 +172,8 @@ solve_full_pregnancy <- function(
                                   class.exclude = class.exclude, 
                                   physchem.exclude = physchem.exclude,
                                   monitor.vars = firsttri.outputs, 
-                                  suppress.messages = TRUE)
+                                  suppress.messages = TRUE,
+                                  chemdata=chemdata)
 
   # initialize vector for "initial.values" input to fetal_pbtk 
   initial.dat <- setNames(rep(0, length(mf.states)), mf.states)
@@ -197,7 +198,8 @@ solve_full_pregnancy <- function(
                                class.exclude = class.exclude, 
                                physchem.exclude = physchem.exclude,
                                monitor.vars = c(missing.vols, "fhematocrit", "Rfblood2plasma"), 
-                               suppress.messages = TRUE
+                               suppress.messages = TRUE,
+                               chemdata=chemdata
   )
   
   fetal.parms <- parameterize_fetal_pbtk(chem.name = chem.name,
@@ -252,7 +254,8 @@ solve_full_pregnancy <- function(
                                     physchem.exclude = physchem.exclude,
                                     monitor.vars = mf.outputs, 
                                     initial.values = initial.dat, 
-                                    suppress.messages = TRUE)
+                                    suppress.messages = TRUE,
+                                    chemdata=chemdata)
   
   # get full solution by concatenating 2 outputs
   full_sol <- bind_rows(data.frame(firsttri.out), data.frame(mod.fetal.out))

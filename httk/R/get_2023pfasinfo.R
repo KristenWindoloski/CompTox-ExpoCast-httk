@@ -121,12 +121,12 @@ get_2023pfasinfo <- function(info="CAS",
   # Operate on the global environment:
   target.env <- .GlobalEnv
   
-  # Save all the chemcial data:
-  full.data <- chem.physical_and_invitro.data 
+  # Save all the chemical data:
+  full.data <- chemdata 
   
 # Reduce to just the new PFAS data:
-  assign("chem.physical_and_invitro.data",
-    subset(chem.physical_and_invitro.data,
+  assign("chemdata",
+    subset(chemdata,
     (regexpr("Smeltz",Human.Clint.Reference)!=-1 |
     regexpr("Smeltz",Human.Funbound.plasma.Reference)!=-1 |
     regexpr("Kreutz",Human.Clint.Reference)!=-1 |
@@ -139,7 +139,7 @@ get_2023pfasinfo <- function(info="CAS",
     ),
     envir=target.env)
 
-# Run get_cheminfo on just the PFAS data:
+  # Run get_cheminfo on just the PFAS data:
    out <- get_cheminfo(info=info,
                          species=species,
                          fup.lod.default=fup.lod.default,
@@ -150,11 +150,13 @@ get_2023pfasinfo <- function(info="CAS",
                          clint.pvalue.threshold=clint.pvalue.threshold,
                          class.exclude=FALSE,
                          physchem.exclude=FALSE,
-                         suppress.messages=suppress.messages)
+                         suppress.messages=suppress.messages,
+                       chemdata=chemdata
+                       )
 
 
 # Return the full data before exiting the function
-  assign("chem.physical_and_invitro.data",
+  assign("chemdata",
     full.data,
     envir=target.env)
     

@@ -41,8 +41,7 @@
 #' get_lit_css(chem.cas="80-05-7", daily.dose = 1,which.quantile = 0.5, output.units = "uM")
 #' 
 #' @export get_lit_css
-get_lit_css <- function(
-                        chem.cas=NULL,
+get_lit_css <- function(chem.cas=NULL,
                         chem.name=NULL,
                         daily.dose=1,
                         which.quantile=0.95,
@@ -60,7 +59,9 @@ get_lit_css <- function(
       
   if (!(tolower(output.units) %in% c("mg/l","um"))) stop(
       "Literature only includes mg/L and uM values for Css")
-  out <- get_chem_id(chem.cas=chem.cas,chem.name=chem.name,chemdata=chemdata)
+  out <- get_chem_id(chem.cas=chem.cas,
+                     chem.name=chem.name,
+                     chemdata=chemdata)
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
     
@@ -182,7 +183,8 @@ get_wetmore_css <- function(
                         species="Human",
                         clearance.assay.conc=NULL,
                         output.units="mg/L",
-                        suppress.messages=FALSE)
+                        suppress.messages=FALSE,
+                        chemdata=chem.physical_and_invitro.data)
 {
   if (!suppress.messages)
     warning("Function \"get_wetmore_css\" has been renamed to \"get_lit_cheminfo\".")
@@ -195,5 +197,6 @@ get_wetmore_css <- function(
                         species=species,
                         clearance.assay.conc=clearance.assay.conc,
                         output.units=output.units,
-                        suppress.messages=suppress.messages))))
+                        suppress.messages=suppress.messages,
+                        chemdata=chemdata))))
 }

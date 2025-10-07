@@ -112,6 +112,7 @@ get_lit_oral_equiv <- function(
                          clearance.assay.conc=this.conc,
                          suppress.messages=TRUE,
                          output.units='uM',
+                         chemdata=chemdata,
                          ...))
   # output units are 'mg/kg/day'
   dose <- conc / Css # conc (uM) / Css (uM/mg/kg/day) = dose (mg/kg/day)

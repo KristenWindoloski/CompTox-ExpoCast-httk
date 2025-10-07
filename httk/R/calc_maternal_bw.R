@@ -24,5 +24,6 @@ calc_maternal_bw <- function(
   week = 12,
   chemdata=chem.physical_and_invitro.data)
 {
-  return(calc_fetal_phys(week)$BW)
+  return(calc_fetal_phys(week,
+                         chemdata=chemdata)$BW)
 }

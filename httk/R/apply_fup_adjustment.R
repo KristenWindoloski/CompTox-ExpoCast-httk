@@ -23,6 +23,12 @@
 #' 
 #' @param minimum.Funbound.plasma \ifelse{html}{\out{f<sub>up</sub>}}{\eqn{f_{up}}}
 #' is not allowed to drop below this value (default is 0.0001).
+#' 
+#' @param chemdata A data frame with physicochemical data; the data frame must
+#' be either the original chem.physical_and_invitro.data data frame available in
+#' httk or the original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals. All columns must remain and be in the same order as the 
+#' original data frame.
 #'
 #' @return Fraction unbound in plasma adjusted to take into account binding
 #' in the in vitro assay
