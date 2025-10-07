@@ -383,6 +383,7 @@ calc_mc_oral_equiv <- function(conc,
                           Caco2.options = Caco2.options,
                           return.samples=return.samples,
                           suppress.messages=suppress.messages,
+                         chemdata=chemdata,
                           ...)))))
                          
   if (is(Css,"try-error"))

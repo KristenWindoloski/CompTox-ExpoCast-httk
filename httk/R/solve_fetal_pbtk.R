@@ -263,6 +263,7 @@ describe human gestation.")
                   class.exclude = class.exclude),
     atol=atol,
     rtol=rtol,
+    chemdata=chemdata,
     ...)
   
   return(out) 

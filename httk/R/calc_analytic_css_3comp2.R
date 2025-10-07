@@ -281,7 +281,8 @@ calc_analytic_css_3comp2 <- function(chem.name=NULL,
       c(list(
         parameters = parameters_in,
         species = species,
-        model = THIS.MODEL
+        model = THIS.MODEL,
+        chemdata=chemdata
       ),
       #any additional args specified in ... (captured in parameterize.arg.list)
       parameterize.arg.list[

@@ -216,7 +216,8 @@ parameterize_fetal_pbtk<- function(
   maternal_pcs <- predict_partitioning_schmitt(
     parameters = maternal_schmitt_parms,
     model = "fetal_pbtk",
-    suppress.messages=TRUE)
+    suppress.messages=TRUE,
+    chemdata=chemdata)
   
   #preset our tissue.vols object to pass exact tissue volume information
   #for this model to lump_tissues.R, which may not exactly match
@@ -363,7 +364,8 @@ parameterize_fetal_pbtk<- function(
   fetal_pcs <- predict_partitioning_schmitt(
     parameters = fetal_schmitt_parms,
     model = "fetal_pbtk",
-    suppress.messages=suppress.messages)
+    suppress.messages=suppress.messages,
+    chemdata=chemdata)
   
   #now for the fetus, with the brain included as a compartment. These
   #partition coefficients are based on the same Schmitt parameters except

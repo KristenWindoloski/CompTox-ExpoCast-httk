@@ -264,7 +264,8 @@ calc_css <- function(chem.name=NULL,
     parameterize.args.list = parameterize.args.list,
     atol = atol,
     rtol = rtol,
-    tsteps = tsteps),
+    tsteps = tsteps,
+    chemdata=chemdata),
     ...))))
     # Check for an error:
     RETRY <- inherits(out, "try-error")
@@ -280,23 +281,26 @@ calc_css <- function(chem.name=NULL,
       rtol <- atol
       tsteps <- round(tsteps*1.5)
       out <- try(do.call(solve_model,
-  # we use purrr::compact to drop NULL values from arguments list:
+  
+        # we use purrr::compact to drop NULL values from arguments list:
         args=purrr::compact(c(list(    
         parameters=parameters,
-      model=model, 
-      dosing=dosing,
-      route=route,
-      species = species,
-      input.units=dose.units,
-      suppress.messages=TRUE,
-      days=days,
-      output.units = output.units,
-      monitor.vars=monitor.vars,
-      parameterize.args.list = parameterize.args.list,
-      atol = atol,
-      rtol = rtol,
-      tsteps = tsteps),
-      ...))))
+        model=model, 
+        dosing=dosing,
+        route=route,
+        species = species,
+        input.units=dose.units,
+        suppress.messages=TRUE,
+        days=days,
+        output.units = output.units,
+        monitor.vars=monitor.vars,
+        parameterize.args.list = parameterize.args.list,
+        atol = atol,
+        rtol = rtol,
+        tsteps = tsteps,
+        chemdata=chemdata),
+        ...))))
+      
     # Check for an error:
     RETRY <- inherits(out, "try-error")
     # Can only check if it ran long enough if not an error:
@@ -378,6 +382,7 @@ calc_css <- function(chem.name=NULL,
       atol = atol,
       rtol = rtol,
       tsteps=tsteps,
+      chemdata=chemdata,
       ...))))
 
     Final_State <- out[dim(out)[1],monitor.vars]

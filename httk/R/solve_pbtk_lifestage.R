@@ -344,6 +344,7 @@ solve_pbtk_lifestage <- function(chem.name = NULL,
                       Caco2.options=Caco2.options,
                       class.exclude=class.exclude),
     forcings=timeseries.list,
+    chemdata=chemdata,
     ...)
   
   return(out) 

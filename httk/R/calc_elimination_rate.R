@@ -101,7 +101,8 @@ calc_elimination_rate <- function(chem.cas=NULL,
                                     species=species,
                                     parameters=parameters,
                                     model=model,
-                                    suppress.messages=suppress.messages
+                                    suppress.messages=suppress.messages,
+                                    chemdata=chemdata
                                     ),
                                list(...)
                                ) 

@@ -220,7 +220,8 @@ calc_fbio.oral <- function(parameters = NULL,
             Funbound.plasma=parameters$Funbound.plasma,
             Clmetabolismc=cl, # L/h/kg
             Rblood2plasma=parameters$Rblood2plasma,
-            BW=parameters$BW)
+            BW=parameters$BW),
+          chemdata=chemdata
             )))]
       fhep.oral <- parameters[,"hepatic.bioavailability",with=TRUE]
     }
@@ -238,7 +239,8 @@ calc_fbio.oral <- function(parameters = NULL,
                                   chem.name = chem.name,
                                   dtxsid = dtxsid,
                                   species=species,
-                                  suppress.messages = suppress.messages),
+                                  suppress.messages = suppress.messages,
+                                  chemdata=chemdata),
                              list(...)[c("species",
                                                  "restrictive.clearance")]
                              )))

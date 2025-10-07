@@ -320,6 +320,7 @@ solve_3comp_lifestage <- function(chem.name = NULL,
                       regression=regression,
                       Caco2.options=Caco2.options),
     forcings = timeseries.list,
+    chemdata=chemdata,
     ...)
   
   return(out) 

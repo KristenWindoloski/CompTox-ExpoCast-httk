@@ -467,6 +467,7 @@ solve_gas_pbtk <- function(chem.name = NULL,
       VD = VD,
       Caco2.options = Caco2.options),
     minimum.Funbound.plasma=minimum.Funbound.plasma,
+    chemdata=chemdata,
     ...)
   
   return(out)

@@ -139,7 +139,8 @@ calc_vdist<- function(chem.cas=NULL,
     parameters <- suppressWarnings(do.call(predict_partitioning_schmitt,
                                    args=purrr::compact(c(
                                      list(parameters=schmitt.parameters,
-                                          suppress.messages=suppress.messages),
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata),
    # Send only the arguments in ... wanted by the function:
                                     list(...)[names(formals(predict_partitioning_schmitt))]
                                        ))))

@@ -463,7 +463,8 @@ Set species=\"Human\" to run httkpop model.')
     arglist <- c(
       list(
         parameters.dt=parameters.dt,
-        samples=samples
+        samples=samples,
+        chemdata=chemdata
         ),
 #        adjusted.Clint = adjusted.Clint,
 #        adjusted.Funbound.plasma = adjusted.Funbound.plasma),
@@ -512,7 +513,8 @@ Set species=\"Human\" to run httkpop model.')
         
         parameters.dt[, Funbound.plasma := 
           apply_fup_adjustment(fup = Funbound.plasma,
-                      fup.correction = Funbound.plasma.adjustment)]
+                      fup.correction = Funbound.plasma.adjustment,
+                      chemdata=chemdata)]
       } else stop("Missing phys-chem parameters in invitro_mc for calc_fup_correction.") 
     } else {
       parameters.dt[, Funbound.plasma.adjustment:=1]
@@ -524,7 +526,8 @@ Set species=\"Human\" to run httkpop model.')
       parameters.dt[, Clint := apply_clint_adjustment(
                                  Clint = Clint,
                                  Fu_hep=Fhep.assay.correction,
-                                 suppress.messages=TRUE)]
+                                 suppress.messages=TRUE,
+                                 chemdata=chemdata)]
     }
   }
  
@@ -588,7 +591,8 @@ Set species=\"Human\" to run httkpop model.')
                parameters=parameters.dt,
                args.schmitt,
                tissues=model.list[[model]]$alltissues,
-               suppress.messages=TRUE)))
+               suppress.messages=TRUE,
+               chemdata=chemdata)))
 # Store the red blood cell to unbound plasma partition coefficient if we need
 # it later:
       if (calcrb2p | firstpass) parameters.dt[, Krbc2pu:=PCs[['Krbc2pu']]]
@@ -714,18 +718,17 @@ Set species=\"Human\" to run httkpop model.')
           )
           ) #L/h/kg body weight
 
-# we use purrr::compact to drop NULL values from arguments list:
+  # we use purrr::compact to drop NULL values from arguments list:
   parameters.dt[,hepatic.bioavailability := do.call(calc_hep_bioavailability,
-    args=purrr::compact(list(
-      species = species,
-      parameters=list(
-        Qtotal.liverc=parameters.dt$Qtotal.liverc, # L/h/kg^3/4
-        Funbound.plasma=parameters.dt$Funbound.plasma,
-        Clmetabolismc=cl, # L/h/kg
-        Rblood2plasma=parameters.dt$Rblood2plasma,
-        BW=parameters.dt$BW),
-      default.to.human = parameterize.args.list$default.to.human,
-      restrictive.clearance=parameterize.args.list[["restrictive.clearance"]])))]
+                                                    args=purrr::compact(list(species = species,
+                                                                             parameters=list(Qtotal.liverc=parameters.dt$Qtotal.liverc, # L/h/kg^3/4
+                                                                                             Funbound.plasma=parameters.dt$Funbound.plasma,
+                                                                                             Clmetabolismc=cl, # L/h/kg
+                                                                                             Rblood2plasma=parameters.dt$Rblood2plasma,
+                                                                                             BW=parameters.dt$BW),
+                                                                             default.to.human = parameterize.args.list$default.to.human,
+                                                                             restrictive.clearance=parameterize.args.list[["restrictive.clearance"]],
+                                                                             chemdata=chemdata)))]
   }
   
   # If Caco2.options given use those, otherwise use defaults:

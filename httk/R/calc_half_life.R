@@ -111,7 +111,8 @@ calc_half_life <- function(chem.cas = NULL,
                                  parameters = parameters,
                                  model = model,
                                  species = species,
-                                 suppress.messages = suppress.messages),
+                                 suppress.messages = suppress.messages,
+                                 chemdata=chemdata),
                                  list(...))
                        )
   

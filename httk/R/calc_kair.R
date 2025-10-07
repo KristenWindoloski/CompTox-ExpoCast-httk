@@ -245,7 +245,8 @@ calc_kair <- function(
                          fup.point,
                          fup.correction=fup.adjustment,
                          suppress.messages=suppress.messages,
-                         minimum.Funbound.plasma=minimum.Funbound.plasma
+                         minimum.Funbound.plasma=minimum.Funbound.plasma,
+                         chemdata=chemdata
                          )
     } else {
       fup.corrected <- fup.point

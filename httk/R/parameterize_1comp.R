@@ -274,7 +274,8 @@ parameterize_1comp <- function(
                          restrictive.clearance=restrictive.clearance,
                          well.stirred.correction=well.stirred.correction,
                          clint.pvalue.threshold=clint.pvalue.threshold,
-                         minimum.Funbound.plasma=minimum.Funbound.plasma)
+                         minimum.Funbound.plasma=minimum.Funbound.plasma,
+                         chemdata=chemdata)
   
   params[["Clint"]] <- ss.params[["Clint"]]
   params[["Clint.dist"]] <- ss.params[["Clint.dist"]]

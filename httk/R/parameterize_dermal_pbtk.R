@@ -347,10 +347,11 @@ parameterize_dermal_pbtk <-
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
-  if (adjusted.Clint) Clint.point <- apply_clint_adjustment(
-            Clint.point,
-            Fu_hep=Fu_hep,
-            suppress.messages=suppress.messages)
+  if (adjusted.Clint) 
+    Clint.point <- apply_clint_adjustment(Clint.point,
+                                          Fu_hep=Fu_hep,
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata)
                 
 # Predict the PCs for all tissues in the tissue.data table:
   schmitt.params <- parameterize_schmitt(
@@ -378,7 +379,8 @@ parameterize_dermal_pbtk <-
            adjusted.Funbound.plasma=adjusted.Funbound.plasma,
            regression=regression,
            suppress.messages=suppress.messages,
-           minimum.Funbound.plasma=minimum.Funbound.plasma)
+           minimum.Funbound.plasma=minimum.Funbound.plasma,
+           chemdata=chemdata)
 
   # Get_lumped_tissues returns a list with the lumped PCs, vols, and flows:
   lumped_params <- lump_tissues(

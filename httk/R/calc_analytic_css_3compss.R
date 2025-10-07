@@ -257,13 +257,11 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
     #pass our parameters to predict_partitioning_schmitt so we can get
     #the needed pc's.
     if (any(class(parameters) == "data.table")){
-      pcs <- predict_partitioning_schmitt(parameters =
-          parameters[, param.names.schmitt[param.names.schmitt %in% 
-          names(parameters)], with = F])
+      pcs <- predict_partitioning_schmitt(parameters = parameters[, param.names.schmitt[param.names.schmitt %in% names(parameters)], with = F],
+                                          chemdata=chemdata)
     }else if (is(parameters,"list")) {
-      pcs <- predict_partitioning_schmitt(parameters =
-          parameters[param.names.schmitt[param.names.schmitt %in% 
-          names(parameters)]])
+      pcs <- predict_partitioning_schmitt(parameters = parameters[param.names.schmitt[param.names.schmitt %in% names(parameters)]],
+                                          chemdata=chemdata)
     }else stop('httk is only configured to process parameters as objects of 
                class list or class compound data.table/data.frame.')
     

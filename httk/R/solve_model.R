@@ -792,7 +792,8 @@ specification in compartment_units for model ", model)
     input.units = input.units,
     output.units = dose.units,
     vol = entry.tissue.vol,
-    state = entry.compartment.state)
+    state = entry.compartment.state,
+    chemdata=chemdata)
   dosing.units <- dose.units  #redefine the dosing units if scaling occurs
   
   #Extract our dosing parameters for use
@@ -952,7 +953,8 @@ specification in compartment_units for model ", model)
                             dtxsid = dtxsid,
                             parameters = parameters,
                             monitor.vars = monitor.vars,
-                            suppress.messages=suppress.messages)
+                            suppress.messages=suppress.messages,
+                            chemdata=chemdata)
   # Re-assign 'out' with the new output from 'cu.out'
   out <- cu.out[['new.ouput.matrix']]
 

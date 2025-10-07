@@ -353,7 +353,8 @@ parameterize_schmitt <- function(chem.cas=NULL,
                          fup.point,
                          fup.correction=fup.adjustment,
                          suppress.messages=suppress.messages,
-                         minimum.Funbound.plasma=minimum.Funbound.plasma
+                         minimum.Funbound.plasma=minimum.Funbound.plasma,
+                         chemdata=chemdata
                          )
     } else {
       fup.adjustment <- 1 

@@ -204,7 +204,8 @@ solve_full_pregnancy <- function(
                                          chem.cas = chem.cas,
                                          dtxsid = dtxsid,
                                          class.exclude = class.exclude, 
-                                         physchem.exclude = physchem.exclude)
+                                         physchem.exclude = physchem.exclude,
+                                         chemdata=chemdata)
   
   # get fetal tissue partition coefficients 
   fetal.pcs <- c(fetal.parms[substr(names(fetal.parms),1,2) == 'Kf'], 

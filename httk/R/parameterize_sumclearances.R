@@ -277,10 +277,11 @@ parameterize_sumclearances <- function(
 
 # Correct for unbound fraction of chemical in the hepatocyte intrinsic 
 # clearance assay (Kilford et al., 2008)
-  if (adjusted.Clint) Clint.point <- apply_clint_adjustment(
-                               Clint.point,
-                               Fu_hep=Fu_hep,
-                               suppress.messages=suppress.messages)
+  if (adjusted.Clint) 
+    Clint.point <- apply_clint_adjustment(Clint.point,
+                                          Fu_hep=Fu_hep,
+                                          suppress.messages=suppress.messages,
+                                          chemdata=chemdata)
   
   # Get the central tendency (point estimate) and potentially the distribution
   # quantiles for the fraction unbound in plasma (fup):
@@ -330,7 +331,8 @@ parameterize_sumclearances <- function(
                        fup.point,
                        fup.correction=fup.adjustment,
                        suppress.messages=suppress.messages,
-                       minimum.Funbound.plasma=minimum.Funbound.plasma
+                       minimum.Funbound.plasma=minimum.Funbound.plasma,
+                       chemdata=chemdata
                        )
   } else {
     fup.corrected <- fup.point
@@ -413,7 +415,8 @@ parameterize_sumclearances <- function(
                     BW=BW),
     species = species,
     default.to.human = default.to.human,
-    restrictive.clearance=restrictive.clearance)
+    restrictive.clearance=restrictive.clearance,
+    chemdata=chemdata)
 
   if (is.na(Params[['hepatic.bioavailability']])) browser() 
 

@@ -153,7 +153,8 @@ get_fbio <- function(
                                         chem.name = chem.name,
                                         dtxsid = dtxsid,
                                         species = species, 
-                                        suppress.messages = suppress.messages),
+                                        suppress.messages = suppress.messages,
+                                        chemdata=chemdata),
                                         list(...)))
                         )
       }

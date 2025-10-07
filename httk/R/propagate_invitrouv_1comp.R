@@ -60,6 +60,7 @@ propagate_invitrouv_1comp <- function(
       #because it uses the vector of Funbound.plasma that we give it.
       ke <- httk::calc_elimination_rate(parameters=parameters.dt,
                                         suppress.messages=TRUE,
+                                        chemdata=chemdata,
                                         ...)
 
       #Add kelim to the population data.table.

@@ -519,7 +519,8 @@ solve_dermal_pbtk <- function(chem.name = NULL, #solve_model
       Kvehicle2water = Kvehicle2water,
       InfiniteDose = InfiniteDose,
       parameterize.arg.list
-    )),
+    ),
+    chemdata=chemdata),
     list(...))
     )
   

@@ -72,7 +72,8 @@ calc_dermal_equiv <- function(conc,
                            parameters=parameters,
                            doses.per.day=doses.per.day,
                            ...,
-                           suppress.messages=T)
+                           suppress.messages=T,
+                           chemdata=chemdata)
                            
   css <- out[[dim(out)[1],'AUC']] - out[[match(days - 1,out[,'time']),'AUC']]
   dose <- conc/css

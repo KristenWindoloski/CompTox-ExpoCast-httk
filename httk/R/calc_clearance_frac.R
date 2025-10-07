@@ -165,13 +165,11 @@ calc_clearance_frac <- function(
   # Get total Css
   Clearance.total <- do.call(calc_total_clearance,
                      args=purrr::compact(c(list(
-                                                parameters =
-                                                  parameters,
+                                                parameters = parameters,
                                                 model=model,
-                                                suppress.messages =
-                                                  suppress.messages,
-                                                restrictive.clearance =
-                                                  restrictive.clearance
+                                                suppress.messages = suppress.messages,
+                                                restrictive.clearance = restrictive.clearance,
+                                                chemdata=chemdata
                                                 ),
                                             analytic_css.args)))
   
@@ -206,18 +204,17 @@ calc_clearance_frac <- function(
               Clmetabolismc=cl, # L/h/kg
               Rblood2plasma=these.params$Rblood2plasma,
               BW=these.params$BW),
-            restrictive.clearance=restrictive.clearance)))
+            restrictive.clearance=restrictive.clearance,
+            chemdata=chemdata)))
     }
     
     this.clearance <- do.call(calc_total_clearance,
                      args=purrr::compact(c(list(
-                                                parameters =
-                                                  these.params,
+                                                parameters = these.params,
                                                 model=model,
-                                                suppress.messages =
-                                                  suppress.messages,
-                                                restrictive.clearance =
-                                                  restrictive.clearance
+                                                suppress.messages = suppress.messages,
+                                                restrictive.clearance = restrictive.clearance,
+                                                chemdata=chemdata
                                                 ),
                                             analytic_css.args)))
                                             

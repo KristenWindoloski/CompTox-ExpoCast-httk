@@ -288,6 +288,7 @@ solve_3comp <- function(chem.name = NULL,
                       Caco2.options=Caco2.options,
                       class.exclude = class.exclude,
                       physchem.exclude = physchem.exclude),
+    chemdata=chemdata,
     ...)
   
   return(out) 

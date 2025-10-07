@@ -178,7 +178,8 @@ parameterize_1tri_pbtk<- function(
   maternal_pcs <- predict_partitioning_schmitt(
     parameters = maternal_schmitt_parms,
     model = "1tri_pbtk",
-    suppress.messages=TRUE)
+    suppress.messages=TRUE,
+    chemdata=chemdata)
   
   #preset our tissue.vols object to pass exact tissue volume information
   #for this model to lump_tissues.R, which may not exactly match
@@ -267,7 +268,8 @@ parameterize_1tri_pbtk<- function(
                                                       chem.cas=chem.cas,
                                                       chem.name=chem.name,
                                                       dtxsid=dtxsid,
-                                                      suppress.messages=TRUE
+                                                      suppress.messages=TRUE,
+                                                      chemdata=chemdata
                                                       ),
                                                  list(...)
                                                  ))

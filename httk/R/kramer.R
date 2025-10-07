@@ -270,7 +270,8 @@ kramer_eval <- function(chem.cas=NULL,
   }
   
   #### Parameterize Kramer: ####
-  tcdata <- parameterize_kramer(tcdata) #call parameterize_kramer(), overwrite tcdata with the updated variables
+  tcdata <- parameterize_kramer(tcdata,
+                                chemdata=chemdata) #call parameterize_kramer(), overwrite tcdata with the updated variables
   
 
   #add in the optional parameters:

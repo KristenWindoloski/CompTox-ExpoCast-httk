@@ -238,7 +238,8 @@ describe human gestation.")
                                   physchem.exclude = physchem.exclude,
                                   class.exclude = class.exclude), 
                     atol=atol, 
-                    rtol=rtol),
+                    rtol=rtol,
+                    chemdata=chemdata),
                     list(...)
                     )))
   

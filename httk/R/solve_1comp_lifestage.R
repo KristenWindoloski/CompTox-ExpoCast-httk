@@ -277,6 +277,7 @@ solve_1comp_lifestage <- function(chem.name = NULL,
                       restrictive.clearance = restrictive.clearance,
                       regression=regression),
     forcings = timeseries.list,
+    chemdata=chemdata,
     ...)
   
   return(out) 

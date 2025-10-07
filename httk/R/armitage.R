@@ -633,7 +633,8 @@ armitage_eval <- function(chem.cas=NULL,
   }
   
   #### Parameterize Armitage: ####
-  tcdata <- parameterize_armitage(tcdata) #call parameterize_armitage(), overwrite tcdata with the updated variables
+  tcdata <- parameterize_armitage(tcdata,
+                                  chemdata=chemdata) #call parameterize_armitage(), overwrite tcdata with the updated variables
   
   #### Run Armitage Code: ####
   

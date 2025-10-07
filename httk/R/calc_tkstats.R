@@ -210,6 +210,7 @@ calc_tkstats <-function(
                       dosing=dosing,
                       suppress.messages=TRUE,
                       output.units=output.units,
+                      chemdata=chemdata,
                       ...)
     
 # Skip any transients in first 5 minutes (for intravenous):
