@@ -204,8 +204,7 @@ httkpop_generate <- function(method,
                                      'Non-Hispanic Black',
                                      'Other'),
                              gfr_resid_var = TRUE,
-                             ckd_epi_race_coeff = FALSE,
-                             chemdata=chem.physical_and_invitro.data){
+                             ckd_epi_race_coeff = FALSE){
 
 # Error checking:
   if (is.null(method)) stop(

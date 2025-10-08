@@ -57,8 +57,7 @@ httkpop_direct_resample_inner <- function(nsamp,
                                           weight_category,
                                           gfr_resid_var,
                                           ckd_epi_race_coeff,
-                                          nhanes_mec_svy,
-                                          chemdata=chem.physical_and_invitro.data){
+                                          nhanes_mec_svy){
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

@@ -25,8 +25,7 @@
 #' @export estimate_gfr
 estimate_gfr <- function(gfrtmp.dt,
                          gfr_resid_var = TRUE,
-                         ckd_epi_race_coeff = FALSE,
-                         chemdata=chem.physical_and_invitro.data){
+                         ckd_epi_race_coeff = FALSE){
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data. table column name is used without quotes. To appease R CMD

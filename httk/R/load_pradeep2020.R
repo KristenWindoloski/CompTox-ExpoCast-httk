@@ -124,8 +124,7 @@
 load_pradeep2020 <- function(
     overwrite=FALSE,
     chem_include = NULL,
-    target.env=.GlobalEnv,
-    chemdata=chem.physical_and_invitro.data)
+    target.env=.GlobalEnv)
 {
   tmp_pradeep2020 <- httk::pradeep2020
   # check whether there is any information on specific chemicals to include

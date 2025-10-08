@@ -59,8 +59,7 @@ get_weight_class <- function(age_years,
                              bmi,
                              recumlen,
                              weight,
-                             gender,
-                             chemdata=chem.physical_and_invitro.data){
+                             gender){
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD

@@ -60,9 +60,10 @@ export_pbtk_jarnac <- function(initial.amounts=list(Agutlumen=0),
 
   # Look up chemical identity from any arguments passed to parameterize_pbtk:
   out <- do.call(get_chem_id, 
-                 args=purrr::compact(list(...)[c("chem.cas",
-                                     "chem.name",
-                                     "dtxsid")]))
+                 args=purrr::compact(list(chemdata=chemdata,
+                                          ...)[c("chem.cas",
+                                                 "chem.name",
+                                                 "dtxsid")]))
   chem.cas <- out$chem.cas
   chem.name <- out$chem.name
   # Look up species from any arguments passed to parameterize_pbtk:
