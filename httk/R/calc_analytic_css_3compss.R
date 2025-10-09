@@ -74,6 +74,13 @@
 #' Caco2 derived values if available. keepit100 = TRUE overwrites Fabs and Fgut with 1 (i.e. 100 percent) regardless of other settings.
 #' See \code{\link{get_fbio}} for further details.
 #' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
+#' 
 #'@param ... Additional parameters passed to parameterize function if 
 #'parameters is NULL.
 #'  

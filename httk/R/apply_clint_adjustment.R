@@ -27,11 +27,12 @@
 #'
 #' @param suppress.messages Whether or not the output message is suppressed.
 #' 
-#' @param chemdata A data frame with physicochemical data; the data frame must
-#' be either the original chem.physical_and_invitro.data data frame available in
-#' httk or the original chem.physical_and_invitro.data data frame with additional
-#' rows of chemicals. All columns must remain and be in the same order as the 
-#' original data frame.
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #'
 #' @return Intrinsic hepatic clearance increased to take into account binding
 #' in the in vitro assay

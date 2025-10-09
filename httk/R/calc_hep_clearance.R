@@ -52,6 +52,13 @@
 #' \insertCite{pearce2017evaluation}{httk} lipid binding adjustment
 #' for Funbound.plasma (which also impacts partition coefficients such as 
 #' blood:plasma ratio) when set to TRUE (Default).
+#' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #'
 #' @param ... Additional parameters passed to parameterize_steadystate if
 #' parameters is NULL.

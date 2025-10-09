@@ -22,6 +22,13 @@
 #' 
 #' @param user_assay_parameters option to fill in your own assay parameters (data table)
 #' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
+#' 
 #' @return A data table composed of any input data.table \emph{tcdata}
 #' with only the following columns either created or altered by this function:  
 #' \tabular{ccc}{
@@ -45,7 +52,8 @@ armitage_estimate_sarea <- function(tcdata = NA, # optionally supply columns v_w
                                     user_assay_parameters = NA, #option to fill in your own assay parameters (data table)
                                     this.well_number = 384,
                                     this.cell_yield = NA,
-                                    this.v_working = NA){
+                                    this.v_working = NA,
+                                    chemdata=chem.physical_and_invitro.data){
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD
   #CHECK, a variable has to be created for each of these column names and set to
@@ -247,6 +255,13 @@ armitage_estimate_sarea <- function(tcdata = NA, # optionally supply columns v_w
 #' @param this.Lyso_Diam diameter of lysosome (500 nm)
 #' 
 #' @param this.Lyso_pH pH of lysosome (5.1)
+#' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #'
 #' @return
 #' \tabular{lll}{
@@ -451,7 +466,8 @@ armitage_eval <- function(chem.cas=NULL,
                           this.Vdom = 0, # L the volume of dissolved organic matter (DOM)
                           this.pH = 7.0, # pH of cell culture
                           restrict.ion.partitioning = FALSE, # Should we restrict the partitioning concentration to neutral only?
-                          surface.area.switch = TRUE #calculate surface area (assumes yes)
+                          surface.area.switch = TRUE, #calculate surface area (assumes yes)
+                          chemdata=chem.physical_and_invitro.data
 )
 {
   #R CMD CHECK throws notes about "no visible binding for global variable", for

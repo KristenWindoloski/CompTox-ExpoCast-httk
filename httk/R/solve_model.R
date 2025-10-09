@@ -143,6 +143,13 @@
 #' containing time values and the second column the value of quantity at those
 #' times. Default NULL.
 #' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
+#' 
 #' @return A matrix of class deSolve with a column for time(in days), each
 #' compartment, the area under the curve, and plasma concentration and a row
 #' for each time point.

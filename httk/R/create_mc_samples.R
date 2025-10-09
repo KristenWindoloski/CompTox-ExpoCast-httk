@@ -134,6 +134,13 @@
 #'   parameterize.args.list
 #'
 #' @param adjusted.Clint Deprecated argument -- use parameterize.args.list
+#' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #'
 #' @return A data table where each column corresponds to parameters needed for
 #'   the specified model and each row represents a different Monte Carlo sample

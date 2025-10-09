@@ -17,6 +17,13 @@
 #' 
 #' @param species Species desired (either "Rat" or default "Human").
 #' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
+#' 
 #' @return \item{info}{Table/vector containing values specified in "info" for
 #' valid chemicals.}
 #' 
@@ -101,6 +108,13 @@ get_lit_cheminfo <- function(info="CAS",
 #' @param species Species desired (either "Rat" or default "Human").
 #' 
 #' @param suppress.messages Whether or not the output message is suppressed.
+#' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #' 
 #' @return \item{info}{Table/vector containing values specified in "info" for
 #' valid chemicals.}

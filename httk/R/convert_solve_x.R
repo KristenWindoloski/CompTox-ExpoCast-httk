@@ -40,6 +40,12 @@
 #' (Default is FALSE, i.e. show messages.)
 #' @param verbose Whether or not to display the full conversion factor table.
 #' (Default is FALSE, i.e. only include rows where the conversion factor is 1.)
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #' @param ... Other parameters that can be passed to \code{convert_units}, e.g.
 #' temperature and compound state.  See details in \code{\link{convert_units}}.
 #' 

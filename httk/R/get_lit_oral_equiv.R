@@ -26,6 +26,12 @@
 #' @param clearance.assay.conc Concentration of chemical used in measureing
 #' intrinsic clearance data, 1 or 10 uM.
 #' @param ... Additional parameters passed to get_lit_css.
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #' @return Equivalent dose in specified units, default of mg/kg BW/day.
 #' @author John Wambaugh
 #' @references
@@ -184,6 +190,12 @@ get_lit_oral_equiv <- function(
 #' @param species Species desired (either "Rat" or default "Human"). 
 #' @param clearance.assay.conc Concentration of chemical used in measureing
 #' intrinsic clearance data, 1 or 10 uM.
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #' @param ... Additional parameters passed to get_lit_css.
 #' @return Equivalent dose in specified units, default of mg/kg BW/day.
 #' @author John Wambaugh

@@ -38,6 +38,12 @@
 #' "ToxCast", "Tox21", "ExpoCast", "NHANES", ""NHANES.serum.parent",
 #' "NHANES.serum.analyte","NHANES.blood.parent","NHANES.blood.analyte",
 #' "NHANES.urine.parent","NHANES.urine.analyte"
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #' @return \item{logical}{A Boolean (1/0) value that is TRUE if the chemical is
 #' in the list.}
 #' @author John Wambaugh
@@ -211,6 +217,12 @@ is.pharma <- function (chem.cas)
 #' three compartment model, '3compartmentss' for the three compartment model
 #' without partition coefficients, or 'schmitt' for chemicals with logP and
 #' fraction unbound (used in predict_partitioning_schmitt).
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #' @return \item{logical}{A Boolean (1/0) value that is TRUE if the chemical
 #' is included in the httk project with a given modeling scheme (PBTK) and 
 #' a given species}

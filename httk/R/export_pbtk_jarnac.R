@@ -21,6 +21,13 @@
 #' @param folder The folder on the file system containing the output file. Defaults to \code{\link{tempdir}}.
 #' 
 #' @param digits Desired number of decimal places to round the parameters.
+#' 
+#' @param chemdata A data frame with physicochemical data following the exact
+#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+#' must be either the original chem.physical_and_invitro.data data frame or the 
+#' original chem.physical_and_invitro.data data frame with additional
+#' rows of chemicals (if the user wanted to add chemicals to the list). All 
+#' columns must remain and be in the same order as the original data frame.
 #'
 #' @param ... Arguments to \code{\link{parameterize_pbtk}} such as chem.name, chem.cas, dtxsid, species.
 #' 
