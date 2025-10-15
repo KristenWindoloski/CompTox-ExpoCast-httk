@@ -427,7 +427,8 @@ specification in compartment_units for model ", model)
         chem.name=chem.name,
         dtxsid=dtxsid,
         species=species,
-        suppress.messages=suppress.messages
+        suppress.messages=suppress.messages,
+        chemdata=chemdata
         ),
       parameterize.args.list))) 
   } else {

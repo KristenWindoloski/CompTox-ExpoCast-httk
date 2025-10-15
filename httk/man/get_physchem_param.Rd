@@ -4,7 +4,13 @@
 \alias{get_physchem_param}
 \title{Get physico-chemical parameters from chem.physical_and_invitro.data table}
 \usage{
-get_physchem_param(param, chem.name = NULL, chem.cas = NULL, dtxsid = NULL)
+get_physchem_param(
+  param,
+  chem.name = NULL,
+  chem.cas = NULL,
+  dtxsid = NULL,
+  chemdata = chem.physical_and_invitro.data
+)
 }
 \arguments{
 \item{param}{The desired parameters, a vector or single value.}
@@ -15,6 +21,13 @@ get_physchem_param(param, chem.name = NULL, chem.cas = NULL, dtxsid = NULL)
 
 \item{dtxsid}{EPA's 'DSSTox Structure ID (https://comptox.epa.gov/dashboard)
 the chemical must be identified by either CAS, name, or DTXSIDs}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 The parameters, either a single value, a named list for a single chemical, or a list of lists

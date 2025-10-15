@@ -11,7 +11,8 @@ scale_dosing(
   input.units = NULL,
   output.units = "uM",
   vol = NULL,
-  state = "liquid"
+  state = "liquid",
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -40,6 +41,13 @@ Currently supported units "mg/L", "ug/L","ug/mL", "uM", "umol/L", "ug/dL",
 NOTE: Volume should not be in units of per BW, i.e. "kg".}
 
 \item{state}{Chemical state of matter (gas or default liquid).}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A list of numeric values for doses converted to output.units, potentially

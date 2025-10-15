@@ -15,6 +15,7 @@ calc_fbio.oral(
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 
@@ -25,7 +26,8 @@ calc_fabs.oral(
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
-  Caco2.Pab.default = 1.6
+  Caco2.Pab.default = 1.6,
+  chemdata = chem.physical_and_invitro.data
 )
 
 calc_peff(
@@ -36,7 +38,8 @@ calc_peff(
   species = "Human",
   suppress.messages = FALSE,
   Caco2.Pab = NULL,
-  parameterize.args.list = list()
+  parameterize.args.list = list(),
+  chemdata = chem.physical_and_invitro.data
 )
 
 calc_kgutabs(
@@ -46,7 +49,8 @@ calc_kgutabs(
   dtxsid = NULL,
   species = "Human",
   suppress.messages = FALSE,
-  parameterize.args.list = list()
+  parameterize.args.list = list(),
+  chemdata = chem.physical_and_invitro.data
 )
 
 calc_fgut.oral(
@@ -57,7 +61,8 @@ calc_fgut.oral(
   species = "Human",
   suppress.messages = FALSE,
   Caco2.Pab.default = 1.6,
-  parameterize.args.list = list()
+  parameterize.args.list = list(),
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -83,6 +88,13 @@ must be specified).}
 
 \item{suppress.messages}{(Logical) Whether or not the output message is
 suppressed. (Defaults to `FALSE`.)}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional parameters passed to parameterize function if 
 parameters is NULL.}

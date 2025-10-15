@@ -26,7 +26,8 @@ invitro_mc(
   adjusted.Funbound.plasma = TRUE,
   adjusted.Clint = TRUE,
   clint.pvalue.threshold = 0.05,
-  minimum.Funbound.plasma = 1e-04
+  minimum.Funbound.plasma = 1e-04,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -96,6 +97,13 @@ set to zero.}
 \item{minimum.Funbound.plasma}{Monte Carlo draws less than this value are set 
 equal to this value (default is 0.0001 -- half the lowest measured Fup in our
 dataset).}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{parameters}{A list of chemical-specific model parameters containing at
 least Funbound.plasma, Clint, and Fhep.assay.correction.}

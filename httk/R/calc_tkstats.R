@@ -402,6 +402,7 @@ calc_stats <-function(
                regression=TRUE,
                restrictive.clearance = TRUE,
                suppress.messages=FALSE,
+               chemdata=chem.physical_and_invitro.data,
                ...)
 {
   warning("Function \"calc_stats\" has been renamed to \"calc_tkstats\".")

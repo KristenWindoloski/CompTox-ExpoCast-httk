@@ -13,7 +13,8 @@ parameterize_kramer(
   this.v_working = NA_real_,
   this.cell_yield = NA_real_,
   this.sarea = NA_real_,
-  this.prot_conc = 0.21
+  this.prot_conc = 0.21,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -37,6 +38,13 @@ Number(s) (CAS-RN) of desired chemical(s).}
 \item{this.sarea}{Surface area per well (m^2)}
 
 \item{this.prot_conc}{Cell protein concentration (mg protein/million cells)}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A data table composed of any input data.table \emph{tcdata}

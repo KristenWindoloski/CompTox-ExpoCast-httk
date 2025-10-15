@@ -17,7 +17,8 @@ calc_kair(
   default.to.human = FALSE,
   suppress.messages = FALSE,
   pH = 7.4,
-  alpha = 0.001
+  alpha = 0.001,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -62,6 +63,13 @@ TRUE (default is FALSE).}
 
 \item{alpha}{Ratio of Distribution coefficient D of totally charged species
 and that of the neutral form}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A named list containing the blood:air, water:air, and mucus:air 

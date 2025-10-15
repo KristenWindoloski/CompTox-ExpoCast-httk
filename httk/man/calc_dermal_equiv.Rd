@@ -16,6 +16,7 @@ calc_dermal_equiv(
   skin.pH = 7,
   Vmedia = 0.001,
   Fskinexposed = 0.1,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -45,6 +46,13 @@ the chemical must be identified by either CAS, name, or DTXSIDs}
 
 \item{Fskinexposed}{Fraction of total skin exposed, used when parameters are
 not given.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional parameters passed to solve_dermal_pbtk.}
 }

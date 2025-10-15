@@ -15,7 +15,8 @@ get_cheminfo(
   clint.pvalue.threshold = 0.05,
   physchem.exclude = TRUE,
   class.exclude = TRUE,
-  suppress.messages = FALSE
+  suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -59,6 +60,13 @@ domain of applicability by the relevant modelinfo_[MODEL] file (default TRUE).}
 
 \item{suppress.messages}{Whether or not the output messages are suppressed 
 (default FALSE).}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 \item{vector/data.table}{Table (if info has multiple entries) or 

@@ -14,6 +14,7 @@ get_wetmore_oral_equiv(
   input.units = "uM",
   output.units = "mg",
   clearance.assay.conc = NULL,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -43,6 +44,13 @@ be mg/L.}
 
 \item{clearance.assay.conc}{Concentration of chemical used in measureing
 intrinsic clearance data, 1 or 10 uM.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional parameters passed to get_lit_css.}
 }

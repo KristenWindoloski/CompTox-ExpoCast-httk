@@ -4,7 +4,12 @@
 \alias{parameterize_IVD}
 \title{Parameterize In Vitro Distribution Models}
 \usage{
-parameterize_IVD(tcdata = NA, casrn.vector = NA_character_, this.pH = 7)
+parameterize_IVD(
+  tcdata = NA,
+  casrn.vector = NA_character_,
+  this.pH = 7,
+  chemdata = chem.physical_and_invitro.data
+)
 }
 \arguments{
 \item{tcdata}{A data.table with casrn, nomconc, MP, gkow, gkaw, gswat, sarea,
@@ -15,6 +20,13 @@ this.v_total, etc.). Chemical parameters are taken from
 \item{casrn.vector}{For vector or single value, CAS number}
 
 \item{this.pH}{pH of media}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 \tabular{lll}{

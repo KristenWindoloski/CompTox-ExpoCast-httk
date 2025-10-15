@@ -4,7 +4,12 @@
 \alias{get_chem_id}
 \title{Retrieve chemical identity from HTTK package}
 \usage{
-get_chem_id(chem.cas = NULL, chem.name = NULL, dtxsid = NULL)
+get_chem_id(
+  chem.cas = NULL,
+  chem.name = NULL,
+  dtxsid = NULL,
+  chemdata = chem.physical_and_invitro.data
+)
 }
 \arguments{
 \item{chem.cas}{CAS regstry number}
@@ -12,6 +17,13 @@ get_chem_id(chem.cas = NULL, chem.name = NULL, dtxsid = NULL)
 \item{chem.name}{Chemical name}
 
 \item{dtxsid}{DSSTox Substance identifier}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A list containing the following chemical identifiers:

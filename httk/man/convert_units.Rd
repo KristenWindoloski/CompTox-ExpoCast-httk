@@ -15,7 +15,8 @@ convert_units(
   parameters = NULL,
   temp = 25,
   liquid.density = 1,
-  state = "liquid"
+  state = "liquid",
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -47,6 +48,13 @@ includes MW (molecular weight) for our conversions}
 numeric value, (default 1.0 g/mL).}
 
 \item{state}{Chemical state (gas or default liquid).}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \description{
 This function is designed to accept input units, output units, and the 

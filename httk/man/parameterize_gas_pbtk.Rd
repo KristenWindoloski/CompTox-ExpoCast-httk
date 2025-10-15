@@ -29,6 +29,7 @@ parameterize_gas_pbtk(
   class.exclude = TRUE,
   physchem.exclude = TRUE,
   restrictive.clearance = FALSE,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -115,6 +116,13 @@ the relevant modelinfo_[MODEL] file (default TRUE).}
 
 \item{restrictive.clearance}{Protein binding not taken into account (set to
 1) in liver clearance if FALSE. (Default is FALSE.)}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Other parameters}
 }

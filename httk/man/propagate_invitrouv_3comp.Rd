@@ -5,11 +5,22 @@
 \title{Propagates uncertainty and variability in in vitro HTTK data into three
 compartment model parameters}
 \usage{
-propagate_invitrouv_3comp(parameters.dt, ...)
+propagate_invitrouv_3comp(
+  parameters.dt,
+  chemdata = chem.physical_and_invitro.data,
+  ...
+)
 }
 \arguments{
 \item{parameters.dt}{The data table of parameters being used by the Monte
 Carlo sampler}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional arguments passed to \code{\link{calc_hep_clearance}}}
 }

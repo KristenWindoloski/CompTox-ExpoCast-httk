@@ -30,7 +30,8 @@ calc_mc_css(
   convert.httkpop.arg.list = NULL,
   parameterize.args.list = NULL,
   calc.analytic.css.arg.list = NULL,
-  Caco2.options = NULL
+  Caco2.options = NULL,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -135,7 +136,14 @@ argument "model". (Defaults to NULL.)}
 \item{Caco2.options}{Arguments describing how to handle Caco2 absorption data
 that are passed to \code{\link{invitro_mc}} and the parameterize_[MODEL] 
 functions.
-See \code{\link{get_fbio}} for further details.
+See \code{\link{get_fbio}} for further details.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.
 
 \code{\link{calc_analytic_css}}.}
 }

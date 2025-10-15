@@ -25,6 +25,7 @@ calc_stats(
   regression = TRUE,
   restrictive.clearance = TRUE,
   suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }

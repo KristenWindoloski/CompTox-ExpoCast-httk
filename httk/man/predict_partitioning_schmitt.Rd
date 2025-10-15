@@ -19,7 +19,8 @@ predict_partitioning_schmitt(
     "muscle", "skin", "spleen", "bone"),
   tissues = NULL,
   minimum.Funbound.plasma = 1e-04,
-  suppress.messages = FALSE
+  suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -63,6 +64,13 @@ equal to this value (default is 0.0001 -- half the lowest measured Fup in our
 dataset).}
 
 \item{suppress.messages}{Whether or not the output message is suppressed.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 Returns tissue to unbound plasma partition coefficients for each

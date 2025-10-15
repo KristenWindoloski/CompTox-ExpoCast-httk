@@ -24,6 +24,7 @@ calc_mc_oral_equiv(
   model = "3compartmentss",
   Caco2.options = list(),
   calc.analytic.css.arg.list = list(),
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -104,6 +105,13 @@ See \code{\link{get_fbio}} for further details.}
 \item{calc.analytic.css.arg.list}{A list of options to pass to the analytic steady-state calculation function.
 This includes `restrictive.clearance`, `bioactive.free.invivo`, `IVIVE`,
 `wellstirred.correction`, and `adjusted.Funbound.plasma`.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional parameters passed to \code{\link{calc_mc_css}} for httkpop and
 variance of parameters.}

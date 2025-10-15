@@ -28,7 +28,8 @@ create_mc_samples(
   convert.httkpop.arg.list = NULL,
   propagate.invitrouv.arg.list = NULL,
   parameterize.args.list = NULL,
-  Caco2.options = NULL
+  Caco2.options = NULL,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -122,6 +123,13 @@ parameterize_* function for the model.}
 \item{Caco2.options}{Arguments describing how to handle Caco2 absorption data
 that are passed to \code{\link{invitro_mc}} and the parameterize_[MODEL]
 functions. See \code{\link{get_fbio}} for further details.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A data table where each column corresponds to parameters needed for

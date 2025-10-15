@@ -100,8 +100,7 @@ calc_clearance_frac <- function(
                                 restrictive.clearance = TRUE,
                                 parameterize.args = list(),
                                 analytic_css.args = list(),
-                                chemdata=chem.physical_and_invitro.data,
-                                )
+                                chemdata=chem.physical_and_invitro.data)
 {
   if (is.null(model)) stop("Model must be specified.")
 # We need to know model-specific information (from modelinfo_[MODEL].R]) 
@@ -144,7 +143,8 @@ calc_clearance_frac <- function(
         chem.name=chem.name,
         dtxsid=dtxsid,
         species=species,
-        suppress.messages=suppress.messages),
+        suppress.messages=suppress.messages,
+        chemdata=chemdata),
       parameterize.args)))
  
   } else {

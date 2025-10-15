@@ -34,6 +34,7 @@ solve_pbtk(
   minimum.Funbound.plasma = 1e-04,
   Caco2.options = list(),
   monitor.vars = NULL,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -133,6 +134,13 @@ See \code{\link{get_fbio}} for further details.}
 \item{monitor.vars}{Which variables are returned as a function of time. 
 The default value of NULL provides "Cgut", "Cliver", "Cven", "Clung", "Cart", 
 "Crest", "Ckidney", "Cplasma", "Atubules", "Ametabolized", and "AUC"}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional arguments passed to the integrator (\code{\link[deSolve]{ode}}).}
 }

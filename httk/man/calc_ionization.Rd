@@ -12,7 +12,8 @@ calc_ionization(
   pH = NULL,
   pKa_Donor = NULL,
   pKa_Accept = NULL,
-  return_charge_matrix = FALSE
+  return_charge_matrix = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -39,6 +40,13 @@ Overwrites chem.name and chem.cas.}
 \item{return_charge_matrix}{If TRUE, the function returns a table describing
 each ionization state considered by the calculations in this function
 (defaults to FALSE)}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 \item{fraction_neutral}{fraction of compound neutral}

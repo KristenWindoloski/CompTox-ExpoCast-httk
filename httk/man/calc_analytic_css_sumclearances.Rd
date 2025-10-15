@@ -22,6 +22,7 @@ calc_analytic_css_sumclearances(
   route = "oral",
   restrictive.clearance = TRUE,
   bioactive.free.invivo = FALSE,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -79,6 +80,13 @@ to rapid off-binding).}
 \item{bioactive.free.invivo}{If FALSE (default), then the total concentration is treated
 as bioactive in vivo. If TRUE, the the unbound (free) plasma concentration is treated as 
 bioactive in vivo. Only works with tissue = NULL in current implementation.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional parameters passed to parameterize function if 
 parameters is NULL.}

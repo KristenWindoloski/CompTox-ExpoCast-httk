@@ -35,6 +35,7 @@ solve_fetal_pbtk(
   Caco2.options = list(),
   atol = 1e-06,
   rtol = 1e-06,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -136,6 +137,13 @@ numerical precision-- defaults to 1e-8.}
 
 \item{rtol}{Relative tolerance used by integrator (deSolve) to determine 
 numerical precision -- defaults to 1e-8.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional arguments passed to the integrator.}
 }

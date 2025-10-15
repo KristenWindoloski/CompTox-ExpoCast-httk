@@ -15,7 +15,8 @@ get_input_param_timeseries(
   days = 10,
   ref.params = NULL,
   bandwidth = 12,
-  get.median.param.vals = FALSE
+  get.median.param.vals = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -56,6 +57,13 @@ when calculating non-parametric regressions.}
 
 \item{get.median.param.vals}{Return, instead of the timeseries, the median values
 for the dynamic model parameters at the given start age.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A list of two-column matrices indexed by names of compiled parameters for

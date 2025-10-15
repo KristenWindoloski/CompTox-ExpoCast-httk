@@ -13,7 +13,8 @@ get_2023pfasinfo(
   median.only = FALSE,
   fup.ci.cutoff = FALSE,
   clint.pvalue.threshold = 0.05,
-  suppress.messages = FALSE
+  suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -48,6 +49,13 @@ vitro clearance assay result has a p-values greater than the threshold are
 set to zero.}
 
 \item{suppress.messages}{Whether or not the output messages are suppressed.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 \item{vector/data.table}{Table (if info has multiple entries) or 

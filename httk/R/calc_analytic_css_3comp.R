@@ -153,7 +153,8 @@ calc_analytic_css_3comp <- function(chem.name=NULL,
                                  species = species,
                                  suppress.messages=suppress.messages,
                                  Caco2.options = Caco2.options,
-                                 restrictive.clearance = restrictive.clearance
+                                 restrictive.clearance = restrictive.clearance,
+                                 chemdata=chemdata
                                  ),
                             ...)))
       

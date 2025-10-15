@@ -9,7 +9,8 @@ get_invitroPK_param(
   species,
   chem.name = NULL,
   chem.cas = NULL,
-  dtxsid = NULL
+  dtxsid = NULL,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -23,6 +24,13 @@ default "Human").}
 \item{chem.cas}{The chemical CAS numbers that you want parameters for, a vector or single value}
 
 \item{dtxsid}{EPA's 'DSSTox Structure ID (https://comptox.epa.gov/dashboard)}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 The parameters, either a single value, a named list for a single chemical, or a list of lists

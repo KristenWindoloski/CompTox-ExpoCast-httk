@@ -9,7 +9,8 @@ armitage_estimate_sarea(
   user_assay_parameters = NA,
   this.well_number = 384,
   this.cell_yield = NA,
-  this.v_working = NA
+  this.v_working = NA,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -27,6 +28,13 @@ otherwise estimated based on well number}
 
 \item{this.v_working}{For single value, optionally supply working volume,
 otherwise estimated based on well number (m^3)}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A data table composed of any input data.table \emph{tcdata}

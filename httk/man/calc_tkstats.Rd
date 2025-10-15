@@ -22,6 +22,7 @@ calc_tkstats(
   tissue = "plasma",
   model = "pbtk",
   suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -72,6 +73,13 @@ the three compartment steady state model, and '1compartment' for one
 compartment model.}
 
 \item{suppress.messages}{Whether to suppress output message.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional arguments passed to the \code{\link{solve_model}}}
 }

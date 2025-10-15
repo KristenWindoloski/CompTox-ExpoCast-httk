@@ -16,7 +16,8 @@ parameterize_schmitt(
   suppress.messages = FALSE,
   class.exclude = TRUE,
   minimum.Funbound.plasma = 1e-04,
-  pfas.calibration = TRUE
+  pfas.calibration = TRUE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -60,6 +61,13 @@ dataset).}
 
 \item{pfas.calibration}{Whether MA for chemicals in class PFAS should be
 increased using the regression to the Droge (2019) dataset.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 \item{Funbound.plasma}{Unbound fraction in plasma, adjusted for lipid binding according to Pearce et al. (2017)}

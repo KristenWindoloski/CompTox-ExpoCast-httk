@@ -46,7 +46,8 @@ armitage_eval(
   this.Vdom = 0,
   this.pH = 7,
   restrict.ion.partitioning = FALSE,
-  surface.area.switch = TRUE
+  surface.area.switch = TRUE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -144,6 +145,13 @@ model}
 \item{restrict.ion.partitioning}{FALSE, Should we restrict the chemical available to partition to only the neutral fraction?}
 
 \item{surface.area.switch}{TRUE, automatically calculates surface area, switch to FALSE if user provided}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 \tabular{lll}{

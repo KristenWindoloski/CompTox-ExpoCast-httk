@@ -12,7 +12,8 @@ check_model(
   species = NULL,
   class.exclude = TRUE,
   physchem.exclude = TRUE,
-  default.to.human = FALSE
+  default.to.human = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -42,6 +43,13 @@ the relevant modelinfo_[MODEL] file (default TRUE).}
 
 \item{default.to.human}{Substitutes missing fraction of unbound plasma with
 human values if true.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 Stops code from running if all parameters needed for model

@@ -196,7 +196,8 @@ calc_css <- function(chem.name=NULL,
       chem.name=chem.name,
       dtxsid=dtxsid,
       species=species,
-      suppress.messages=suppress.messages),
+      suppress.messages=suppress.messages,
+      chemdata=chemdata),
       parameterize.args.list)))
   }
 

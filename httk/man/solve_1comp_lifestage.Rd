@@ -38,6 +38,7 @@ solve_1comp_lifestage(
   ref.pop.dt = NULL,
   httkpop.generate.arg.list = list(method = "virtual individuals", nsamp = 25000),
   ref.params = NULL,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -136,6 +137,13 @@ a reference population.}
 \item{ref.params}{Model parameters of a reference population used in determining
 timeseries. Recommended column binding ages in months (as \code{age_months}) to
 the output of \code{\link{create_mc_samples}}.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional arguments passed to the integrator.}
 }

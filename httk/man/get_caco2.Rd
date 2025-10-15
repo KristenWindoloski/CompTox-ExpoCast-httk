@@ -9,7 +9,8 @@ get_caco2(
   chem.name = NULL,
   dtxsid = NULL,
   Caco2.Pab.default = 1.6,
-  suppress.messages = FALSE
+  suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -26,6 +27,13 @@ chemical must be identified by either CAS, name, or DTXISD}
 unavailable.}
 
 \item{suppress.messages}{Whether or not the output message is suppressed.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \description{
 This function checks for chemical-specific in vitro measurements of the 

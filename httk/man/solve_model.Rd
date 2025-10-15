@@ -32,6 +32,7 @@ solve_model(
   parameterize.args.list = list(),
   small.time = 1e-04,
   forcings = NULL,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -129,6 +130,13 @@ abrupt changes plot well. Defaults to 1e-4.}
 Should take the form of a list of two-column matrices with the first column
 containing time values and the second column the value of quantity at those
 times. Default NULL.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Additional arguments passed to the integrator.}
 }

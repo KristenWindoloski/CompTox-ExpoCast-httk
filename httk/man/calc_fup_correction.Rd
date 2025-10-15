@@ -16,7 +16,8 @@ calc_fup_correction(
   species = "Human",
   default.to.human = FALSE,
   force.human.fup = FALSE,
-  suppress.messages = FALSE
+  suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -56,6 +57,13 @@ When species is specified as rabbit, dog, or mouse, the human unbound
 fraction is substituted.}
 
 \item{suppress.messages}{Whether or not the output message is suppressed.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A numeric fraction unpbound in plasma between zero and one

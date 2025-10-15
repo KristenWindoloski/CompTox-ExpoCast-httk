@@ -16,7 +16,8 @@ calc_clearance_frac(
   model = "3compartmentss",
   restrictive.clearance = TRUE,
   parameterize.args = list(),
-  analytic_css.args = list()
+  analytic_css.args = list(),
+  chemdata = chem.physical_and_invitro.data
 )
 }
 \arguments{
@@ -60,6 +61,13 @@ model parameterization function (other than the already-named arguments).
 Default `list()` to pass no additional arguments.}
 
 \item{analytic_css.args}{Arguments to analytical Css function}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 }
 \value{
 A numeric fraction unpbound in plasma between zero and one

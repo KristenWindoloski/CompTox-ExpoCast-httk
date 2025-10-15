@@ -12,6 +12,7 @@ parameterize_fetal_pbtk(
   fetal_fup_adjustment = TRUE,
   return.kapraun2019 = TRUE,
   suppress.messages = FALSE,
+  chemdata = chem.physical_and_invitro.data,
   ...
 )
 }
@@ -37,6 +38,13 @@ Predictions in Infants." Defaults to TRUE.}
 Kapraun et al. (2019) maternal-fetal growth parameters are provided.}
 
 \item{suppress.messages}{Whether or not the output message is suppressed.}
+
+\item{chemdata}{A data frame with physicochemical data following the exact
+structure of httk's chem.physical_and_invitro.data data frame; the data frame 
+must be either the original chem.physical_and_invitro.data data frame or the 
+original chem.physical_and_invitro.data data frame with additional
+rows of chemicals (if the user wanted to add chemicals to the list). All 
+columns must remain and be in the same order as the original data frame.}
 
 \item{...}{Arguments passed to parameterize_pbtk.}
 }

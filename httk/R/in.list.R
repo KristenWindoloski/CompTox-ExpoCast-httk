@@ -38,12 +38,6 @@
 #' "ToxCast", "Tox21", "ExpoCast", "NHANES", ""NHANES.serum.parent",
 #' "NHANES.serum.analyte","NHANES.blood.parent","NHANES.blood.analyte",
 #' "NHANES.urine.parent","NHANES.urine.analyte"
-#' @param chemdata A data frame with physicochemical data following the exact
-#' structure of httk's chem.physical_and_invitro.data data frame; the data frame 
-#' must be either the original chem.physical_and_invitro.data data frame or the 
-#' original chem.physical_and_invitro.data data frame with additional
-#' rows of chemicals (if the user wanted to add chemicals to the list). All 
-#' columns must remain and be in the same order as the original data frame.
 #' @return \item{logical}{A Boolean (1/0) value that is TRUE if the chemical is
 #' in the list.}
 #' @author John Wambaugh
@@ -101,8 +95,7 @@
 #' @export is.nhanes
 #' @export is.pharma
 in.list <- function(chem.cas=NULL,
-                    which.list="ToxCast",
-                    chemdata=chem.physical_and_invitro.data)
+                    which.list="ToxCast")
 {
   chem.lists <- chem.lists
   if (!(tolower(which.list) %in% tolower(names(chem.lists))))
@@ -119,58 +112,47 @@ in.list <- function(chem.cas=NULL,
 
 is.nhanes.serum.parent <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES.serum.parent",
-                 chemdata=chemdata))
+                 which.list="NHANES.serum.parent"))
 
 is.nhanes.serum.analyte <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES.serum.analyte",
-                 chemdata=chemdata))
+                 which.list="NHANES.serum.analyte"))
 
 is.nhanes.blood.parent <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES.blood.parent",
-                 chemdata=chemdata))
+                 which.list="NHANES.blood.parent"))
 
 is.nhanes.blood.analyte <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES.blood.analyte",
-                 chemdata=chemdata))
+                 which.list="NHANES.blood.analyte"))
 
 is.nhanes.urine.parent <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES.urine.parent",
-                 chemdata=chemdata))
+                 which.list="NHANES.urine.parent"))
 
 is.nhanes.urine.analyte <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES.urine.analyte",
-                 chemdata=chemdata))
+                 which.list="NHANES.urine.analyte"))
 
 is.tox21 <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="Tox21",
-                 chemdata=chemdata))
+                 which.list="Tox21"))
 
 is.toxcast <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="ToxCast",
-                 chemdata=chemdata))
+                 which.list="ToxCast"))
 
 is.expocast <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="ExpoCast",
-                 chemdata=chemdata))
+                 which.list="ExpoCast"))
 
 is.nhanes <- function(chem.cas) 
   return(in.list(chem.cas=chem.cas,
-                 which.list="NHANES",
-                 chemdata=chemdata))
+                 which.list="NHANES"))
 
 is.pharma <- function (chem.cas) 
   return(in.list(chem.cas = chem.cas,
-                 which.list = "Pharma",
-                 chemdata=chemdata))
+                 which.list = "Pharma"))
 
 
 

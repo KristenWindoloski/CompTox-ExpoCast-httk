@@ -169,7 +169,8 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
                                  chem.name=chem.name,
                                  suppress.messages=suppress.messages,
                                  Caco2.options = Caco2.options,
-                                 restrictive.clearance = restrictive.clearance
+                                 restrictive.clearance = restrictive.clearance,
+                                 chemdata=chemdata
                                  ),
                             ...)))
 
@@ -299,7 +300,8 @@ calc_analytic_css_3compss <- function(chem.name=NULL,
 # Add some parameters to the output from parameterize_steady_state so that
 # predict_partitioning_schmitt can run without reparameterizing
 add_schmitt.param_to_3compss <- function(parameters = NULL, chem.cas = NULL,
-                                         chem.name = NULL, dtxsid = NULL){
+                                         chem.name = NULL, dtxsid = NULL,
+                                         chemdata=chem.physical_and_invitro.data){
   
   if ((is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid)))
     stop("Either chem.cas, chem.name, or dtxsid must be specified to give 
