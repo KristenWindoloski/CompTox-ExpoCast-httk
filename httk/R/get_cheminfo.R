@@ -201,6 +201,7 @@ get_cheminfo <- function(info="CAS",
                          class.exclude=TRUE,
                          suppress.messages=FALSE,
                          chemdata=chem.physical_and_invitro.data)
+
 {
                                         # Parameters in this list can be retrieve with the info argument:
   valid.info <- c("Compound",

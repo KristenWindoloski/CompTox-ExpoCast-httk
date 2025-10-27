@@ -775,7 +775,8 @@ Set species=\"Human\" to run httkpop model.')
   if (!is.null(propagateuvfun))
     parameters.dt <- do.call(propagateuvfun, args=purrr::compact(c(list(
                        parameters.dt=parameters.dt,
-                       species = species),
+                       species = species,
+                       chemdata=chemdata),
                        propagate.invitrouv.arg.list)))
   
 # set precision:
