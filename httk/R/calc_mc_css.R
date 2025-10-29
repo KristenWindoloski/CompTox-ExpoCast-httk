@@ -487,14 +487,15 @@ calc_mc_css <- function(chem.cas = NULL,
                         chemdata=chem.physical_and_invitro.data
                         ) 
 {
+  
+  paste("Inside calc_mc_css ", tail(chemdata[,1:3]))
+  
 # We need to describe the chemical to be simulated one way or another:
-  if (is.null(chem.cas) & 
-      is.null(chem.name) & 
-      is.null(dtxsid) &
-      is.null(parameters)) 
+  if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid) & is.null(parameters)) 
     stop('Parameters, chem.name, chem.cas, or dtxsid must be specified.')
 
-  if (is.null(model)) stop("Model must be specified.")
+  if (is.null(model)) 
+    stop("Model must be specified.")
   
   #Appease R CMD check --as-cran variable binding:
   Css <- NULL
@@ -507,6 +508,7 @@ calc_mc_css <- function(chem.cas = NULL,
     stop(paste("Model",model,"not available. Please select from:",
                paste(names(model.list),collapse=", ")))
   } 
+  
   parameterize_function <- model.list[[model]]$parameterize.func
 
   # Error handling for tissue argument:

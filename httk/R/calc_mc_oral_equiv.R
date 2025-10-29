@@ -269,6 +269,8 @@ calc_mc_oral_equiv <- function(conc,
                                chemdata=chem.physical_and_invitro.data,
                                ...)
 {
+  paste("Inside calc_mc_oral_equiv ", tail(chemdata[,1:3]))
+  
   # check if the input units are in concentration units - output error if TRUE
   if (!(tolower(input.units) %in% c('um','mg/l'))) 
     stop("Input units can only be uM or mg/L.")
@@ -373,25 +375,23 @@ calc_mc_oral_equiv <- function(conc,
   # output units are in '<input.units>/mg/kg/day' for 'Css'
   # (i.e. 'mg/L / kg/day' or 'uM / kg/day')
   Css <- try(do.call(calc_mc_css,
-# we use purrr::compact to drop NULL values from arguments list:
-                        args=purrr::compact(c(list(
-                          chem.name=chem.name,
-                          chem.cas=chem.cas,
-                          dtxsid=dtxsid,
-                          parameters=parameters,
-                          model=model,
-                          which.quantile=which.quantile,
-                          species=species,
-                          output.units=input.units,
-                         # suppress.messages=TRUE,
-                          tissue=tissue,
-                          concentration=concentration,
-                          calc.analytic.css.arg.list=calc.analytic.css.arg.list,
-                          Caco2.options = Caco2.options,
-                          return.samples=return.samples,
-                          suppress.messages=suppress.messages,
-                         chemdata=chemdata,
-                          ...)))))
+                     # we use purrr::compact to drop NULL values from arguments list:
+                     args=purrr::compact(c(list(chem.name=chem.name,
+                                                chem.cas=chem.cas,
+                                                dtxsid=dtxsid,
+                                                parameters=parameters,
+                                                model=model,
+                                                which.quantile=which.quantile,
+                                                species=species,
+                                                output.units=input.units,
+                                                tissue=tissue,
+                                                concentration=concentration,
+                                                calc.analytic.css.arg.list=calc.analytic.css.arg.list,
+                                                Caco2.options = Caco2.options,
+                                                return.samples=return.samples,
+                                                suppress.messages=suppress.messages,
+                                                chemdata=chemdata,
+                                                ...)))))
                          
   if (is(Css,"try-error"))
   {

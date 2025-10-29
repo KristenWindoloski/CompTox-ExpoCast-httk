@@ -234,6 +234,8 @@ create_mc_samples <- function(chem.cas=NULL,
                         chemdata=chem.physical_and_invitro.data)
 {
 
+  paste("Inside create_mc_samples ", tail(chemdata[,1:3]))
+  
   ## Setting up binding for Global Variables ##
   Fabs <- Fgut <- Fabsgut <- NULL
   unadjusted.Funbound.plasma <- Funbound.plasma.adjustment  <- NULL
@@ -741,12 +743,16 @@ Set species=\"Human\" to run httkpop model.')
   }
   
   # If Caco2.options given use those, otherwise use defaults:
-  if ("keepit100" %in% names(Caco2.options)) keepit100 <- Caco2.options[["keepit100"]]
+  if ("keepit100" %in% names(Caco2.options)) 
+    keepit100 <- Caco2.options[["keepit100"]]
   else keepit100 <- FALSE
-  if ("Caco2.Fgut" %in% names(Caco2.options)) Caco2.Fgut <- Caco2.options[["Caco2.Fgut"]]
+  if ("Caco2.Fgut" %in% names(Caco2.options)) 
+    Caco2.Fgut <- Caco2.options[["Caco2.Fgut"]]
   else Caco2.Fgut <- TRUE
-  if ("Caco2.Fabs" %in% names(Caco2.options)) Caco2.Fabs <- Caco2.options[["Caco2.Fabs"]]
+  if ("Caco2.Fabs" %in% names(Caco2.options)) 
+    Caco2.Fabs <- Caco2.options[["Caco2.Fabs"]]
   else Caco2.Fabs <- TRUE
+  
   #
   # Propagate any parameter changes into oral bioavailability:
   # (Note that we do not need to include Fhep since that is already accounted for
@@ -768,22 +774,26 @@ Set species=\"Human\" to run httkpop model.')
     parameters.dt[,Fgut:=1]
     parameters.dt[,Fabsgut:=1]
   }
-#
-# Do any model-specific uncertainty propagation
-#
-  propagateuvfun <- model.list[[model]]$propagateuv.func
-  if (!is.null(propagateuvfun))
-    parameters.dt <- do.call(propagateuvfun, args=purrr::compact(c(list(
-                       parameters.dt=parameters.dt,
-                       species = species,
-                       chemdata=chemdata),
-                       propagate.invitrouv.arg.list)))
   
-# set precision:
+
+  # Do any model-specific uncertainty propagation
+  
+  propagateuvfun <- model.list[[model]]$propagateuv.func
+  
+  if (!is.null(propagateuvfun)){
+    parameters.dt <- do.call(propagateuvfun, 
+                             args=purrr::compact(c(list(parameters.dt=parameters.dt,
+                                                        species = species,
+                                                        chemdata=chemdata),
+                                                   propagate.invitrouv.arg.list)))
+  }
+
+  # set precision:
   cols <- colnames(parameters.dt)
   parameters.dt[ , (cols) := lapply(.SD, set_httk_precision), .SDcols = cols]
   
-#Return only the HTTK parameters for the specified model. That is, only the
-#columns whose names are in the names of the default parameter set.
+
+  #Return only the HTTK parameters for the specified model. That is, only the
+  #columns whose names are in the names of the default parameter set.
   return(parameters.dt[,model.list[[model]]$param.names,with=FALSE])
 }
