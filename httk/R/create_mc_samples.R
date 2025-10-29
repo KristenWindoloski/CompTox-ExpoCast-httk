@@ -234,7 +234,7 @@ create_mc_samples <- function(chem.cas=NULL,
                         chemdata=chem.physical_and_invitro.data)
 {
 
-  paste("Inside create_mc_samples ", tail(chemdata[,1:3]))
+  warning(paste("Inside create_mc_samples ", tail(chemdata[,1:3])))
   
   ## Setting up binding for Global Variables ##
   Fabs <- Fgut <- Fabsgut <- NULL

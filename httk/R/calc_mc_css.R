@@ -488,7 +488,7 @@ calc_mc_css <- function(chem.cas = NULL,
                         ) 
 {
   
-  paste("Inside calc_mc_css ", tail(chemdata[,1:3]))
+  warning(paste("Inside calc_mc_css ", tail(chemdata[,1:3])))
   
 # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & is.null(chem.name) & is.null(dtxsid) & is.null(parameters)) 

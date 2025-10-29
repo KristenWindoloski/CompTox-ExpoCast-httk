@@ -22,7 +22,7 @@ propagate_invitrouv_pbtk <- function(
                              chemdata=chem.physical_and_invitro.data,
                              ...)
 {
-  paste("Inside propogate ", tail(chemdata[,1:3]))
+  warning(paste("Inside propogate ", tail(chemdata[,1:3])))
   
   #R CMD CHECK throws notes about "no visible binding for global variable", for
   #each time a data.table column name is used without quotes. To appease R CMD
