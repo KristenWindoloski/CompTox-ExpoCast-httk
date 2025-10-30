@@ -231,7 +231,7 @@ create_mc_samples <- function(chem.cas=NULL,
                         propagate.invitrouv.arg.list=NULL,
                         parameterize.args.list =NULL,
                         Caco2.options=NULL,
-                        chemdata=chem.physical_and_invitro.data)
+                        chemdata)
 {
 
   warning(paste("Inside create_mc_samples ", tail(chemdata[,1:3])))

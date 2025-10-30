@@ -266,10 +266,9 @@ calc_mc_oral_equiv <- function(conc,
                                model='3compartmentss',
                                Caco2.options = list(),
                                calc.analytic.css.arg.list = list(),
-                               chemdata=chem.physical_and_invitro.data,
+                               chemdata,
                                ...)
 {
-  warning(paste("Inside calc_mc_oral_equiv ", tail(chemdata[,1:3])))
   
   # check if the input units are in concentration units - output error if TRUE
   if (!(tolower(input.units) %in% c('um','mg/l'))) 

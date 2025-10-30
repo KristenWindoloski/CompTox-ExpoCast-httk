@@ -19,7 +19,7 @@
 #' @keywords monte-carlo pbtk
 propagate_invitrouv_pbtk <- function(
                              parameters.dt,
-                             chemdata=chem.physical_and_invitro.data,
+                             chemdata,
                              ...)
 {
   warning(paste("Inside propogate ", tail(chemdata[,1:3])))
