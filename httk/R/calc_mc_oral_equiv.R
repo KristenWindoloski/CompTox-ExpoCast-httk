@@ -406,6 +406,7 @@ calc_mc_oral_equiv <- function(conc,
   # either 'uM / uM/mg/kg/day' or 'mg/L / (mg/L)/kg/day'
   dose <- conc/Css  # conc (input.units) / Css (input.units/kg/day)
 
+
   if (tolower(tmp.output.units) == 'umol')
   {
     if (is.null(chem.cas)){

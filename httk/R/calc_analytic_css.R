@@ -340,6 +340,7 @@ calc_analytic_css <- function(chem.name=NULL,
 # necessarily need all parameters associated with a given model to do this:)
   if (is.null(parameters))
   {
+    
 # Look up the chemical name/CAS/dtxsid, depending on what was provided:
     out <- get_chem_id(
             chem.cas=chem.cas,
@@ -426,7 +427,8 @@ calc_analytic_css <- function(chem.name=NULL,
           concentration=concentration,
           suppress.messages=suppress.messages,
           tissue=tissue,
-          bioactive.free.invivo = bioactive.free.invivo),
+          bioactive.free.invivo = bioactive.free.invivo,
+          chemdata = chemdata),
           list(...),
           parameterize.args.list)))
   } else {

@@ -233,8 +233,6 @@ create_mc_samples <- function(chem.cas=NULL,
                         Caco2.options=NULL,
                         chemdata)
 {
-
-  warning(paste("Inside create_mc_samples ", tail(chemdata[,1:3])))
   
   ## Setting up binding for Global Variables ##
   Fabs <- Fgut <- Fabsgut <- NULL
