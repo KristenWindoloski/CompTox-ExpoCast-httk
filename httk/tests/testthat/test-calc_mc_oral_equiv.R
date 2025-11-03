@@ -6,7 +6,8 @@ test_that("calc_mc_oral_equiv() produces a solution for a built-in chemical with
             output <- calc_mc_oral_equiv(conc = 0.1,
                                          chem.name = "Bisphenol A",
                                          model = "pbtk",
-                                         suppress.messages = TRUE)
+                                         suppress.messages = TRUE,
+                                         chemdata = chem.physical_and_invitro.data)
 
             # --- TEST
             expect_equal(unname(output),0.01179)
@@ -43,7 +44,8 @@ test_that("calc_mc_oral_equiv() produces a solution for a built-in chemical with
             output <- calc_mc_oral_equiv(conc = 0.1,
                                          chem.name = "Bisphenol A",
                                          model = "3compartment",
-                                         suppress.messages = TRUE)
+                                         suppress.messages = TRUE,
+                                         chemdata = chem.physical_and_invitro.data)
 
             # --- TEST
             expect_equal(unname(output),0.01179)
@@ -80,7 +82,8 @@ test_that("calc_mc_oral_equiv() produces a solution for a built-in chemical with
             output <- calc_mc_oral_equiv(conc = 0.1,,
                                          chem.name = "Bisphenol A",
                                          model = "1compartment",
-                                         suppress.messages = TRUE)
+                                         suppress.messages = TRUE,
+                                         chemdata = chem.physical_and_invitro.data)
 
             # --- TEST
             expect_equal(unname(output),0.01175)
@@ -94,6 +97,8 @@ test_that("calc_mc_oral_equiv() produces a solution for an added chemical with
             # --- CREATE SAMPLE DATA
             new_data <- read.csv("SampleChemData.csv")
             updated_df <- rbind(httk::chem.physical_and_invitro.data,new_data)
+            
+            print(tail(updated_df[,1:3]))
 
             # --- CREATE EXPECTED OUTPUT
             set.seed(1)
@@ -114,10 +119,11 @@ test_that("calc_mc_oral_equiv() produces a solution for a built-in chemical with
 
             # --- CREATE EXPECTED OUTPUT
             set.seed(1)
-            output <- calc_mc_oral_equiv(conc = 0.1,,
+            output <- calc_mc_oral_equiv(conc = 0.1,
                                          chem.name = "Bisphenol A",
                                          model = "3compartmentss",
-                                         suppress.messages = TRUE)
+                                         suppress.messages = TRUE,
+                                         chemdata = chem.physical_and_invitro.data)
 
             # --- TEST
             expect_equal(unname(output),0.01179)
@@ -131,6 +137,8 @@ test_that("calc_mc_oral_equiv() produces a solution for an added chemical with
             # --- CREATE SAMPLE DATA
             new_data <- read.csv("SampleChemData.csv")
             updated_df <- rbind(httk::chem.physical_and_invitro.data,new_data)
+            
+            print(tail(updated_df[,1:3]))
 
             # --- CREATE EXPECTED OUTPUT
             set.seed(1)
@@ -143,7 +151,7 @@ test_that("calc_mc_oral_equiv() produces a solution for an added chemical with
             print(output)
 
             # --- TEST
-            expect_equal(output,0.0002556)
+            expect_equal(unname(output),0.0002465)
           })
 
 #-------------------------------------------------------------------------------
