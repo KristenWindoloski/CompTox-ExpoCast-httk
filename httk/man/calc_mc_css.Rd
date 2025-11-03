@@ -31,7 +31,7 @@ calc_mc_css(
   parameterize.args.list = NULL,
   calc.analytic.css.arg.list = NULL,
   Caco2.options = NULL,
-  chemdata = chem.physical_and_invitro.data
+  chemdata
 )
 }
 \arguments{
