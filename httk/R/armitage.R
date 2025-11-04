@@ -517,7 +517,8 @@ armitage_eval <- function(chem.cas=NULL,
     
     out <- get_chem_id(chem.cas=chem.cas,
                        chem.name=chem.name,
-                       dtxsid=dtxsid)
+                       dtxsid=dtxsid,
+                       chemdata=chemdata)
     chem.cas <- out$chem.cas
     chem.name <- out$chem.name
     dtxsid <- out$dtxsid
@@ -596,7 +597,9 @@ armitage_eval <- function(chem.cas=NULL,
         #if the code has the assay endpoints labeled and they have been provided
         
         #run the surface area code with the user entered assay parameters
-        tcdata <- armitage_estimate_sarea(tcdata[missing.rows,], user_assay_parameters)
+        tcdata <- armitage_estimate_sarea(tcdata[missing.rows,], 
+                                          user_assay_parameters,
+                                          chemdata = chemdata)
         
         #bind the surface area
         #tcdata<-merge(tcdata[missing.rows,], temp)
@@ -605,7 +608,8 @@ armitage_eval <- function(chem.cas=NULL,
         #if the code has the assay endpoints labeled but they have not been provided
         
         #run the surface area code and let it provide the standardized assay info (or error out)
-        tcdata <- armitage_estimate_sarea(tcdata[missing.rows,])
+        tcdata <- armitage_estimate_sarea(tcdata[missing.rows,],
+                                          chemdata=chemdata)
         
         #bind the surface area
         #tcdata[missing.rows,] <- temp[tcdata[missing.rows,],on=.(assay_component_endpoint_name)]
@@ -620,7 +624,8 @@ armitage_eval <- function(chem.cas=NULL,
       }else{
 
         #run surface area code  
-        temp <- armitage_estimate_sarea(tcdata[missing.rows,])
+        temp <- armitage_estimate_sarea(tcdata[missing.rows,],
+                                        chemdata=chemdata)
         
         tcdata[missing.rows,"sarea"] <- temp[,"sarea"]
         
@@ -727,11 +732,12 @@ armitage_eval <- function(chem.cas=NULL,
   
   ### Calculate ~CELL SPECIFIC~ pH dependent distribution ratios (DR) ###
   #fraction neutral/charged at cell pH
-  tcdata[, Fneutral_cell := apply(.SD,1,function(x) calc_ionization(
-    pH = this.cell_pH,    
-    pKa_Donor = x["pKa_Donor"], 
-    pKa_Accept = x["pKa_Accept"],
-    chemdata=chemdata)[["fraction_neutral"]])] %>% 
+  tcdata[, Fneutral_cell := apply(.SD,1,function(x) 
+    calc_ionization(pH = this.cell_pH,   
+                    pKa_Donor = x["pKa_Donor"], 
+                    pKa_Accept = x["pKa_Accept"],
+                    chemdata=chemdata)[["fraction_neutral"]])] %>% 
+    
     .[, Fpositive_cell := apply(.SD,1,function(x) calc_ionization(
       pH = this.cell_pH,    
       pKa_Donor = x["pKa_Donor"], 
