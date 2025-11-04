@@ -5,7 +5,11 @@
 \title{Propagates uncertainty and variability in in vitro HTTK data into PBPK
 model parameters}
 \usage{
-propagate_invitrouv_pbtk(parameters.dt, chemdata, ...)
+propagate_invitrouv_pbtk(
+  parameters.dt,
+  chemdata = chem.physical_and_invitro.data,
+  ...
+)
 }
 \arguments{
 \item{parameters.dt}{The data table of parameters being used by the Monte
