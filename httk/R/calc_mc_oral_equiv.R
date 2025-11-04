@@ -266,7 +266,7 @@ calc_mc_oral_equiv <- function(conc,
                                model='3compartmentss',
                                Caco2.options = list(),
                                calc.analytic.css.arg.list = list(),
-                               chemdata,
+                               chemdata = chem.physical_and_invitro.data,
                                ...)
 {
   

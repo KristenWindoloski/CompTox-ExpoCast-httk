@@ -484,7 +484,7 @@ calc_mc_css <- function(chem.cas = NULL,
                         parameterize.args.list = NULL,
                         calc.analytic.css.arg.list = NULL,
                         Caco2.options=NULL,
-                        chemdata
+                        chemdata=chem.physical_and_invitro.data
                         ) 
 {
   

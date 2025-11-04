@@ -19,7 +19,7 @@
 #' @keywords monte-carlo pbtk
 propagate_invitrouv_pbtk <- function(
                              parameters.dt,
-                             chemdata,
+                             chemdata=chem.physical_and_invitro.data,
                              ...)
 {
   
