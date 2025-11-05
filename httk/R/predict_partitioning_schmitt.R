@@ -179,6 +179,8 @@ predict_partitioning_schmitt <- function(
   Tissue <- Species <- variable <- Reference <- value <- NULL
   #End R CMD CHECK appeasement.
   
+  tissue.data <- the$tissue.data
+  
   if (is.null(model)) stop("Model must be specified.")
   model <- tolower(model)
   if (!(model %in% names(model.list)))            
