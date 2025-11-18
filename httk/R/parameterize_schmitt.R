@@ -129,7 +129,7 @@ parameterize_schmitt <- function(chem.cas=NULL,
 #CHECK, a variable has to be created for each of these column names and set to
 #NULL. Note that within the data.table, these variables will not be NULL! Yes,
 #this is pointless and annoying.
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
   Species <- variable <- Tissue <- Parameter <- NULL
 #End R CMD CHECK appeasement.  
   

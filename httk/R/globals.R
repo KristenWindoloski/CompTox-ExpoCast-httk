@@ -1,11 +1,6 @@
 #File for declaring global data.table objects for CRAN binding check
-utils::globalVariables(c('physiology.data'))
 
-utils::globalVariables(c("bmiage",
-                        "mcnally_dt",
-                        "mecdt",
-                        "hw_H",
+utils::globalVariables(c("hw_H",
                         "scr_h",
                         "hct_h",
-                        "wfl",
                         "age_smooth"))

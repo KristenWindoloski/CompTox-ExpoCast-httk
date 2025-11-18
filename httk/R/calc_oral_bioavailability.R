@@ -323,17 +323,17 @@ calc_fabs.oral <- function(parameters = NULL,
                     chemdata=chemdata)
   
   # Load the physiological parameters for this species
-  this.phys.data <- physiology.data[, tolower(colnames(physiology.data)) 
+  this.phys.data <- physiology.data_internal[, tolower(colnames(physiology.data_internal)) 
                                               %in% tolower(species)]
-  names(this.phys.data) <- physiology.data[, 1]
+  names(this.phys.data) <- physiology.data_internal[, 1]
   
   # Load mean residence time in small intestine:
   MRT <- this.phys.data["Small Intestine Mean Residence Time"] # min
   if (is.na(MRT))
   {
     # Default to rat in absence of species specific data:
-    default.phys.data <- physiology.data[, "Rat"]
-    names(default.phys.data) <- physiology.data[, 1]
+    default.phys.data <- physiology.data_internal[, "Rat"]
+    names(default.phys.data) <- physiology.data_internal[, 1]
     MRT <- default.phys.data["Small Intestine Mean Residence Time"]
     if (!suppress.messages) warning("Rat SI mean residence time used for oral absorption.")
   }
@@ -343,8 +343,8 @@ calc_fabs.oral <- function(parameters = NULL,
   if (is.na(Rsi))
   {
     # Default to rat in absence of species specific data:
-    default.phys.data <- physiology.data[, "Rat"]
-    names(default.phys.data) <- physiology.data[, 1]
+    default.phys.data <- physiology.data_internal[, "Rat"]
+    names(default.phys.data) <- physiology.data_internal[, 1]
     Rsi <- default.phys.data["Small Intestine Radius"]
     if (!suppress.messages) warning("Rat SI radius time used for oral absorption.")
   }  
@@ -503,17 +503,17 @@ calc_kgutabs<- function(parameters = NULL,
                     chemdata=chemdata)
                     
   # Load the physiological parameters for this species
-  this.phys.data <- physiology.data[, tolower(colnames(physiology.data)) 
+  this.phys.data <- physiology.data_internal[, tolower(colnames(physiology.data_internal)) 
                                               %in% tolower(species)]
-  names(this.phys.data) <- physiology.data[, 1]
+  names(this.phys.data) <- physiology.data_internal[, 1]
   
   # Load radius of small intestine:
   Rsi <- this.phys.data["Small Intestine Radius"] # cm
   if (is.na(Rsi))
   {
     # Default to rat in absence of species specific data:
-    default.phys.data <- physiology.data[, "Rat"]
-    names(default.phys.data) <- physiology.data[, 1]
+    default.phys.data <- physiology.data_internal[, "Rat"]
+    names(default.phys.data) <- physiology.data_internal[, 1]
     Rsi <- default.phys.data["Small Intestine Radius"]
     if (!suppress.messages) warning("Rat SI radius time used for oral absorption.")
   } 

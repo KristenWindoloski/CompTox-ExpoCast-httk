@@ -193,12 +193,12 @@ NULL if the model is a 1 compartment model where no lumping is necessary.")
     }
   
       
-  if (!(species %in% colnames(physiology.data)))
+  if (!(species %in% colnames(physiology.data_internal)))
   {
-    if (toupper(species) %in% toupper(colnames(physiology.data)))
+    if (toupper(species) %in% toupper(colnames(physiology.data_internal)))
     {
-      species <- colnames(physiology.data)[
-                   toupper(colnames(physiology.data))==toupper(species)]
+      species <- colnames(physiology.data_internal)[
+                   toupper(colnames(physiology.data_internal))==toupper(species)]
     } else stop(paste("Tissue data for",species,"not found."))
   }
 
@@ -246,8 +246,8 @@ NULL if the model is a 1 compartment model where no lumping is necessary.")
         Ktissue2pu.out[["rest"]] <- 0
 			}
 # Every tissue not already lumped gets added to "Rest"
-			these.lumped.tissues <- unique(the$tissue.data[, "Tissue"])[!all.tissues
-			                                       [unique(the$tissue.data[, "Tissue"])]]
+			these.lumped.tissues <- unique(tissue.data_internal[, "Tissue"])[!all.tissues
+			                                       [unique(tissue.data_internal[, "Tissue"])]]
 			these.lumped.tissues <- these.lumped.tissues[!is.na(these.lumped.tissues)] 
 			#need to trim away NA values that could result here from the all.tissues
 			#logical vector operations^^^
@@ -280,24 +280,24 @@ NULL if the model is a 1 compartment model where no lumping is necessary.")
         #if this.vol.param is in parameters  vv
         else this.vol <- parameters[[this.vol.param]]
         
-      } else if (!(this.tissue %in% unique(the$tissue.data[,'Tissue'])) & 
+      } else if (!(this.tissue %in% unique(tissue.data_internal[,'Tissue'])) & 
                  (is.null(tissue.vols) | is.null(tissue.flows)) )
 				stop(paste(
                this.tissue,
                "Not provided in tissue.vols/tissue.flow, and is not in list:",
-               paste(unique(the$tissue.data[,'Tissue']),collapse=', ')))
+               paste(unique(tissue.data_internal[,'Tissue']),collapse=', ')))
       else {
         #give tissue.vols and tissue.flows priority
         if ((is.null(tissue.vols)) | is.null(tissue.flows)) 
         {
           this.subset <- subset(
-            the$tissue.data,
+            tissue.data_internal,
             Tissue == this.tissue & 
             tolower(Species) == tolower(species) &
             variable %in% c("Flow (mL/min/kg^(3/4))","Vol (L/kg)"))
           if (dim(this.subset)[1]==0) 
           {
-            this.subset <- subset(the$tissue.data,
+            this.subset <- subset(tissue.data_internal,
               Tissue == this.tissue & 
               tolower(Species) == "human" &
               variable %in% c("Flow (mL/min/kg^(3/4))","Vol (L/kg)"))
@@ -323,7 +323,7 @@ NULL if the model is a 1 compartment model where no lumping is necessary.")
             this.flow <- as.numeric(subset(
               this.subset,
               variable == 'Flow (mL/min/kg^(3/4))')[,'value']) / 
-              as.numeric(subset(physiology.data,
+              as.numeric(subset(physiology.data_internal,
                 Parameter=='Cardiac Output')[[species]])
           }
         }
@@ -413,13 +413,13 @@ NULL if the model is a 1 compartment model where no lumping is necessary.")
         {
           this.flow <- 
             as.numeric(subset(
-              the$tissue.data,
+              tissue.data_internal,
               Tissue == this.tissue & 
                 tolower(Species) == tolower(species) &  
                 variable == 'Flow (mL/min/kg^(3/4))')[,'value']) / 
-            subset(physiology.data,Parameter=='Cardiac Output')[[species]]
+            subset(physiology.data_internal,Parameter=='Cardiac Output')[[species]]
         } else this.flow <- tissue.flows[this.tissue] / 
-            subset(physiology.data,Parameter=='Cardiac Output')[[species]]         
+            subset(physiology.data_internal,Parameter=='Cardiac Output')[[species]]         
         flow[[this.tissue]] <- this.flow
       }
     }
@@ -441,7 +441,7 @@ NULL if the model is a 1 compartment model where no lumping is necessary.")
       {
         this.vol <- 
           as.numeric(subset(
-                       the$tissue.data,
+                       tissue.data_internal,
                        Tissue == this.tissue & 
                          tolower(Species) == tolower(species) &  
                          variable == 'Vol (L/kg)')[,'value'])

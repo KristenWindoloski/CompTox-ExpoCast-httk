@@ -90,7 +90,7 @@ gen_height_weight <- function(gender,
                            ncol = 2)
   }
   
-  H <- hw_H[[grname]]
+  H <- hw_H_internal[[grname]]
 
   
   resids_samp <- t(apply(centers_samp,

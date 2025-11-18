@@ -59,7 +59,7 @@ tissue_masses_flows <- function(tmf_dt,
   
   #Add reference values to data table
   tmp_dt <- merge(tmf_dt,
-                  mcnally_dt,
+                  mcnally_dt_internal,
                   by='gender',
                   allow.cartesian=TRUE)
   

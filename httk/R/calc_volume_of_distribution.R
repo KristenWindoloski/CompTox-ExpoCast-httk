@@ -107,7 +107,7 @@ calc_vdist<- function(chem.cas=NULL,
                       ...
                       )
 {
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
   Parameter <- NULL
 
 # We need to describe the chemical to be simulated one way or another:

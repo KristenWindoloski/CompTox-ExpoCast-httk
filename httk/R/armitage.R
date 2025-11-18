@@ -65,6 +65,8 @@ armitage_estimate_sarea <- function(tcdata = NA, # optionally supply columns v_w
   assay_component_endpoint_name <- NULL
   #End R CMD CHECK appeasement.
   
+  well_param <- well_param_internal
+  
   if(all(is.na(tcdata))){
     tcdata <- data.table(well_number = this.well_number, cell_yield = this.cell_yield, v_working = this.v_working)
   }

@@ -90,7 +90,7 @@ calc_rblood2plasma <- function(
                         suppress.messages=TRUE,
                         chemdata=chem.physical_and_invitro.data)
 {
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
 
   # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

@@ -44,21 +44,20 @@ calc_krbc2pu <- function(Rb2p,
                          suppress.messages=TRUE,
                          chemdata=chem.physical_and_invitro.data)
 {
-  physiology.data <- physiology.data
 
-  if (!(species %in% colnames(physiology.data)))
+  if (!(species %in% colnames(physiology.data_internal)))
   {
-    if (toupper(species) %in% toupper(colnames(physiology.data)))
+    if (toupper(species) %in% toupper(colnames(physiology.data_internal)))
     {
-      phys.species <- colnames(physiology.data)[
-        toupper(colnames(physiology.data))==toupper(species)]
+      phys.species <- colnames(physiology.data_internal)[
+        toupper(colnames(physiology.data_internal))==toupper(species)]
     } else stop(paste("Physiological PK data for",species,"not found."))
   } else phys.species <- species
 
   if (is.null(hematocrit)) 
   {
     hematocrit <- 
-      physiology.data[physiology.data$Parameter=="Hematocrit",phys.species]
+      physiology.data_internal[physiology.data_internal$Parameter=="Hematocrit",phys.species]
   }
   
   Krbp2pu <- (Rb2p - 1 + hematocrit)  / Funbound.plasma / hematocrit

@@ -196,7 +196,7 @@ parameterize_steadystate <- function(
 #NULL. Note that within the data.table, these variables will not be NULL! Yes,
 #this is pointless and annoying.
   Parameter <- Species <- variable <- Tissue <- NULL
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
 #End R CMD CHECK appeasement.  
 
 # We need to describe the chemical to be simulated one way or another:
@@ -246,11 +246,11 @@ parameterize_steadystate <- function(
   BW <- this.phys.data[["Average BW"]]
     
 
-  Qtotal.liverc <- subset(the$tissue.data,
+  Qtotal.liverc <- subset(tissue.data_internal,
                           tolower(Species) == tolower(species) & 
                           variable == 'Flow (mL/min/kg^(3/4))' & 
                           Tissue == 'liver')[,'value']/1000*60 #L/h/(kg BW)^3/4
-  Vliverc <- subset(the$tissue.data,
+  Vliverc <- subset(tissue.data_internal,
                tolower(Species) == tolower(species) & 
                variable == 'Vol (L/kg)' & 
                Tissue == 'liver')[,'value'] # L/kg BW

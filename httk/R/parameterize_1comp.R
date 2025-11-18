@@ -192,7 +192,7 @@ parameterize_1comp <- function(
 #CHECK, a variable has to be created for each of these column names and set to
 #NULL. Note that within the data.table, these variables will not be NULL! Yes,
 #this is pointless and annoying.
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
 #End R CMD CHECK appeasement.  
   
 # We need to describe the chemical to be simulated one way or another:

@@ -169,19 +169,19 @@ calc_kair <- function(
   if (is.null(parameters) |  (!("body_temp" %in% names(parameters)))) 
   { 
    # Check the species argument for capitilization problems and whether or not it is in the table:  
-    if (!(species %in% colnames(physiology.data)))
+    if (!(species %in% colnames(physiology.data_internal)))
     {
-      if (toupper(species) %in% toupper(colnames(physiology.data)))
+      if (toupper(species) %in% toupper(colnames(physiology.data_internal)))
       {
-        phys.species <- colnames(physiology.data)[
-                                 toupper(colnames(physiology.data))==
+        phys.species <- colnames(physiology.data_internal)[
+                                 toupper(colnames(physiology.data_internal))==
                                  toupper(species)]
       } else stop(paste("Physiological PK data for",species,"not found."))
     } else phys.species <- species
   
   # Load the physiological parameters for this species
-    this.phys.data <- physiology.data[,phys.species]
-    names(this.phys.data) <- physiology.data[,1]
+    this.phys.data <- physiology.data_internal[,phys.species]
+    names(this.phys.data) <- physiology.data_internal[,1]
     #human body temperature of 310 Kelvin
     body_temp = as.numeric(this.phys.data['Average Body Temperature']) + 273.15 #C ->
   } else {

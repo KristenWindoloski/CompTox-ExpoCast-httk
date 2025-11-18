@@ -1,6 +1,6 @@
 Package: httk
 Version: 2.7.3
-Date: 2025-09-09
+Date: 2025-11-18
 Title: High-Throughput Toxicokinetics
 Description: Pre-made models that can be rapidly tailored to various chemicals
              and species using chemical-specific in vitro data and physiological 
@@ -94,7 +94,8 @@ Authors@R: c(
            person("Woodrow", "Setzer",
              role = c("ctb"), comment = c(ORCID = "0000-0002-6709-9186"))
            )
-Depends: R (>= 2.10)
+Depends: 
+    R (>= 3.5)
 Imports: deSolve, msm, data.table, survey, mvtnorm, truncnorm, stats,
         graphics, utils, magrittr, purrr, methods, Rdpack (>= 2.3), ggplot2,
         dplyr

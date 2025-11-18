@@ -68,7 +68,7 @@ estimate_hematocrit <- function(gender,
                            replace = TRUE,
                            prob = w)
     
-    h <- hct_h[[grname]]
+    h <- hct_h_internal[[grname]]
     
     #now sample from kernels around these centers
     resids_samp <- rnorm(n = n,

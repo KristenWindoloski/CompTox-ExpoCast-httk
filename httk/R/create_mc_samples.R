@@ -435,7 +435,7 @@ create_mc_samples <- function(chem.cas=NULL,
     if(httkpop==TRUE) 
       warning('httkpop model only available for human and thus not used.\n\
 Set species=\"Human\" to run httkpop model.')   
-     this.tissuedata <- subset(the$tissue.data, tolower(Species)==tolower(species))
+     this.tissuedata <- subset(tissue.data_internal, tolower(Species)==tolower(species))
      these.vols <- subset(this.tissuedata,variable=="Vol (L/kg)")
      these.vols$Name <- paste("V",these.vols$Tissue,"c",sep="")
      for (this.name in these.vols$Name)
@@ -446,14 +446,14 @@ Set species=\"Human\" to run httkpop model.')
      # We don't use httk::physiology.data because we want the user to be able to
      # edit the data, so we grab physiology data from the interactive environment
      these.flows$value <- these.flows$value/
-       as.numeric(subset(physiology.data,Parameter=="Cardiac Output")[
-       tolower(colnames(physiology.data))==tolower(species)])
+       as.numeric(subset(physiology.data_internal,Parameter=="Cardiac Output")[
+       tolower(colnames(physiology.data_internal))==tolower(species)])
      for (this.name in these.flows$Name)
        if (!(this.name %in% names(parameters.dt)))
          parameters.dt[,eval(this.name):=subset(these.flows,Name==this.name)$value]
      parameters.dt[, hematocrit:=
-       as.numeric(subset(physiology.data,Parameter=="Hematocrit")[
-       tolower(colnames(physiology.data))==tolower(species)])]
+       as.numeric(subset(physiology.data_internal,Parameter=="Hematocrit")[
+       tolower(colnames(physiology.data_internal))==tolower(species)])]
   }
 #
 #

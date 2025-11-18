@@ -227,7 +227,7 @@ get_cheminfo <- function(info="CAS",
   info <- toupper(info)
   
   #Create a local copy so we can edit it:
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
   
   #End R CMD CHECK appeasement.
 

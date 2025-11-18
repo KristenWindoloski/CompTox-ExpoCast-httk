@@ -379,7 +379,7 @@ resampling\" (\"dr\" or \"d\").")
   if (tolower(method)=='v' | tolower(method)=='vi') method <- 'virtual individuals'
   
   #Create survey::svydesign object
-  nhanes_mec_svy <- survey::svydesign(data = mecdt, #referring to mecdt data set
+  nhanes_mec_svy <- survey::svydesign(data = mecdt_internal, #referring to mecdt data set
                                       strata=~sdmvstra, #masked stratification variable name
                                       id=~sdmvpsu, #masked PSU (cluster) variable name
                                       weights=~wtmec6yr, #use examination sample weights

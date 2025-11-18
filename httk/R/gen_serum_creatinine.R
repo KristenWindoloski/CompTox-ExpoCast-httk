@@ -73,7 +73,7 @@ gen_serum_creatinine <- function(gender,
                            prob = w)
     
     #get optimal bandwidth
-    h <- scr_h[[grname]]
+    h <- scr_h_internal[[grname]]
     
     #sample from normal distirbution with optimal bandwidth for this gender/reth
     resids_samp <- rnorm(n =n,

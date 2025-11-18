@@ -292,7 +292,7 @@ parameterize_dermal_pbtk <-
     )
 {
   # Give a binding to the physiology.data
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
   
   # We need to describe the chemical to be simulated one way or another:
   if (is.null(chem.cas) & 

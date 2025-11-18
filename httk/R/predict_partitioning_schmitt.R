@@ -179,7 +179,7 @@ predict_partitioning_schmitt <- function(
   Tissue <- Species <- variable <- Reference <- value <- NULL
   #End R CMD CHECK appeasement.
   
-  tissue.data <- the$tissue.data
+  tissue.data <- tissue.data_internal
   
   if (is.null(model)) stop("Model must be specified.")
   model <- tolower(model)
@@ -213,10 +213,10 @@ predict_partitioning_schmitt <- function(
     user.params <- TRUE
     if (!"plasma.pH"%in%names(parameters)) parameters$plasma.pH <- 7.4
     if (!"Fprotein.plasma"%in%names(parameters)) 
-      parameters$Fprotein.plasma <-  physiology.data[
-      which(physiology.data[,'Parameter'] == 
+      parameters$Fprotein.plasma <-  physiology.data_internal[
+      which(physiology.data_internal[,'Parameter'] == 
         'Plasma Protein Volume Fraction'),
-      which(tolower(colnames(physiology.data)) == tolower(species))]
+      which(tolower(colnames(physiology.data_internal)) == tolower(species))]
   }
   
   if (!adjusted.Funbound.plasma)

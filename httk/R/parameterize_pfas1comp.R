@@ -334,18 +334,18 @@ parameterize_pfas1comp <- function(
    
 # Check the species argument for capitalization problems and whether or not 
 # it is in the table:  
-  if (!(species %in% colnames(physiology.data)))
+  if (!(species %in% colnames(physiology.data_internal)))
   {
-    if (toupper(species) %in% toupper(colnames(physiology.data)))
+    if (toupper(species) %in% toupper(colnames(physiology.data_internal)))
     {
-      phys.species <- colnames(physiology.data)[
-                        toupper(colnames(physiology.data))==toupper(species)]
+      phys.species <- colnames(physiology.data_internal)[
+                        toupper(colnames(physiology.data_internal))==toupper(species)]
     } else stop(paste("Physiological PK data for",species,"not found."))
   } else phys.species <- species
 
 # Load the physiological parameters for this species
-  this.phys.data <- physiology.data[,phys.species]
-  names(this.phys.data) <- physiology.data[,1]
+  this.phys.data <- physiology.data_internal[,phys.species]
+  names(this.phys.data) <- physiology.data_internal[,1]
   params[['BW']] <- this.phys.data[["Average BW"]]
                                 
   params[['hematocrit']] <- this.phys.data[["Hematocrit"]]

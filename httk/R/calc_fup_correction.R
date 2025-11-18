@@ -207,13 +207,13 @@ calc_fup_correction <- function(
   {
     if (force.human.fup) 
       Flipid <- subset(
-                  physiology.data,
+                  physiology.data_internal,
                   Parameter == 'Plasma Effective Neutral Lipid Volume Fraction')[,
-                    which(colnames(physiology.data) == 'Human')]
+                    which(colnames(physiology.data_internal) == 'Human')]
     else Flipid <- subset(
-                     physiology.data,
+                     physiology.data_internal,
                      Parameter=='Plasma Effective Neutral Lipid Volume Fraction')[,
-                       which(tolower(colnames(physiology.data)) == tolower(species))]
+                       which(tolower(colnames(physiology.data_internal)) == tolower(species))]
   }
         
  # Calculate Pearce (2017) in vitro plasma binding correction: 

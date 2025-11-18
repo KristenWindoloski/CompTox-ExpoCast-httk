@@ -178,7 +178,7 @@ parameterize_sumclearancespfas <- function(
 #this is pointless and annoying.
   Parameter <- Species <- variable <- Tissue <- NULL
   DTXSID <- DosingAdj <- Sex <- NULL
-  physiology.data <- physiology.data
+  physiology.data <- physiology.data_internal
 #End R CMD CHECK appeasement.  
 
 # We need to describe the chemical to be simulated one way or another:
@@ -228,11 +228,11 @@ parameterize_sumclearancespfas <- function(
   BW <- this.phys.data[["Average BW"]]
     
 
-  Qtotal.liverc <- subset(the$tissue.data,
+  Qtotal.liverc <- subset(tissue.data_internal,
                           tolower(Species) == tolower(species) & 
                           variable == 'Flow (mL/min/kg^(3/4))' & 
                           Tissue == 'liver')[,'value']/1000*60 #L/h/(kg BW)^3/4
-  Vliverc <- subset(the$tissue.data,
+  Vliverc <- subset(tissue.data_internal,
                tolower(Species) == tolower(species) & 
                variable == 'Vol (L/kg)' & 
                Tissue == 'liver')[,'value'] # L/kg BW

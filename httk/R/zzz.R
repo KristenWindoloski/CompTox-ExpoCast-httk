@@ -4,7 +4,7 @@
 
 if(getRversion() >= "2.15.1") 
 {
-  utils::globalVariables(c(".","chem.physical_and_invitro.data","well_param"))
+  utils::globalVariables(c("."))
 }
 
 # Display the version when the package is loaded:
@@ -24,8 +24,3 @@ if(getRversion() >= "2.15.1")
 .onUnload <- function(libpath) {
   library.dynam.unload("httk", libpath)
 }
-
-# Define 'global' variables in ToCS (avoids global variables by using a
-# special package-specific environment)
-the <- new.env(parent = emptyenv())
-the$tissue.data <- tissue.data

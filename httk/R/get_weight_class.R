@@ -95,28 +95,28 @@ get_weight_class <- function(age_years,
 
     weight_class[age_years>=2 &
                    age_years<=18 &
-                   bmi < bmiage[list(gender, 
+                   bmi < bmiage_internal[list(gender, 
                                   age_months),
                                 P5]] <- 'Underweight'
     weight_class[age_years>=2 &
                    age_years<=18 &
-                   bmi>= bmiage[list(gender, 
+                   bmi>= bmiage_internal[list(gender, 
                                   age_months),
                                 P5] &
-                   bmi < bmiage[list(gender, 
+                   bmi < bmiage_internal[list(gender, 
                                   age_months),
                                 P85]] <- 'Normal'
     weight_class[age_years>=2 &
                    age_years<=18 &
-                   bmi>= bmiage[list(gender, 
+                   bmi>= bmiage_internal[list(gender, 
                                   age_months),
                                 P85] &
-                   bmi <= bmiage[list(gender, 
+                   bmi <= bmiage_internal[list(gender, 
                                   age_months),
                                 P95]] <- 'Overweight'
     weight_class[age_years>=2 &
                    age_years<=18 &
-                   bmi > bmiage[list(gender, 
+                   bmi > bmiage_internal[list(gender, 
                                   age_months),
                                 P95]] <- 'Obese'
   #}
@@ -136,16 +136,16 @@ get_weight_class <- function(age_years,
     if (any(age_years<2 & gender==g)){
       #Interpolate values for 2.3rd and 97.7th percentile
     wfl_P2.3[gender==g &
-               age_years<2] <- spline(x=wfl[Sex==g,
+               age_years<2] <- spline(x=wfl_internal[Sex==g,
                                             Length],
-                                      y=wfl[Sex==g,
+                                      y=wfl_internal[Sex==g,
                                             P2.3],
                                       xout=recumlen[gender==g &
                                                     age_years<2])$y
     wfl_P97.7[gender==g &
-               age_years<2] <- spline(x=wfl[Sex==g,
+               age_years<2] <- spline(x=wfl_internal[Sex==g,
                                             Length],
-                                      y=wfl[Sex==g,
+                                      y=wfl_internal[Sex==g,
                                             P97.7],
                                       xout=recumlen[gender==g &
                                                     age_years<2])$y
