@@ -1,13 +1,17 @@
 Package: httk
 Version: 2.7.3
-Date: 2025-11-18
+Date: 2025-11-19
 Title: High-Throughput Toxicokinetics
-Description: Pre-made models that can be rapidly tailored to various chemicals
-             and species using chemical-specific in vitro data and physiological 
-             information. These tools allow incorporation of chemical 
-             toxicokinetics ("TK") and in vitro-in vivo extrapolation ("IVIVE") 
-             into bioinformatics, as described by Pearce et al. (2017) 
-             (<doi:10.18637/jss.v079.i04>). Chemical-specific 
+Description: This is an adaptation of the 'httk' R package, where all global 
+             variables have been removed as per the best practices of R packages 
+             and the chem.physical_and_invitro.data data frame has been made a default
+             function argument to allow for easy addition of new chemicals without
+             the use of global variables. Original description - Pre-made models 
+             that can be rapidly tailored to various chemicals and species using 
+             chemical-specific in vitro data and physiological information. These 
+             tools allow incorporation of chemical toxicokinetics ("TK") and in 
+             vitro-in vivo extrapolation ("IVIVE") into bioinformatics, as described 
+             by Pearce et al. (2017) (<doi:10.18637/jss.v079.i04>). Chemical-specific 
              in vitro data characterizing toxicokinetics have been obtained 
              from relatively high-throughput experiments. The 
              chemical-independent ("generic") physiologically-based ("PBTK") and empirical 
@@ -34,6 +38,8 @@ Description: Pre-made models that can be rapidly tailored to various chemicals
              dosimetry (also known as "RTK")
              (Wetmore et al., 2015 <doi:10.1093/toxsci/kfv171>).
 Authors@R: c(
+           person("Kristen", "Windoloski", email = "kawindoloski@gmail.com", 
+             role = c("ctb")), 
            person("John", "Wambaugh", email = "wambaugh.research@gmail.com", 
              role = c("aut", "cre"),
              comment = c(ORCID = "0000-0002-4024-534X")), 

@@ -4,6 +4,7 @@ rm(list = ls())
 env1 <- new.env()
 load("R/sysdata.rda", envir = env1)
 
+# Add previously global variables to the internal data
 env1$tissue.data_internal <- httk::tissue.data
 env1$physiology.data_internal <- httk::physiology.data
 env1$mecdt_internal <- httk::mecdt

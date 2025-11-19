@@ -12,7 +12,7 @@ from "httk: R Package for High-Throughput Toxicokinetics"
 
 Robert G Pearce, R Woodrow Setzer, Cory L Strope, Nisha S Sipes, and John F Wambaugh
 
-Journal of Statistical Software 2017 Jul 17; 79(4): 1-26.
+Journal of Statistical Software 2017 Jul 17; 79(4): 1-26. 
 
 https://doi.org/10.18637/jss.v079.i04
 
@@ -521,16 +521,16 @@ zoxamide2 <- ggplot(as.data.frame(out), aes(out)) +
 print(zoxamide2)
 ```
 
-## Adding a tissue
-The **httk** package contains a data.frame called tissue.data that describes the
-composition of various tissues in terms of the 
-[Schmitt (2008)](https://doi.org/10.1016/j.tiv.2007.09.010) 
-mechanistic model for deriving tissue:plasma partition coefficients. Once described,
-these tissues are available for use as compartments in new models or to be lumped
-into the rest of body in existing models (using function "lump_tissues"). We can add 
-a new tissue (for example, mammary) to the tissue data by replicating the data
-from another tissue and adjusting as appropriate.
-```{r add_a_tissue, eval = execute.vignette}
+## Adding a tissue (NOT APPLICABLE FOR THIS FORKED VERSION OF HTTK)
+<!-- The **httk** package contains a data.frame called tissue.data that describes the -->
+<!-- composition of various tissues in terms of the  -->
+<!-- [Schmitt (2008)](https://doi.org/10.1016/j.tiv.2007.09.010)  -->
+<!-- mechanistic model for deriving tissue:plasma partition coefficients. Once described, -->
+<!-- these tissues are available for use as compartments in new models or to be lumped -->
+<!-- into the rest of body in existing models (using function "lump_tissues"). We can add  -->
+<!-- a new tissue (for example, mammary) to the tissue data by replicating the data -->
+<!-- from another tissue and adjusting as appropriate. -->
+```{r add_a_tissue, eval = FALSE}
 new.tissue <- subset(tissue.data,Tissue == "adipose" & Species =="Human")
 new.tissue[, "Tissue"] <- "mammary"
 new.tissue[new.tissue$variable=="Vol (L/kg)","value"] <- 
@@ -545,9 +545,9 @@ knitr::kable(subset(tissue.data,Tissue=="mammary"),
              row.names=FALSE,
              digits=3)
 ```
-If we thought this tissue had been included in the rest of body total
-previously we could consider removing it from those volumes and flows, but
-we won't do that here (Note eval=FALSE):
+<!-- If we thought this tissue had been included in the rest of body total -->
+<!-- previously we could consider removing it from those volumes and flows, but -->
+<!-- we won't do that here (Note eval=FALSE): -->
 ```{r add_a_tissue2, eval = FALSE}
 # If we thought this tissue was included in the rest of the bod
 tissue.data[tissue.data$Tissue == "rest", 'value'] <-
@@ -557,10 +557,10 @@ tissue.data[tissue.data$Tissue == "rest", 'value'] <-
     'Flow (mL/min/kg^(3/4))'),
     'value']
 ```
-To generate the parameters for a model with kidneys, thyroid, brain, 
-breast, liver compartment combining the liver and gut, and a rest of body
-compartment:
-```{r add_a_tissue3, eval = execute.vignette}
+<!-- To generate the parameters for a model with kidneys, thyroid, brain,  -->
+<!-- breast, liver compartment combining the liver and gut, and a rest of body -->
+<!-- compartment: -->
+```{r add_a_tissue3, eval = FALSE}
 compartments <- list(liver = c("liver", "gut"), kidney = "kidney",
                      breast = "mammary", brain = "brain",
                      thyroid = "thyroid")
@@ -578,13 +578,13 @@ knitr::kable(as.data.frame(lumped.params),
              digits=3)
 ```
 
-## Adding a species
-The **httk** package contains a data.frame called physiology.data that describes 
-the species-specific aspects of physiology necessary to parameterize a PBTK 
-model. We can add a new species (for example, wolverines) to the physiology.data by 
-replicating the data from another species and adjusting as appropriate.
+## Adding a species (NOT APPLICABLE FOR THIS FORKED VERSION OF HTTK)
+<!-- The **httk** package contains a data.frame called physiology.data that describes  -->
+<!-- the species-specific aspects of physiology necessary to parameterize a PBTK  -->
+<!-- model. We can add a new species (for example, wolverines) to the physiology.data by  -->
+<!-- replicating the data from another species and adjusting as appropriate. -->
 
-```{r add_a_species1, eval = execute.vignette}
+```{r add_a_species1, eval = FALSE}
 new.species <- physiology.data[,"Rabbit"]
 names(new.species) <- physiology.data[,"Parameter"]
 rabbit.BW <- new.species["Average BW"] 
@@ -601,8 +601,8 @@ knitr::kable(physiology.data[,c("Parameter","Units","Wolverine")],
              digits=3)
 ```
 
-The tissue volumes and flows are stored separately in tissue.data. Physiological parameters are in the table physiology.data.
-```{r add_a_species2, eval = execute.vignette}
+<!-- The tissue volumes and flows are stored separately in tissue.data. Physiological parameters are in the table physiology.data. -->
+```{r add_a_species2, eval = FALSE}
 new.tissue.data <- subset(tissue.data,Species=="Rabbit")
 new.tissue.data$Species <- "Wolverine"
 
@@ -613,8 +613,8 @@ physiology.data <- rbind(physiology.data, new.physiology.data)
 colnames(physiology.data)[length(colnames(physiology.data))] <- "Wolverine"
 ```
 
-Now we can make predictions for wolverines!
-```{r add_a_species3, eval = execute.vignette}
+<!-- Now we can make predictions for wolverines! -->
+```{r add_a_species3, eval = FALSE}
 calc_mc_css(chem.cas="80-05-7",species="wolverine",
             parameterize.args.list =list(default.to.human=TRUE),
             suppress.messages=TRUE,
