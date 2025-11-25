@@ -1178,52 +1178,6 @@
 #'
 #' @examples
 #' \donttest{
-#' # We can add thyroid to the tissue data by making a row containing
-#' # its data, subtracting the volumes and flows from the rest-of-body, 
-#' # and binding the row to tissue.data. Here we assume it contains the same 
-#' # partition coefficient data as the spleen and a tenth of the volume and  
-#' # blood flow:
-#' new.tissue <- subset(tissue.data,Tissue == "spleen")
-#' new.tissue[, "Tissue"] <- "thyroid"
-#' new.tissue[new.tissue$variable %in% c("Vol (L/kg)",
-#' "Flow (mL/min/kg^(3/4))"),"value"] <- new.tissue[new.tissue$variable
-#' %in% c("Vol (L/kg)","Flow (mL/min/kg^(3/4))"),"value"] / 10
-#' tissue.data[tissue.data$Tissue == "rest", "value"] <-
-#' tissue.data[tissue.data$Tissue == "rest", "value"] -
-#' new.tissue[new.tissue$variable %in% c("Vol (L/kg)",
-#' "Flow (mL/min/kg^(3/4))"),"value"]
-#' tissue.data <- rbind(tissue.data, new.tissue)
-#'
-#' # We can add a new species (for example, wolverines) by adding new information
-#' # to the physiology.data and tissue.data tables. It can be convenient to start by
-#' # by replicating the data from another species and adjusting as appropriate:
-#'
-#' # Copy physiology data from rabbit:
-#' new.species <- physiology.data[,"Rabbit"]
-#' names(new.species) <- physiology.data[,"Parameter"]
-#' rabbit.BW <- new.species["Average BW"] 
-#' # Rausch and Pearson (1972) https://doi.org/10.2307/3799057 :
-#' new.species["Average BW"] <- 31.2 
-#' # Thiel et al. (2019) https://doi.org/10.1186/s12983-019-0319-8 :
-#' new.species["Average Body Temperature"] <- 38.5 
-#' 
-#' # Add new physiology data column to physiology.data table"
-#' physiology.data <- cbind(physiology.data, new.species)
-#' colnames(physiology.data)[length(colnames(physiology.data))] <- "Wolverine"
-#' 
-#' # Copy tissue data from rabbit:
-#' new.tissue.data <- subset(tissue.data,Species=="Rabbit")
-#' new.tissue.data$Species <- "Wolverine"
-#' 
-#' # Add new tissue data rows to tissue.data table:
-#' tissue.data <- rbind(tissue.data, new.tissue.data)
-#' 
-#' # Species is now available for calculations:
-#' calc_mc_css(chem.cas="80-05-7",
-#'             species="wolverine",
-#'             parameterize.args.list =list(default.to.human=TRUE),
-#'             suppress.messages=TRUE,
-#'             samples = 100)
 #' }
 #' @keywords data
 "tissue.data"
